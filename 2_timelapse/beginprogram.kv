@@ -1,0 +1,52 @@
+<BeginProgram>:
+	BoxLayout:
+		orientation: 'vertical'
+		Label:
+			size_hint_y: 0.5
+			font_size: '20sp'
+			text: 'Configured Settings'
+		BoxLayout:
+			BoxLayout:
+				orientation: 'vertical'
+				Label:
+					text: root.slide_direction
+				Label:
+					text: root.slide_distance
+				Label:
+					text: root.pan_direction
+				Label:
+					text: root.pan_degrees
+			BoxLayout:
+				orientation: 'vertical'
+				Label:
+					text: root.slide_speed
+				Label:
+					text: root.pan_speed
+				Label:
+					text: root.step_mode
+				Label:
+					text: 'OTHER SETTING'
+		BoxLayout:
+			Button: 
+				text: 'PAN START'
+				on_press: root.move_pan()
+			Button:
+				text: 'FIND HOME'
+				on_press: root.find_slide_home()
+			Button:
+				text: 'PREVIEW'
+				on_press: root.begin_program()
+		BoxLayout:
+			Button:
+				text: "TEST PROGRAM"
+				on_press: root.run_timelapse()
+			Button:
+				text: 'QUIT'
+				on_press: root.quit_program()
+		BoxLayout:
+			Button:
+				text: "BACK"
+				on_press: root.manager.current = 'config'
+			Button:
+				text: 'HOME'
+				on_press: root.manager.current = 'home'

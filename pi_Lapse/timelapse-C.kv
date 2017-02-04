@@ -1,0 +1,36 @@
+<TimelapseC>:
+	BoxLayout:
+		orientation: 'vertical'
+		Label:
+			text: 'RUN PROGRAM'
+			font_size: '24sp'
+			size_hint_y: 0.5
+		BoxLayout:
+		
+			Button:
+				text: "TEST PICTURE"
+				on_press: root.test_picture()
+
+			Button:
+				text: "PREVIEW"
+				on_press: root.preview_movement()
+
+			Button:
+				text: "STOP"
+				on_press: root.stop_program()
+
+			Button:
+				text: "START"
+				on_press: root.start_program()
+
+
+		BoxLayout:
+			spacing: 5
+			Button:
+				size_hint_y: 0.75
+				text: "BACK"
+				on_press: root.manager.current = 'timelapse_b'
+			Button:
+				size_hint_y: 0.75
+				text: "HOME"
+				on_press: root.manager.current = 'user'

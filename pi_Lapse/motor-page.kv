@@ -1,0 +1,61 @@
+<MotorPage>:
+	BoxLayout:
+		orientation: 'vertical'
+		BoxLayout:
+			padding: 15
+			spacing: 15
+			BoxLayout:
+				orientation: "vertical"
+				Button:
+					text: "SLIDE SETTINGS"
+					on_press: root.manager.current = 'slidesettings'
+				ToggleButton:
+					text: "SLIDE ON"
+					on_press: root.toggle_motor("slide")
+					id: slide_motor
+					state: 'down'
+			BoxLayout:
+				orientation: "vertical"
+				Button:
+					text: "PAN SETTINGS"
+					on_press: root.manager.current = 'pansettings'
+				ToggleButton:
+					text: "PAN ON"
+					on_press: root.toggle_motor("pan")
+					id: pan_motor
+					state: 'down'
+			BoxLayout:
+				orientation: "vertical"
+				Button:
+					text: "TILT SETTINGS"
+					on_press: root.manager.current = 'tiltsettings'
+				ToggleButton:
+					text: "TILT ON"
+					on_press: root.toggle_motor("tilt")
+					id: tilt_motor
+					state: 'down'
+		BoxLayout:
+			orientation: "vertical"
+			BoxLayout:
+				padding: 15
+				spacing: 15
+				Button:
+					text: "FIND ALL HOME"
+					on_press: root.find_all_home()
+
+				Button:
+					text: "FAST HOME"
+					on_press: root.find_home_fast()
+				
+		BoxLayout: 
+			spacing: 15
+			padding: 15
+			Button:
+				text: 'MOVE ALL'
+				on_press: root.move_all()
+			Button:
+				text: 'BACK'
+				on_press: root.manager.current = 'admin'
+			Button:
+				text: 'HOME'
+				on_press: root.manager.current = 'admin'

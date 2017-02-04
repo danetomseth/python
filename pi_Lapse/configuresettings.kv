@@ -1,0 +1,92 @@
+#:kivy 1.0.9
+<ConfigureSettings>:
+	BoxLayout:
+		orientation: 'vertical'
+		spacing: 5
+		padding: 5
+		BoxLayout:
+			Label: 
+				text: "Slide Direction"
+			ToggleButton:
+				text: "LEFT"
+				group: 'slide_direction'
+				state: 'down'
+				on_press: root.change_slide_direction(False)
+			ToggleButton:
+				text: "RIGHT"
+				group: 'slide_direction'
+				on_press: root.change_slide_direction(True)
+			Button:
+				text: "TEST"
+				on_press: root.test_slide_distance()
+		BoxLayout:
+			Label:
+				id: slide_distance_label
+				text: root.default_slide_distance_label
+			Slider:
+				min: 0
+				max: 900
+				value: root.default_slide_distance
+				step: 5
+				id: slide_distance_slider
+				on_value: root.change_slide_distance()
+		BoxLayout:
+			Label: 
+				text: "Pan Direction"
+			ToggleButton:
+				text: "LEFT"
+				group: 'pan_direction'
+				state: 'down'
+				on_press: root.change_pan_direction(False)
+			ToggleButton:
+				text: "RIGHT"
+				group: 'pan_direction'
+				on_press: root.change_pan_direction(True)
+			Button:
+				text: "TEST"
+				on_press: root.test_pan_distance()
+		BoxLayout:
+			Label:
+				id: pan_degree_label
+				text: root.default_pan_degree_label
+			Slider:
+				min: 0
+				max: 270
+				value: root.default_pan_degree
+				step: 5
+				id: pan_degree_slider
+				on_value: root.change_pan_degree()
+		BoxLayout:
+			Label: 
+				text: "Tilt Direction"
+			ToggleButton:
+				text: "UP"
+				group: 'tilt_direction'
+				state: 'down'
+			ToggleButton:
+				text: "DOWN"
+				group: 'tilt_direction'
+			Button:
+				text: "RUN"
+				on_press: root.test_tilt()
+		BoxLayout:
+			Label:
+				id: pan_degree_label
+				text: root.default_pan_degree_label
+			Slider:
+				min: 0
+				max: 270
+				value: root.default_pan_degree
+				step: 5
+				id: pan_degree_slider
+				on_value: root.change_pan_degree()
+		
+		BoxLayout: 
+			spacing: 5
+			padding: 5
+			Button:
+				text: 'BACK'
+				on_press: root.manager.current = 'admin'
+			Button:
+				text: 'NEXT'
+				on_press: root.manager.current = 'stepper'

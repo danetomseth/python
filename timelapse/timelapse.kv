@@ -1,0 +1,218 @@
+#:kivy 1.0.9
+
+
+<TimelapseSettings>:
+	orientation: 'horizontal'
+	spacing: 5
+	canvas:
+		Color: 
+			rgba: 0, 0, 0, 1
+		Rectangle:
+			pos: self.pos
+			size: self.size
+	BoxLayout:
+		orientation: 'vertical'
+		padding: [5, 5]
+		Label:
+			text: "Interval Time"
+		Label:
+			id: interval_label
+			text: root.interval_text
+	BoxLayout:
+		orientation: 'vertical'
+		padding: [5, 5]
+		Button:
+			text: "Increase"
+			on_press: root.increaseInterval()
+		Button:
+			text: "Decrease"
+			on_press: root.decreaseInterval()
+	BoxLayout:
+		orientation: 'vertical'
+		Label: 
+			text: 'Duration:'
+		Label:
+			id: clip_duration_label
+			text: root.clipDuration
+		
+	BoxLayout:
+		orientation: 'vertical'
+		Label:
+			text: 'Pictures:'
+		Label:
+			id: picture_count_label
+			text: root.pictureCount
+	BoxLayout:
+		orientation: 'vertical'
+		Label:
+			id: event_duration_label
+			text: root.eventDuration
+		BoxLayout:
+			orientation: 'horizontal'
+			padding: [5, 5]
+			Button:
+				text: "-"
+				on_press: root.decreaseDuration()
+			Button:
+				text: "+"
+				on_press: root.increaseDuration()
+<SliderSettings>:
+	orientation: 'horizontal'
+	spacing: 5
+	canvas:
+		Color: 
+			rgba: 0, 0, 0, 1
+		Rectangle:
+			pos: self.pos
+			size: self.size
+	BoxLayout:
+		orientation: 'vertical'
+		Label:
+			id: ramp_start_time_label
+			text: root.rampStartTime
+		BoxLayout:
+			orientation: 'horizontal'
+			padding: [5, 5]
+			Button:
+				text: '-'
+				on_press: root.rampStartEarly()
+			Button:
+				text: '+'
+				on_press: root.rampStartLater()
+	BoxLayout:
+		orientation: 'vertical'
+		padding: [5, 5]
+		Label:
+			id: ramp_duration_time_label
+			text: root.rampDuration
+		BoxLayout:
+			orientation: 'horizontal'
+			Button:
+				text: '-'
+				on_press: root.rampIncreaseDuration()
+			Button:
+				text: '+'
+				on_press: root.rampDecreaseDuration()
+	BoxLayout:
+		orientation: 'vertical'
+		padding: [5, 5]
+		Label: 
+			text: "Shutter"
+		BoxLayout:
+			orientation: 'horizontal'
+			padding: [5, 5]
+			Button:
+				text: 'Open'
+				on_press: root.openShutter()
+			Button:
+				text: 'Close'
+				on_press: root.closeShutter()
+
+<ProgramActions>:
+	orientation: 'horizontal'
+	spacing: 5
+	canvas:
+		Color: 
+			rgba: 0, 0, 0, 1
+		Rectangle:
+			pos: self.pos
+			size: self.size
+	BoxLayout:
+		orientation: 'vertical'
+		Label:
+			id: shutter_time_label
+			text: root.shutterTime
+		BoxLayout:
+			orientation: 'horizontal'
+			padding: [5, 5]
+			Button:
+				text: '-'
+				on_press: root.decreaseShutter()
+			Button:
+				text: '+'
+				on_press: root.increaseShutter()
+	BoxLayout:
+		orientation: 'vertical'
+		Label:
+			id: ramping_label
+			text: root.rampActive
+		BoxLayout:
+			orientation: 'horizontal'
+			padding: [5, 5]
+			Button:
+				text: 'OFF'
+				on_press: root.rampingOff()
+			Button:
+				text: 'ON'
+				on_press: root.rampingOn()
+	BoxLayout:
+		orientation: 'vertical'
+		Label:
+			id: aperture_label
+			text: root.aperture
+		BoxLayout:
+			orientation: 'horizontal'
+			padding: [5, 5]
+			Button:
+				text: '-'
+				on_press: root.decreaseAperture()
+			Button:
+				text: '+'
+				on_press: root.increaseAperture()
+	BoxLayout:
+		orientation: 'vertical'
+		Label:
+			id: total_pictures_label
+			text: "0"
+		Button:
+			text: 'TEST PICTURE'
+			on_press: root.takePicture()
+		Button:
+			text: 'START'
+			on_press: root.startProgram()
+	Button:
+		text: 'EXIT'
+		on_press: root.endProgram()
+
+
+
+
+
+<MainWindow>:
+	orientation: 'vertical'
+	canvas:
+		Color: 
+			rgba: 0, 0, 0, 1
+		Rectangle:
+			pos: self.pos
+			size: self.size
+	Label:
+		text: "Timelapse Settings"
+		color: 1,1,1,1
+	TimelapseSettings:
+		id: timelapse_settings
+	BoxLayout:
+		orientation: "horizontal"
+		size_hint_y: None
+		height: 5
+		canvas:
+			Color: 
+				rgba: 1, 1, 1, 1
+			Rectangle:
+				pos: self.pos
+				size: self.size
+	SliderSettings:
+		id: slider_settings
+	Label:
+		text: "Program Actions"
+		color: 1,1,1,1
+	ProgramActions:
+		id: program_actions
+	Label:
+		text: "Bottom"
+
+
+    
+
+
+

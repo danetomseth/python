@@ -1,0 +1,26 @@
+<ScreenOne>:
+    BoxLayout:
+    	orientation: 'vertical'
+        Label:
+        	id: limit_label
+            text: root.limit_status
+        BoxLayout:
+        	Button:
+        		text: "Exit"
+        		on_press: app.stop()
+        	Button:
+        		text: "Start Checking"
+        		on_press: root.checkButtons()
+        	Button:
+        		text: 'Cancel Reading'
+        		on_press: root.cancelReading()
+
+
+
+<Manager>:
+    id: screen_manager
+    screen_one: screen_one
+    ScreenOne:
+        id: screen_one
+        name: 'first_screen'
+        manager: screen_manager

@@ -1,0 +1,65 @@
+#set directions
+#disable motors
+#find home
+
+<InitializeScreen>:
+	BoxLayout:
+		orientation: 'vertical'
+		spacing: 2
+		padding: 2
+		canvas:
+			Color: 
+				rgba: 0, 0, 0, 1
+			Rectangle:
+				pos: self.pos
+				size: self.size
+		BoxLayout:
+			orientation: 'vertical'
+			Label:
+				text: 'Direction'
+				size_hint_y: 0.5
+			BoxLayout:
+				Button:
+					text: 'SLIDE END'
+					on_press: root.slide_end()
+				Button:
+					text: 'PAN END'
+					on_press: root.pan_end()
+				Button:
+					text: 'TILT END'
+					on_press: root.tilt_end()
+			BoxLayout:
+				Button:
+					text: 'SLIDE START'
+					on_press: root.slide_start()
+				Button:
+					text: 'PAN START'
+					on_press: root.pan_start()
+				Button:
+					text: 'TILT START'
+					on_press: root.tilt_start()
+
+		BoxLayout:
+			Button:
+				text: 'AUTO SET'
+				on_press: root.auto_set()
+			Button:
+				text: 'TEST'
+				on_press: root.run_test()
+
+			Button: 
+				text: 'RUN'
+				on_press: root.run_program()
+				
+		BoxLayout: 
+			spacing: 15
+			padding: 15
+			Button:
+				text: 'REFRESH'
+				on_press: root.refresh_labels()
+			Button:
+				text: 'BACK'
+				on_press: root.manager.current = 'admin'
+			Button:
+				text: 'EXIT'
+				on_press: root.endProgram()

@@ -1,0 +1,24 @@
+<AdminScreen>:
+	GridLayout:
+		cols: 3
+		spacing: 20
+		padding: 20
+		Button:
+			text: "Initialize"
+			on_press: root.manager.current = 'initialize'
+		Button:
+			text: "Motors"
+			on_press: root.manager.current = 'motors'
+		Button:
+			text: "Camera"
+			on_press: root.manager.current = 'camera'
+		
+		Button:
+			text: "Configure"
+			on_press: root.manager.current = 'config'
+		Button:
+			text: "BACK"
+			on_press: root.manager.current = 'main'
+		Button:
+			text: "Exit"
+			on_press: root.endProgram()

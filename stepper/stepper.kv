@@ -1,0 +1,32 @@
+#:kivy 1.0.9
+
+
+<MainWindow>:
+	cols: 1
+	padding: 60
+	GridLayout:
+		cols: 4
+		spacing: 10
+		padding: 30
+		Label:
+			text: ''
+		Button:
+			text: 'Forward'
+			on_press: root.step_forward()
+		Button:
+			text: 'Reverse'
+			on_press: root.step_reverse()
+		Label:
+			text: ''
+	GridLayout:
+		cols: 4
+		spacing: 10
+		padding: 30
+		Label:
+			text: ''
+		Button:
+			text: 'Btn C'
+		Button:
+			text: 'Btn D'
+		Label:
+			text: ''

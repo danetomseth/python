@@ -1,0 +1,167 @@
+<ScreenOne>:
+    BoxLayout:
+    	orientation: 'vertical'
+    	BoxLayout:
+    		Button:
+    			text: "Motor A"
+    			on_press: root.move_A()
+    		Button:
+    			text: "Motor B"
+    			on_press: root.move_B()
+    		Button:
+    			text: "Motor C"
+    			on_press: root.move_C()
+    	BoxLayout:
+			Label:
+				id: speed_label
+				text: root.init_speed
+			Button:
+				text: "-"
+				on_press: root.decrease_speed()
+			Button: 
+				text: "+"
+				on_press: root.increase_speed()
+		BoxLayout:
+			Button:
+				text: "Analog"
+				on_press: root.manager.current = 'third_screen'
+			Button:
+				text: "2nd"
+				on_press: root.manager.current = 'second_screen'
+			Button:
+				text: "EXIT"
+				on_press: root.exit()
+
+
+<ScreenTwo>:
+    BoxLayout:
+    	orientation: 'vertical'
+    	BoxLayout:
+    		Button: 
+    			text: "READ"
+    			on_press: root.read_analog()
+		BoxLayout:
+			Button:
+				text: "Back"
+				on_press: root.manager.current = 'first_screen'
+			Button:
+				text: "EXIT"
+				on_press: root.exit()
+
+<ScreenThree>:
+    BoxLayout:
+    	spacing: 5
+    	orientation: 'vertical'
+    	BoxLayout:
+    		spacing: 5
+    		Button: 
+    			text: "READ"
+    			on_press: root.read_analog()
+    		Button:
+    			text: "LABELS"
+    			on_press: root.watch_labels()
+    		Button:
+    			text: "SLIDE TEST"
+    			on_press: root.run_motor("slide")
+    		Button:
+    			text: "PAN TEST"
+    			on_press: root.run_motor("pan")
+    		Button:
+    			text: "TILT TEST"
+    			on_press: root.run_motor("tilt")
+    	BoxLayout:
+    		Label:
+    			text: "Slide: Waiting..."
+    			id: slide_label
+    			font_size: '20sp'
+			Label:
+    			text: "Pan: Waiting..."
+    			id: pan_label
+    			font_size: '20sp'
+    		Label:
+    			text: "Tilt: Waiting..."
+    			id: tilt_label
+    			font_size: '20sp'
+
+		BoxLayout:
+			Button:
+				text: "First"
+				on_press: root.manager.current = 'first_screen'
+			Button:
+				text: "Four"
+				on_press: root.manager.current = 'forth_screen'
+			Button:
+				text: "EXIT"
+				on_press: root.exit()
+
+
+<ScreenFour>:
+    BoxLayout:
+    	spacing: 5
+    	padding: 5
+    	orientation: 'vertical'
+    	BoxLayout:
+    		Button: 
+    			text: "READ LIM"
+    			on_press: root.read_limits()
+    		Button:
+    			text: "LIMIT TEST"
+    			on_press: root.run_limit_test()
+    		Button:
+    			text: "-"
+    			on_press: root.decrease_speed()
+
+    	BoxLayout:
+    		Label:
+    			text: "Waiting..."
+    			id: current_speed
+    			font_size: '20sp'
+    		Label:
+    			text: "Waiting..."
+    			id: pin_19
+    			font_size: '20sp'
+			Label:
+    			text: "Waiting..."
+    			id: pin_13
+    			font_size: '20sp'
+    		Label:
+    			text: "Waiting..."
+    			id: pin_6
+    			font_size: '20sp'
+    		Label:
+    			text: "Waiting..."
+    			id: pin_5
+    			font_size: '20sp'
+
+		BoxLayout:
+			Button:
+				text: "Back"
+				on_press: root.manager.current = 'third_screen'
+			Button:
+				text: "EXIT"
+				on_press: root.exit()
+
+
+
+<Manager>:
+    id: screen_manager
+    screen_three: screen_three
+    screen_four: screen_four
+    screen_one: screen_one
+	screen_two:screen_two
+    ScreenThree:
+        id: screen_three
+        name: 'third_screen'
+        manager: screen_manager
+    ScreenFour:
+        id: screen_four
+        name: 'forth_screen'
+        manager: screen_manager
+    ScreenOne:
+        id: screen_one
+        name: 'first_screen'
+        manager: screen_manager
+	ScreenTwo:
+        id: screen_two
+        name: 'second_screen'
+        manager: screen_manager

@@ -1,0 +1,35 @@
+<VideoA>:
+	BoxLayout:
+		orientation: 'vertical'
+		padding: 15
+		spacing: 15
+		Label:
+			text: "VIDEO MODE"
+			font_size: '36sp'
+			size_hint_y: 0.5
+		BoxLayout:
+			padding: 15
+			spacing: 15
+			Button:
+				text: 'RUN'
+				on_press: root.test_run()
+
+		BoxLayout:
+			padding: 15
+			spacing: 15
+			Button:
+				text: 'SET START'
+				on_press: root.test_start()
+
+			Button:
+				text: 'SET END'
+				on_press: root.test_end()
+
+		BoxLayout:
+			spacing: 15
+			Label:
+				text: ""
+			Button:
+				size_hint_y: 0.5
+				text: "BACK"
+				on_press: root.manager.current = 'user'

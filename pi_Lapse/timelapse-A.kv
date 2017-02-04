@@ -1,0 +1,86 @@
+<TimelapseA>:
+	BoxLayout:
+		orientation: 'vertical'
+		padding: 5
+		spacing: 5
+		Label:
+			text: "TIMELAPSE"
+			font_size: '36sp'
+		GridLayout:
+			cols: 3
+			padding: 5
+			spacing: 5
+			Label:
+				text: "SLIDE DIRECTION"
+			Label:
+				text: "PAN DIRECTION"
+			Label:
+				text: "TILT DIRECTION"			
+		GridLayout:
+			cols: 6
+			padding: 5
+			spacing: 5
+			ToggleButton:
+				text: 'HOME'
+				group: 'slide_dir'
+				state: 'down'
+				on_press: root.change_slide_dir('home')
+			ToggleButton:
+				text: 'AWAY'
+				group: 'slide_dir'
+				on_press: root.change_slide_dir('away')
+			ToggleButton:
+				text: 'LEFT'
+				group: 'pan_dir'
+				state: 'down'
+				on_press: root.change_pan_dir('left')
+			ToggleButton:
+				text: 'RIGHT'
+				group: 'pan_dir'
+				on_press: root.change_pan_dir('right')
+			ToggleButton:
+				text: 'UP'
+				group: 'tilt_dir'
+				state: 'down'
+				on_press: root.change_tilt_dir('up')
+			ToggleButton:
+				text: 'DOWN'
+				group: 'tilt_dir'
+				on_press: root.change_tilt_dir('down')
+		GridLayout:
+			cols: 3
+			padding: 5
+			spacing: 5
+			Button:
+				text: "JOG"
+				on_press: root.jog_slide()
+			Button:
+				text: "JOG"
+				on_press: root.jog_pan()
+			Button:
+				text: "JOG"
+				on_press: root.jog_tilt()
+		
+
+
+		BoxLayout:
+			padding: 5
+			spacing: 5
+			Button:
+				text: 'HOME'
+				on_press: root.reset_to_home()
+			Button:
+				text: 'PREVIEW'
+				on_press: root.preview_movement()
+
+
+		BoxLayout:
+			spacing: 5
+			Button:
+				size_hint_y: 0.5
+				text: "BACK"
+				on_press: root.manager.current = 'user'
+			Button:
+				size_hint_y: 0.5
+				text: "NEXT"
+				on_press: root.manager.current = 'timelapse_b'

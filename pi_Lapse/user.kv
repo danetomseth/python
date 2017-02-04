@@ -1,0 +1,30 @@
+<UserPage>:
+	BoxLayout:
+		orientation: 'vertical'
+		padding: 15
+		spacing: 15
+		Label:
+			text: "USER PAGE"
+			font_size: '36sp'
+			size_hint_y: 0.5
+		Label:
+			size_hint_y: 0.5
+			text: "Video Mode"
+
+		BoxLayout:
+			Button:
+				text: "TIMELAPSE"
+				on_press: root.manager.current = "timelapse_a"
+			Button:
+				text: "VIDEO"
+				on_press: root.manager.current = "video_a"
+
+		BoxLayout:
+			spacing: 15
+			Label:
+				text: ""
+			Button:
+				size_hint_y: 0.5
+				text: "BACK"
+				on_press: root.manager.current = 'main'
+		

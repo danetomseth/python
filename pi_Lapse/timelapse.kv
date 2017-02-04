@@ -1,0 +1,106 @@
+#:kivy 1.0.9
+#:include adminscreen.kv
+#:include initialize.kv
+#:include motor-page.kv
+#:include slide-page.kv
+#:include pan-page.kv
+#:include tilt-page.kv
+#:include user.kv
+#:include main.kv
+#:include timelapse-A.kv
+#:include timelapse-B.kv
+#:include timelapse-C.kv
+#:include video-A.kv
+
+
+<Manager>:
+	canvas.before:
+        Color:
+            rgb: .2, .2, .2
+        Rectangle:
+            size: self.size
+            source: 'data/background.png'
+    id: screen_manager
+    admin_screen: admin_screen
+    initialize_screen: initialize_screen
+    motor_page: motor_page
+    slide_page: slide_page
+    pan_page: pan_page
+    tilt_page: tilt_page
+    main_page: main_page
+    user_page: user_page
+    video_page_a: video_page_a
+    timelapse_page_a: timelapse_page_a
+    timelapse_page_b: timelapse_page_b
+    timelapse_page_c: timelapse_page_c
+
+    MainPage:
+        id: main_page
+        name: 'main'
+        manager: screen_manager
+
+    UserPage:
+        id: user_page
+        name: 'user'
+        manager: screen_manager
+
+    AdminScreen:
+        id: admin_screen
+        name: 'admin'
+        manager: screen_manager
+
+    VideoA:
+        id: video_page_a
+        name: 'video_a'
+        manager: screen_manager
+
+    TimelapseA:
+        id: timelapse_page_a
+        name: 'timelapse_a'
+        manager: screen_manager
+
+    TimelapseB:
+        id: timelapse_page_b
+        name: 'timelapse_b'
+        manager: screen_manager
+
+    TimelapseC:
+        id: timelapse_page_c
+        name: 'timelapse_c'
+        manager: screen_manager
+
+    InitializeScreen:
+        id: initialize_screen
+        name: 'initialize'
+        manager: screen_manager
+
+    MotorPage:
+        id: motor_page
+        name: 'motors'
+        manager: screen_manager
+
+    SlidePage:
+        id: slide_page
+        name: 'slidesettings'
+        manager: screen_manager
+
+    PanPage:
+        id: pan_page
+        name: 'pansettings'
+        manager: screen_manager
+    TiltPage:
+        id: tilt_page
+        name: 'tiltsettings'
+        manager: screen_manager
+
+   
+
+
+
+
+
+
+    
+
+
+

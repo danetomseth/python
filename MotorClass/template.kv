@@ -1,0 +1,131 @@
+<ScreenOne>:
+    BoxLayout:
+    	orientation: 'vertical'
+        padding: 5
+        spacing: 5
+        BoxLayout:
+            Button:
+                text: "SLIDE HOME"
+                on_press: root.find_home('slide')
+            Button:
+                text: "PAN HOME"
+                on_press: root.find_home('pan')
+            Button:
+                text: "TILT HOME"
+                on_press: root.find_home('tilt')
+
+    	BoxLayout:
+    		Button:
+    			text: "ADJ SLIDE"
+    			on_press: root.adjust_home('slide')
+    		Button:
+    			text: "ADJ PAN"
+    			on_press: root.adjust_home('pan')
+    		Button:
+    			text: "ADJ TILT"
+    			on_press: root.adjust_home('tilt')
+    	BoxLayout:
+            Button:
+                text: "READ ALL"
+                on_press: root.read_all()
+			Button:
+                text: "SET A"
+                on_press: root.set_point_A()
+			Button:
+				text: "GO HOME"
+				on_press: root.return_home()
+            Button:
+                text: "PANO"
+                on_press: root.pano()
+            Button:
+                text: "TILT PANO"
+                on_press: root.pano_tilt()
+		BoxLayout:
+			Button:
+				text: "2nd"
+				on_press: root.manager.current = 'second_screen'
+            Button:
+                text: "3rd"
+                on_press: root.manager.current = 'third_screen'
+			Button:
+				text: "EXIT"
+				on_press: root.exit()
+
+
+<ScreenTwo>:
+    BoxLayout:
+    	orientation: 'vertical'
+    	BoxLayout:
+    		Button: 
+    			text: "SLIDE JOY"
+    			on_press: root.read_analog()
+            Button: 
+                text: "LIMITS"
+                on_press: root.limit_test()
+        BoxLayout:
+            Button: 
+                text: "SLIDE UNIT"
+                on_press: root.move_distance('slide', 50)
+            Button: 
+                text: "PAN UNIT"
+                on_press: root.move_distance('pan', 15)
+            Button: 
+                text: "TILT UNIT"
+                on_press: root.move_distance('tilt', 15)
+		BoxLayout:
+			Button:
+				text: "Back"
+				on_press: root.manager.current = 'first_screen'
+			Button:
+				text: "EXIT"
+				on_press: root.exit()
+
+
+<ScreenThree>:
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            Label:
+                text: "Waiting...."
+                font_size: '20sp'
+                id: motor_label
+        BoxLayout:
+            padding: 5
+            Button: 
+                text: "SET A"
+                on_press: root.set_A()
+            Button: 
+                text: "SET B"
+                on_press: root.set_B()
+        BoxLayout:
+            padding: 5
+            Button:
+                text: "Back"
+                on_press: root.manager.current = 'first_screen'
+            Button:
+                text: "EXIT"
+                on_press: root.exit()
+
+
+
+
+
+
+
+
+<Manager>:
+    id: screen_manager
+    screen_one: screen_one
+	screen_two:screen_two
+    ScreenOne:
+        id: screen_one
+        name: 'first_screen'
+        manager: screen_manager
+	ScreenTwo:
+        id: screen_two
+        name: 'second_screen'
+        manager: screen_manager
+    ScreenThree:
+        id: screen_three
+        name: 'third_screen'
+        manager: screen_manager

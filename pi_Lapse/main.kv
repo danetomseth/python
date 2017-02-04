@@ -1,0 +1,35 @@
+<MainPage>:
+	BoxLayout:
+		orientation: 'vertical'
+		padding: 15
+		spacing: 15
+		Label:
+			text: "PiSlide 0.9"
+			font_size: '36sp'
+			size_hint_y: 0.5
+		BoxLayout:
+			padding: 15
+			spacing: 15
+			Button:
+				text: "USER"
+				on_press: root.manager.current = 'user'
+			Button:
+				text: "ADMIN"
+				on_press: root.manager.current = 'admin'
+		BoxLayout:
+			padding: 15
+			spacing: 15
+			Button:
+				text: "JOYSTICK"
+				on_press: root.check_inputs()
+			
+		BoxLayout:
+			spacing: 15
+			Label:
+				text: ""
+			Button:
+				size_hint_y: 0.5
+				text: "EXIT"
+				on_press: root.endProgram()
+
+

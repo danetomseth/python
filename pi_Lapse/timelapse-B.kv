@@ -1,0 +1,81 @@
+<TimelapseB>:
+	BoxLayout:
+		orientation: 'vertical'
+		padding: 10
+		spacing: 10
+		Label:
+			text: 'Interval Preset'
+			font_size: '24sp'
+			size_hint_y: 0.5
+		BoxLayout:
+			padding: 5
+			spacing: 5
+			Button:
+				text: 'SET SLIDE'
+				on_press: root.set_slide_start()
+			Button:
+				text: 'SET PAN'
+				on_press: root.set_pan_start()
+			Button:
+				text: 'SET TILT'
+				on_press: root.set_tilt_start()
+
+		BoxLayout:
+			ToggleButton:
+				text: "1s (storms/clouds)"
+				on_press: root.set_interval(1)
+				group: 'interval_time'
+			ToggleButton:
+				text: "3s (sunrise/sunset)"
+				on_press: root.set_interval(3)
+				state: 'down'
+				group: 'interval_time'
+			ToggleButton:
+				text: "5s (slow clouds)"
+				on_press: root.set_interval(5)
+				group: 'interval_time'
+			ToggleButton:
+				text: "10s (shadows)"
+				on_press: root.set_interval(10)
+				group: 'interval_time'
+		BoxLayout:
+			ToggleButton:
+				text: "15s (stars_a)"
+				on_press: root.set_interval(15)
+				group: 'interval_time'
+			ToggleButton:
+				text: "30s (stars_b)"
+				on_press: root.set_interval(30)
+				group: 'interval_time'
+			ToggleButton:
+				text: "45s (stars_c)"
+				on_press: root.set_interval(45)
+				group: 'interval_time'
+			ToggleButton:
+				text: "60s (stars_d)"
+				on_press: root.set_interval(60)
+				group: 'interval_time'
+		BoxLayout:
+			Label: 
+				text: root.event_duration
+				id: event_duration_label
+				size_hint_x: 0.5
+			Slider:
+				min: 5
+				max: 240
+				step: 5
+				value: root.default_duration
+				id: duration_slider
+				on_value: root.change_event_duration()
+
+
+		BoxLayout:
+			spacing: 5
+			Button:
+				size_hint_y: 0.5
+				text: "BACK"
+				on_press: root.manager.current = 'timelapse_a'
+			Button:
+				size_hint_y: 0.5
+				text: "NEXT"
+				on_press: root.manager.current = 'timelapse_c'

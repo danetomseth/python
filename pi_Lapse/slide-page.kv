@@ -1,0 +1,69 @@
+<SlidePage>:
+	BoxLayout:
+		orientation: 'vertical'
+		BoxLayout:
+			orientation: 'vertical'
+			Label:
+				text: "SLIDE SETTINGS"
+				font_size: '24sp'
+				size_hint_y: 0.5
+			BoxLayout:
+				padding: 5
+				spacing: 5
+				Label:
+					text: "DIRECTION"
+				ToggleButton:
+					text: 'HOME'
+					state: "down"
+					group: 'direction'
+					on_press: root.change_direction('home')
+				ToggleButton:
+					text: "AWAY"
+					group: 'direction'
+					on_press: root.change_direction('away')
+				Button:
+					text: "FIND HOME"
+					on_press: root.find_home()
+			BoxLayout:
+				Label:
+					text: "SPEED"
+				ToggleButton:
+					text: "SLOW"
+					group: 'speed'
+					on_press: root.change_speed('slow')
+				ToggleButton:
+					text: "MEDIUM"
+					group: 'speed'
+					state: 'down'
+					on_press: root.change_speed('medium')
+				ToggleButton:
+					text: "FAST"
+					group: 'speed'
+					on_press: root.change_speed('fast')
+			BoxLayout:
+				spacing: 5
+				padding: 5
+				Button:
+					text: "1. END POS"
+					on_press: root.set_end()
+				Button:
+					text: "2. START POS"
+					on_press: root.set_start()
+				Button:
+					text: "TEST"
+					on_press: root.test_movement()
+				Button:
+					text: "JOG"
+					on_press: root.jog_motor()
+			BoxLayout: 
+				spacing: 15
+				padding: 15
+				Label: 
+					text: root.programed_steps
+					id: programed_steps_label
+				Button:
+					text: 'BACK'
+					on_press: root.manager.current = 'motors'
+				Button:
+					text: 'HOME'
+					on_press: root.manager.current = 'admin'

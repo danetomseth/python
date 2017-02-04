@@ -1,0 +1,68 @@
+<StepperSettings>:
+	BoxLayout:
+		orientation: 'vertical'
+		spacing: 5
+		padding: 5
+		BoxLayout:
+			Label:
+				size_hint_x: 0.75
+				id: slide_speed_label
+				text: root.default_slide_speed_label
+			Slider:
+				min: 1
+				max: 50
+				value: root.default_slide_speed
+				step: 1
+				id: slide_speed_slider
+				on_value: root.change_slide_speed()
+			Button:
+				size_hint_x: 0.75
+				text: "TEST"
+				on_press: root.test_slide_distance()
+		BoxLayout:
+			Label:
+				size_hint_x: 0.75
+				id: pan_speed_label
+				text: root.default_pan_speed_label
+			Slider:
+				min: 1
+				max: 50
+				value: root.default_pan_speed
+				step: 1
+				id: pan_speed_slider
+				on_value: root.change_pan_speed()
+			Button:
+				size_hint_x: 0.75
+				text: "TEST"
+				on_press: root.test_pan_distance()
+		BoxLayout:
+			Label:
+				text: 'Step Mode'
+			ToggleButton:
+				text: 'FULL'
+				on_press: root.change_step_mode(1.0)
+				group: 'step_mode'
+			ToggleButton:
+				text: '1/2'
+				on_press: root.change_step_mode(0.5)
+				group: 'step_mode'
+			ToggleButton:
+				text: '1/4'
+				on_press: root.change_step_mode(0.25)
+				group: 'step_mode'
+				state: 'down'
+			ToggleButton:
+				text: '1/8'
+				on_press: root.change_step_mode(0.125)
+				group: 'step_mode'
+
+		BoxLayout:
+			Button:
+				text: "BACK"
+				on_press: root.manager.current = 'config'
+			Button:
+				text: 'HOME'
+				on_press: root.manager.current = 'home'
+			Button:
+				text: "NEXT"
+				on_press: root.manager.current = 'begin'

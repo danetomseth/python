@@ -1,0 +1,43 @@
+<ScreenOne>:
+    BoxLayout:
+    	orientation: 'vertical'
+    	BoxLayout:
+    		Button:
+    			text: "Motor A"
+    			on_press: root.move_A()
+    		Button:
+    			text: "Motor B"
+    			on_press: root.move_B()
+    		Button:
+    			text: "Motor C"
+    			on_press: root.move_C()
+    	BoxLayout:
+			Label:
+				id: speed_label
+				text: root.init_speed
+			Button:
+				text: "-"
+				on_press: root.decrease_speed()
+			Button: 
+				text: "+"
+				on_press: root.increase_speed()
+		BoxLayout:
+			Button:
+				text: "Enable"
+				on_press: root.enable_all()
+			Button:
+				text: "Disable"
+				on_press: root.disable_all()
+			Button:
+				text: "EXIT"
+				on_press: root.exit()
+
+
+
+<Manager>:
+    id: screen_manager
+    screen_one: screen_one
+    ScreenOne:
+        id: screen_one
+        name: 'first_screen'
+        manager: screen_manager
