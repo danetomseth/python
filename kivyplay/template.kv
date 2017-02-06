@@ -1,0 +1,152 @@
+<SlideTab>:
+	orientation: 'vertical'
+	padding: 5
+	spacing: 5
+	Label:
+		text: root.title
+		font_size: '20sp'
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Label:
+			text: root._set_speed
+			id: set_speed_label
+		Label:
+			text: root._set_direction
+			id: set_direction_label
+		Label:
+			text: root._steps_programmed
+			id: steps_programmed_label
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Label:
+			text: "ADJ SPEED"
+		Button:
+			text: "SLOWER"
+			on_press: root.adjust_speed(-1)
+		Button:
+			text: "FASTER"
+			on_press: root.adjust_speed(1)
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Button:
+			text: "CONTROL"
+			on_press: root.control()
+		Button:
+			text: "RAMP"
+			on_press: root.ramp_test()
+		Button:
+			text: "FIND HOME"
+			on_press: root.find_home()
+<PanTab>:
+	orientation: 'vertical'
+	padding: 5
+	spacing: 5
+	Label:
+		text: root.title
+		font_size: '20sp'
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Label:
+			text: root._set_speed
+			id: set_speed_label
+		Label:
+			text: root._set_direction
+			id: set_direction_label
+		Label:
+			text: root._steps_programmed
+			id: steps_programmed_label
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Label:
+			text: "ADJ SPEED"
+		Button:
+			text: "SLOWER"
+			on_press: root.adjust_speed(-1)
+		Button:
+			text: "FASTER"
+			on_press: root.adjust_speed(1)
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Button:
+			text: "CONTROL"
+			on_press: root.control()
+		Button:
+			text: "RAMP"
+			on_press: root.ramp_test()
+		Button:
+			text: "FIND HOME"
+			on_press: root.find_home()
+
+<TiltTab>:
+	orientation: 'vertical'
+	padding: 5
+	spacing: 5
+	Label:
+		text: root.title
+		font_size: '20sp'
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Label:
+			text: root._set_speed
+			id: set_speed_label
+		Label:
+			text: root._set_direction
+			id: set_direction_label
+		Label:
+			text: root._steps_programmed
+			id: steps_programmed_label
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Label:
+			text: "ADJ SPEED"
+		Button:
+			text: "SLOWER"
+			on_press: root.adjust_speed(-1)
+		Button:
+			text: "FASTER"
+			on_press: root.adjust_speed(1)
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Button:
+			text: "CONTROL"
+			on_press: root.control()
+		Button:
+			text: "RAMP"
+			on_press: root.ramp_test()
+		Button:
+			text: "FIND HOME"
+			on_press: root.find_home()
+
+
+
+
+<PageView>:
+	id: tabs_manager
+	slide_tab: slide_tab
+	pan_tab: pan_tab
+	tilt_tab: tilt_tab
+	AccordionItem:
+		title: 'SLIDE'
+		SlideTab:
+			id: slide_tab
+			manager: tabs_manager
+	AccordionItem:
+		title: 'PAN'
+		PanTab:
+			id: pan_tab
+			manager: tabs_manager
+	AccordionItem:
+		title: 'TILT'
+		TiltTab:
+			id: tilt_tab
+			manager: tabs_manager
+	
