@@ -1,0 +1,30 @@
+<HomeScreen>:
+	BoxLayout:
+		orientation: 'vertical'
+		spacing: 5
+		padding: 5
+		Label:
+			text: "HOME"
+		BoxLayout:
+			orientation: 'horizontal'
+			spacing: 5
+			padding: 5
+			Button:
+				text: 'BTN A'
+				on_press: root.display('A')
+			Button:
+				text: 'BTN B'
+				on_press: root.display('B')
+			Button:
+				text: 'BTN C'
+				on_press: root.display('C')
+		BoxLayout:
+			orientation: 'horizontal'
+			spacing: 5
+			padding: 5
+			Button:
+				text: 'NEXT'
+				on_press: root.manager.current = 'motors'
+			Button:
+				text: "EXIT"
+				on_press: root.exit_app()

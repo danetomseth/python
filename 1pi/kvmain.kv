@@ -1,0 +1,29 @@
+#:kivy 1.0.9
+#:include kv-motor-accordion.kv
+#:include kv-home.kv
+
+
+
+
+
+
+
+
+<Manager>:
+	canvas.before:
+		Color:
+			rgb: .2, .2, .2
+		Rectangle:
+			size: self.size
+	id: screen_manager
+	home_screen: home_screen
+	motors_screen: motors_screen
+
+	HomeScreen:
+		id: home_screen
+		name: 'home'
+		manager: screen_manager
+	MotorsScreen:
+		id: motors_screen
+		name: 'motors'
+		manager: screen_manager
