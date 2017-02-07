@@ -40,6 +40,9 @@
 		Button:
 			text: "FIND HOME"
 			on_press: root.find_home()
+		Button:
+			text: 'NEXT'
+			root.manager.current = 'home'
 <PanTab>:
 	orientation: 'vertical'
 	padding: 5
@@ -82,6 +85,9 @@
 		Button:
 			text: "FIND HOME"
 			on_press: root.find_home()
+		Button:
+			text: 'NEXT'
+			on_press: root.manager.current = 'home'
 
 <TiltTab>:
 	orientation: 'vertical'
@@ -125,28 +131,6 @@
 		Button:
 			text: "FIND HOME"
 			on_press: root.find_home()
-
-
-
-
-<PageView>:
-	id: tabs_manager
-	slide_tab: slide_tab
-	pan_tab: pan_tab
-	tilt_tab: tilt_tab
-	AccordionItem:
-		title: 'SLIDE'
-		SlideTab:
-			id: slide_tab
-			manager: tabs_manager
-	AccordionItem:
-		title: 'PAN'
-		PanTab:
-			id: pan_tab
-			manager: tabs_manager
-	AccordionItem:
-		title: 'TILT'
-		TiltTab:
-			id: tilt_tab
-			manager: tabs_manager
-	
+		Button:
+			text: 'NEXT'
+			on_press: root.manager.current = 'home'
