@@ -1,5 +1,8 @@
+#!/usr/bin/env python
+
 from kivy.uix.accordion import Accordion, AccordionItem
 from kivy.uix.widget import Widget
+from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import NumericProperty, ReferenceListProperty, ObjectProperty, StringProperty
 from kivy.uix.layout import Layout
 from kivy.uix.button import Button
@@ -7,30 +10,6 @@ from kivy.uix.label import Label
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 import time
-
-
-
-class StepperMotor(BoxLayout):
-    def __init__(self, *args, **kwargs):
-        print(args)
-        super(StepperMotor, self).__init__(**kwargs)
-        if len(args) > 0:
-            self.name = args[0]
-            self.steps = args[1]
-
-        # self.name = name
-
-    def setName(self, name):
-        print("setting")
-        self.ids.motor_name.text = self.name
-
-    def action(self):
-        print(self.name)
-        self.ids.motor_name.text = self.name
-
-    def exit_app(self):
-        
-        App.get_running_app().stop()
 
 
 

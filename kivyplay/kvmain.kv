@@ -1,0 +1,46 @@
+#:kivy 1.0.9
+#:include ./kv/kv-home.kv
+#:include ./kv/kv-motor-accordion.kv
+#:include ./kv/kv-control.kv
+#:include ./kv/kv-video.kv
+#:include ./kv/kv-timelapse.kv
+
+
+
+		
+
+
+
+<Manager>:
+	canvas.before:
+		Color:
+			rgb: .2, .2, .2
+		Rectangle:
+			size: self.size
+	id: screen_manager
+	home_screen: home_screen
+	control_screen: control_screen
+	timelapse_screen: timelapse_screen
+	video_screen: video_screen
+
+	HomeScreen:
+		id: home_screen
+		name: 'home'
+		manager: screen_manager
+	ControlScreen:
+		id: control_screen
+		name: 'control'
+		manager: screen_manager
+	TimelapseScreen:
+		id: timelapse_screen
+		name: 'timelapse'
+		manager: screen_manager
+	VideoScreen:
+		id: video_screen
+		name: 'video'
+		manager: screen_manager
+        
+
+
+
+	

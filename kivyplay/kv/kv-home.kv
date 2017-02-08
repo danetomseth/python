@@ -1,0 +1,30 @@
+<HomeScreen>:
+	BoxLayout:
+		orientation: 'vertical'
+		spacing: 5
+		padding: 5
+		BoxLayout:
+			orientation: 'horizontal'
+			spacing: 5
+			padding: 5
+			Button:
+				text: 'TIMELAPSE'
+				on_press: root.manager.current = 'timelapse'
+			Button:
+				text: 'VIDEO'
+				on_press: root.manager.current = 'video'
+		BoxLayout:
+			orientation: 'horizontal'
+			spacing: 5
+			padding: 5
+			Button:
+				text: 'CONTROL'
+				on_press: root.manager.current = 'control'
+			Button:
+				text: 'TEST'
+				on_press: root.test_func()
+			Button:
+				text: 'EXIT'
+				# on_press: root.exit_app()
+				on_press: app.exit()
+		

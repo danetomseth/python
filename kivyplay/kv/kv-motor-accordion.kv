@@ -41,7 +41,7 @@
 			text: "FIND HOME"
 			on_press: root.find_home()
 		Button:
-			text: 'NEXT'
+			text: 'BACK'
 			on_press: root.manager.current = 'home'
 <PanTab>:
 	orientation: 'vertical'
@@ -86,7 +86,7 @@
 			text: "FIND HOME"
 			on_press: root.find_home()
 		Button:
-			text: 'NEXT'
+			text: 'BACK'
 			on_press: root.manager.current = 'home'
 
 <TiltTab>:
@@ -132,17 +132,6 @@
 			text: "FIND HOME"
 			on_press: root.find_home()
 		Button:
-			text: 'NEXT'
+			text: 'BACK'
 			on_press: root.manager.current = 'home'
 
-<StepperMotor>:
-	orientation: 'vertical'
-	Label:
-		id: motor_name
-		text: "test"
-	Button: 
-		text: "Action"
-		on_press: root.action()
-	Button: 
-		text: "EXIT"
-		on_press: root.exit_app()
