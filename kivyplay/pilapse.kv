@@ -33,6 +33,7 @@
 		slide_tab: slide_tab
 		pan_tab: pan_tab
 		tilt_tab: tilt_tab
+		new_tab: new_tab
 		manager: root.manager
 		AccordionItem:
 			title: 'SLIDE'
@@ -48,6 +49,11 @@
 			title: 'TILT'
 			TiltTab:
 				id: tilt_tab
+				manager: motor_manager.manager
+		AccordionItem:
+			title: 'NEW'
+			StepperMotor:
+				id: new_tab
 				manager: motor_manager.manager
 
 <HomeScreen>:

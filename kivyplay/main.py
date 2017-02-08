@@ -25,6 +25,7 @@ class MotorsScreen(Screen):
     slide_tab = ObjectProperty(None)
     pan_tab = ObjectProperty(None)
     tilt_tab = ObjectProperty(None)
+    new_tab = ObjectProperty(None)
 
     def __init__(self, **kwargs):
         super(MotorsScreen, self).__init__(**kwargs)
@@ -36,7 +37,7 @@ class HomeScreen(Screen):
     def display(self, val):
         print("Pressed: " + val)
 
-
+newMotor = StepperMotor('slide', 62000)
 
 class Manager(ScreenManager):
     home_screen = ObjectProperty(None)

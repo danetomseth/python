@@ -1,4 +1,5 @@
 from kivy.uix.accordion import Accordion, AccordionItem
+from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.widget import Widget
 from kivy.properties import NumericProperty, ReferenceListProperty, ObjectProperty, StringProperty
 from kivy.uix.layout import Layout
@@ -44,7 +45,7 @@ class Manager(ScreenManager):
 class KvmainApp(App):
     
     def build(self):
-        return MotorPage()
+        return Manager()
 
 
 if __name__ == '__main__':

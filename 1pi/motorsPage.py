@@ -27,6 +27,7 @@ class SlideTab(BoxLayout):
 
     def find_home(self):
         print("HOMEEEE")
+        control.find_home('slide')
 
     def ramp_test(self):
         print("Ramp")
@@ -68,6 +69,7 @@ class PanTab(BoxLayout):
 
     def find_home(self):
         print("HOMEEEE")
+        control.find_home('pan')
 
     def ramp_test(self):
         print("Ramp")
@@ -107,6 +109,7 @@ class TiltTab(BoxLayout):
 
     def find_home(self):
         print("HOMEEEE")
+        control.find_home('tilt')
 
     def ramp_test(self):
         print("Ramp")

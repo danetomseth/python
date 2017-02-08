@@ -8,6 +8,34 @@ from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 import time
 
+
+
+class StepperMotor(BoxLayout):
+    def __init__(self, *args, **kwargs):
+        print(args)
+        super(StepperMotor, self).__init__(**kwargs)
+        if len(args) > 0:
+            self.name = args[0]
+            self.steps = args[1]
+
+        # self.name = name
+
+    def setName(self, name):
+        print("setting")
+        self.ids.motor_name.text = self.name
+
+    def action(self):
+        print(self.name)
+        self.ids.motor_name.text = self.name
+
+    def exit_app(self):
+        
+        App.get_running_app().stop()
+
+
+newMotor = StepperMotor('slide', 62000)
+
+
 class SlideTab(BoxLayout):
     def __init__(self, **kwargs):
         super(SlideTab, self).__init__(**kwargs)

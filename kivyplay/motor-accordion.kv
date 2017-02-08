@@ -42,7 +42,7 @@
 			on_press: root.find_home()
 		Button:
 			text: 'NEXT'
-			root.manager.current = 'home'
+			on_press: root.manager.current = 'home'
 <PanTab>:
 	orientation: 'vertical'
 	padding: 5
@@ -134,3 +134,15 @@
 		Button:
 			text: 'NEXT'
 			on_press: root.manager.current = 'home'
+
+<StepperMotor>:
+	orientation: 'vertical'
+	Label:
+		id: motor_name
+		text: "test"
+	Button: 
+		text: "Action"
+		on_press: root.action()
+	Button: 
+		text: "EXIT"
+		on_press: root.exit_app()
