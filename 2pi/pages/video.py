@@ -10,12 +10,19 @@ from kivy.uix.label import Label
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 import time
+import stepper
 
 
 class VideoScreen(Screen):
     def __init__(self, **kwargs):
         super(VideoScreen, self).__init__(**kwargs)
-    def new_func(self):
-        print("Func")
+    
+    def function_A(self):
+        print("RUNNING A")
+        stepper.time_test()
+
+    def function_B(self):
+        print("RUNNING B")
+        stepper.control_all()
 
 

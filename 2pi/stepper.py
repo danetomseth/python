@@ -40,16 +40,68 @@ for y in limits:
 
 
 #Create motor Classes
-#([step, dir, enable], step_mode, step_angle, ratio, analog_pin, [limits], home_dir, steps_from_home, motor_name): #pins [step, dir, enable]
-slide = stepper.MotorObj(slide_pins, 4, 0.131, 3.54331, 2, [5,6], slide_home, 3000, "slide")
-pan = stepper.MotorObj(pan_pins, 8, 0.094, 4.2, 0, [19], pan_home, 4000, "pan")
-tilt = stepper.MotorObj(tilt_pins, 8, 0.035, 1, 1, [13], tilt_home, 3250, "tilt")
+#([step, dir, enable], step_mode, step_angle, ratio, analog_pin, [limits], main_direction, home_dir, steps_from_home, motor_name): #pins [step, dir, enable]
+slide = stepper.MotorObj(slide_pins, 4, 0.131, 3.54331, 2, [5,6], True, slide_home, 3000, "slide")
+pan = stepper.MotorObj(pan_pins, 8, 0.094, 4.2, 0, [19], True, pan_home, 4000, "pan")
+tilt = stepper.MotorObj(tilt_pins, 8, 0.035, 2, 1, [13], False, tilt_home, 3250, "tilt")
 
 
 all_motors = [slide, pan, tilt]
 
 
 
+
+def control_all():
+    motors = [pan, tilt, slide]
+    # motors = [slide]
+    for motor in motors:
+        motor.enable()
+        motor.read_joystick()
+    time_stamp = 0.0001
+    time_start = time.time()
+    while stop() == False:
+        active_motors = []
+        for motor in motors:
+            motor.read_joystick()
+            if motor.analog_speed == 1000:
+                pass
+            else:
+                active_motors.append(motor)
+
+        step_stamp = 1
+        for x in range(12):
+            for motor in active_motors:
+                if step_stamp % motor.analog_speed == 0:
+                    motor.alt_step()
+            step_stamp += 1
+            time.sleep(0.000075)
+
+
+
+    print("FINISHED")
+
+def time_test():
+    print("TIME TEST")
+    time.sleep(0.5)
+    time_total = 0
+    count = 0
+
+    slide.enable()
+    pan.enable()
+    while stop() == False:
+        # motor.read_analog()
+        slide.read_two_motor()
+        if slide.analog_speed == 0:
+            pass
+        else:
+            for x in range(5):
+                slide.two_motor_step()
+    time.sleep(1)
+    take_picture()
+
+    print("FINSIHED")
+
+    
 
 def set_A(set_motor):
     if set_motor == 'slide':
@@ -63,7 +115,8 @@ def set_A(set_motor):
         return
     motor.enable()
     while stop() == False:
-        motor.read_analog()
+        # motor.read_analog()
+        motor.read_set_channel()
         if motor.analog_speed == 0:
             pass
         else:
@@ -91,7 +144,7 @@ def set_B(move_motor):
         return
     motor.enable_counting()
     while stop() == False:
-        motor.read_analog()
+        motor.read_set_channel()
         if motor.analog_speed == 0:
             pass
         else:

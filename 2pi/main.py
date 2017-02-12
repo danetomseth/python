@@ -1,11 +1,15 @@
 from kivy.uix.accordion import Accordion, AccordionItem
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.core.window import Window
 from kivy.uix.widget import Widget
 from kivy.properties import NumericProperty, ReferenceListProperty, ObjectProperty, StringProperty
 from kivy.uix.layout import Layout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.app import App
+from kivy.base import ExceptionHandler
+from kivy.base import ExceptionManager
+from kivy.logger import Logger
 
 from kivy.uix.boxlayout import BoxLayout
 import sys
@@ -60,7 +64,15 @@ class Manager(ScreenManager):
     # Settings
     control_screen = ObjectProperty(None)
 
+class E(ExceptionHandler):
+    def handle_exception(self, inst):
+        print("********EXCEPTION********")
+        Logger.exception('CAUGHT EXCEPTION')
+        stepper.clean()
+        App.get_running_app().stop()
+        return ExceptionManager.PASS
 
+ExceptionManager.add_handler(E())
 
 
 class KvmainApp(App):
@@ -70,8 +82,8 @@ class KvmainApp(App):
         return self.manager
 
     def exit(self):
-        App.get_running_app().stop()
         stepper.clean()
+        App.get_running_app().stop()
 
     def find_home(self, motor):
         stepper.find_home(motor)
@@ -81,6 +93,9 @@ class KvmainApp(App):
 
     def diff_speed(self):
         stepper.home_speed_offset()
+
+
+    
 
 
 
