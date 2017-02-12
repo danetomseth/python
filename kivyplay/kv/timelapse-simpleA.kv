@@ -1,0 +1,46 @@
+<TimelapseSimple_A>:
+	BoxLayout:
+		orientation: 'vertical'
+		spacing: 5
+		padding: 5
+		Label:
+			text: 'Simple A'
+		BoxLayout:
+			orientation: 'horizontal'
+			spacing: 5
+			padding: 5
+			Label:
+				id: timelapse_duration_label
+				text: "Timelapse Duration \n ...Not Set"
+				size_hint: 0.5, 1
+			Button:
+				text: "-"
+				on_press: root.modify_duration(-1)
+			Button:
+				text: "+"
+				on_press: root.modify_duration(1)
+		BoxLayout:
+			orientation: 'horizontal'
+			spacing: 5
+			padding: 5
+			Label:
+				id: total_frames_label
+				text: "Clip Duration \n ...Not Set"
+				size_hint: 0.5, 1
+			Button:
+				text: "-"
+				on_press: root.set_frames(-1)
+			Button:
+				text: "+"
+				on_press: root.set_frames(1)
+		
+		BoxLayout:
+			orientation: 'horizontal'
+			spacing: 5
+			padding: 5
+			Button:
+				text: 'NEXT'
+				on_press: root.manager.current = 'timelapse_simpleB'
+			Button:
+				text: 'BACK'
+				on_press: root.manager.current = 'timelapse_main'

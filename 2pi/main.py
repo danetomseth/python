@@ -12,13 +12,16 @@ import sys
 import time
 
 sys.path.append('./pages')
+sys.path.append('./controls')
 
+
+# kivy files
 import timelapse
 import control
 import video
 
-import temp
- 
+# Control Files
+import stepper
 
 
 
@@ -58,13 +61,27 @@ class Manager(ScreenManager):
     control_screen = ObjectProperty(None)
 
 
+
+
 class KvmainApp(App):
     
     def build(self):
-        return Manager()
+        self.manager = Manager()
+        return self.manager
 
     def exit(self):
         App.get_running_app().stop()
+        stepper.clean()
+
+    def find_home(self, motor):
+        stepper.find_home(motor)
+
+    def find_home_all(self):
+        stepper.find_home_all()
+
+    def diff_speed(self):
+        stepper.home_speed_offset()
+
 
 
 if __name__ == '__main__':

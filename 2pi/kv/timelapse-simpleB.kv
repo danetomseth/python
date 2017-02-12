@@ -1,0 +1,28 @@
+<TimelapseSimple_B>:
+	BoxLayout:
+		orientation: 'vertical'
+		spacing: 5
+		padding: 5
+		Label:
+			text: 'SET MOVEMENT'
+			font_size: '20sp'
+			size_hint: 1, 0.5
+		BoxLayout:
+			orientation: 'horizontal'
+			spacing: 10
+			padding: 10
+			Button:
+				text: "SET END"
+				id: movement_btn
+				on_press: root.set_end()
+		BoxLayout:
+			orientation: 'horizontal'
+			spacing: 5
+			padding: 5
+			size_hint: 1, 0.5 
+			Button:
+				text: 'BACK'
+				on_press: root.manager.current = 'timelapse_simpleA'
+			Button:
+				text: 'READY'
+				on_press: root.manager.current = 'timelapse_simpleC'

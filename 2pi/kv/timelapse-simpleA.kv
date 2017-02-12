@@ -1,0 +1,66 @@
+<TimelapseSimple_A>:
+	BoxLayout:
+		orientation: 'vertical'
+		spacing: 5
+		padding: 5
+		Label:
+			text: 'Simple A'
+			font_size: '15sp'
+			size_hint: 1, 0.5
+		BoxLayout:
+			orientation: 'horizontal'
+			spacing: 5
+			padding: 5
+			Label:
+				id: timelapse_duration_label
+				text: "Timelapse Duration \n ...Not Set"
+				size_hint: 0.5, 1
+			Button:
+				text: "-"
+				on_press: root.modify_duration(-1)
+			Button:
+				text: "+"
+				on_press: root.modify_duration(1)
+		BoxLayout:
+			orientation: 'horizontal'
+			spacing: 5
+			padding: 5
+			Label:
+				id: total_frames_label
+				text: "Clip Duration \n ...Not Set"
+				size_hint: 0.5, 1
+			Button:
+				text: "-"
+				on_press: root.set_frames(-1)
+			Button:
+				text: "+"
+				on_press: root.set_frames(1)
+		BoxLayout:
+			spacing: 5
+			padding: 5
+			Button:
+				text: 'SLIDE HOME'
+				on_press: app.find_home('slide')
+			Button:
+				text: 'PAN HOME'
+				on_press: app.find_home('pan')
+			Button:
+				text: 'TILT HOME'
+				on_press: app.find_home('tilt')
+			Button:
+				text: "ALL HOME"
+				on_press: app.find_home_all()
+			Button:
+				text: "SPEED OFFSET"
+				on_press: app.diff_speed()
+
+		BoxLayout:
+			orientation: 'horizontal'
+			spacing: 5
+			padding: 5
+			Button:
+				text: 'BACK'
+				on_press: root.manager.current = 'timelapse_main'
+			Button:
+				text: 'NEXT'
+				on_press: root.manager.current = 'timelapse_simpleB'
