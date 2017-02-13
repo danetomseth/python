@@ -1,0 +1,89 @@
+#:kivy 1.0.9
+#:include ./kv/kv-home.kv
+#:include ./kv/kv-motor-accordion.kv
+#:include ./kv/kv-control.kv
+#:include ./kv/kv-video.kv
+
+#:include ./kv/timelapse-main.kv
+#:include ./kv/timelapse-simpleA.kv
+#:include ./kv/timelapse-simpleB.kv
+#:include ./kv/timelapse-simpleC.kv
+
+#:include ./kv/timelapse-advancedA.kv
+
+
+
+		
+
+
+
+<Manager>:
+	canvas.before:
+		Color:
+			rgb: .2, .2, .2
+		Rectangle:
+			size: self.size
+	id: screen_manager
+	home_screen: home_screen
+	video_screen: video_screen
+	# Live Motion
+
+	# Timelapse
+	timelapse_main: timelapse_main
+	timelapse_simpleA: timelapse_simpleA
+	timelapse_simpleB: timelapse_simpleB
+	timelapse_simpleC: timelapse_simpleC
+
+	timelapse_advancedA: timelapse_advancedA 
+
+
+	# Settings
+	control_screen: control_screen
+
+	HomeScreen:
+		id: home_screen
+		name: 'home'
+		manager: screen_manager
+	ControlScreen:
+		id: control_screen
+		name: 'control'
+		manager: screen_manager
+	
+	VideoScreen:
+		id: video_screen
+		name: 'video'
+		manager: screen_manager
+
+
+
+# Timelapse
+	TimelapseMain:
+		id: timelapse_main
+		name: 'timelapse_main'
+		manager: screen_manager
+
+	TimelapseSimple_A:
+		id: timelapse_simpleA
+		name: 'timelapse_simpleA'
+		manager: screen_manager
+
+	TimelapseSimple_B:
+		id: timelapse_simpleB
+		name: 'timelapse_simpleB'
+		manager: screen_manager
+
+
+	TimelapseSimple_C:
+		id: timelapse_simpleC
+		name: 'timelapse_simpleC'
+		manager: screen_manager
+
+	TimelapseAdvanced_A:
+		id: timelapse_advancedA
+		name: 'timelapse_advancedA'
+		manager: screen_manager
+        
+
+
+
+	

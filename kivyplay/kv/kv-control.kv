@@ -1,0 +1,26 @@
+#:kivy 1.0.9
+
+
+<ControlScreen>:
+	id: control_manager
+	Accordion:
+		id: tabs_manager
+		slide_tab: slide_tab
+		pan_tab: pan_tab
+		tilt_tab: tilt_tab
+		manager: root.manager
+		AccordionItem:
+			title: 'SLIDE'
+			SlideTab:
+				id: slide_tab
+				manager: control_manager.manager
+		AccordionItem:
+			title: 'PAN'
+			PanTab:
+				id: pan_tab
+				manager: control_manager.manager
+		AccordionItem:
+			title: 'TILT'
+			TiltTab:
+				id: tilt_tab
+				manager: control_manager.manager

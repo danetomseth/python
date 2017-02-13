@@ -1,0 +1,17 @@
+<TimelapseSimple_C>:
+	BoxLayout:
+		orientation: 'vertical'
+		spacing: 5
+		padding: 5
+		BoxLayout:
+			orientation: 'horizontal'
+			spacing: 5
+			padding: 5
+			Label:
+				text: 'Simple C'
+			Button:
+				text: 'START'
+				on_press: print("START")
+			Button:
+				text: 'BACK'
+				on_press: root.manager.current = 'timelapse_simpleB'
