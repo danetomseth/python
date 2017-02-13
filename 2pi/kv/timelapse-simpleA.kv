@@ -5,54 +5,46 @@
 		padding: 5
 		Label:
 			text: 'Simple A'
-			font_size: '15sp'
-			size_hint: 1, 0.5
+			font_size: '20sp'
 		BoxLayout:
 			orientation: 'horizontal'
-			spacing: 5
 			padding: 5
 			Label:
 				id: timelapse_duration_label
-				text: "Timelapse Duration \n ...Not Set"
-				size_hint: 0.5, 1
-			Button:
-				text: "-"
-				on_press: root.modify_duration(-1)
-			Button:
-				text: "+"
-				on_press: root.modify_duration(1)
+				text: root.timelapse_duration
+				font_size: '20sp'
+			BoxLayout:
+				spacing: 10
+				Button:
+					text: "-"
+					on_press: root.set_duration(-1)
+				Button:
+					text: "+"
+					on_press: root.set_duration(1)
 		BoxLayout:
 			orientation: 'horizontal'
-			spacing: 5
 			padding: 5
 			Label:
-				id: total_frames_label
-				text: "Clip Duration \n ...Not Set"
-				size_hint: 0.5, 1
-			Button:
-				text: "-"
-				on_press: root.set_frames(-1)
-			Button:
-				text: "+"
-				on_press: root.set_frames(1)
+				id: timelapse_interval_label
+				text: root.timelapse_interval
+				font_size: '20sp'
+			BoxLayout:
+				spacing: 10
+				Button:
+					text: "-"
+					on_press: root.set_interval(-1)
+				Button:
+					text: "+"
+					on_press: root.set_interval(1)
 		BoxLayout:
-			spacing: 5
 			padding: 5
+			Label:
+				id: clip_duration_label
+				text: root.clip_duration
+				font_size: '20sp'
 			Button:
-				text: 'SLIDE HOME'
-				on_press: app.find_home('slide')
-			Button:
-				text: 'PAN HOME'
-				on_press: app.find_home('pan')
-			Button:
-				text: 'TILT HOME'
-				on_press: app.find_home('tilt')
-			Button:
-				text: "ALL HOME"
+				text: "FIND HOME"
 				on_press: app.find_home_all()
-			Button:
-				text: "SPEED OFFSET"
-				on_press: app.diff_speed()
 
 		BoxLayout:
 			orientation: 'horizontal'

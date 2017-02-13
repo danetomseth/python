@@ -38,6 +38,7 @@ class MotorObj(object):
         self.enable_pin = pins[2]
         self.main_direction = main_direction
         self.alt_direction = not main_direction
+        self.step_count_direction = 1
 
         for p in pins:
             GPIO.setup(p, GPIO.OUT)
@@ -95,6 +96,17 @@ class MotorObj(object):
     # behind the scenes it sets the _T attribute
     rpm = property(lambda self: self._rpm, _set_rpm)
 
+
+    def start_counting(self):
+        self.step_count = 0
+
+    def program_steps(self):
+        if self.step_count < 0:
+            self.set_direction(self.main_direction)
+        else:
+            self.set_direction(self.alt_direction)
+        self.programmed_steps = abs(self.step_count)
+
     def move(self, steps):
         self.enable()
         time.sleep(0.01)
@@ -149,12 +161,17 @@ class MotorObj(object):
     def step_high(self):
         GPIO.output(self.step_pin, True)
 
+    def count_step_high(self):
+        GPIO.output(self.step_pin, True)
+        self.step_count += self.step_count_direction
+
     def step_low(self):
         GPIO.output(self.step_pin, False)
 
     def alt_step(self):
         self.step_state = not self.step_state
         GPIO.output(self.step_pin, self.step_state)
+        self.step_count += self.step_count_direction
 
 
     def programmed_alt_step(self):
@@ -187,6 +204,8 @@ class MotorObj(object):
         self.current_direction = direction
         GPIO.output(self.direction_pin, direction)
 
+   
+
     def set_direction_two(self, direction):
         self.current_direction = direction
         GPIO.output(self.direction_pin, direction)
@@ -208,40 +227,21 @@ class MotorObj(object):
         if self.name == 'tilt':
             self.analog_speed = self.analog_speed * 2
 
-    # def read_joystick(self):
-    #     self.analog_speed = analog.read_joystick(self.analog_pin)
-    #     if self.analog_speed == 1000:
-    #         self.idle_count += 1
-    #         if self.idle_count > 10 and self.enabled:
-    #             print("DISABLED")
-    #             self.disable()
-    #         return
-    #     elif self.analog_speed < 0:
-    #         self.set_direction(False)
-    #     elif self.analog_speed > 0:
-    #         self.set_direction(True)
-    #     self.idle_count = 0
-    #     if self.enabled == False:
-    #         print("ENABLING")
-    #         self.enable()
-    #     self.analog_speed = abs(self.analog_speed)
-    #     print(self.analog_speed)
-
     def read_joystick(self):
         self.analog_speed = analog.read_joystick(self.analog_pin)
         if self.analog_speed == 1000:
             self.idle_count += 1
             if self.idle_count > 10 and self.enabled:
-                print("DISABLED")
                 self.disable()
             return
         elif self.analog_speed < 0:
             self.set_direction(self.main_direction)
+            self.step_count_direction = 1
         elif self.analog_speed > 0:
             self.set_direction(self.alt_direction)
+            self.step_count_direction = -1
         self.idle_count = 0
         if self.enabled == False:
-            print("ENABLING")
             self.enable()
         self.analog_speed = abs(self.analog_speed)
         if self.analog_speed < 1:
@@ -252,7 +252,6 @@ class MotorObj(object):
 
         if self.name == 'pan':
             self.analog_speed = self.analog_speed * 2
-        print(self.analog_speed)
 
        
     def read_set_channel(self):

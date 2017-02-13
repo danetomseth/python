@@ -5,11 +5,11 @@ from decimal import Decimal
 import time
 import analog
 import stepperClass as stepper
+import cameraClass
 from subprocess import call
 from kivy.uix.progressbar import ProgressBar
 
 
-timelapse_duration = 30
 
 
 
@@ -29,6 +29,9 @@ tilt_away = False
 stop_button = 22
 limits = [5, 6, 13, 19]
 
+step_count_list = []
+sorted_motors = []
+
 GPIO.setmode(GPIO.BCM) ## Use board pin numbering
     
 
@@ -46,6 +49,10 @@ pan = stepper.MotorObj(pan_pins, 8, 0.094, 4.2, 0, [19], True, pan_home, 4000, "
 tilt = stepper.MotorObj(tilt_pins, 8, 0.035, 2, 1, [13], False, tilt_home, 3250, "tilt")
 
 
+#Create Camera
+camera = cameraClass.CameraObj()
+
+
 all_motors = [slide, pan, tilt]
 
 
@@ -56,6 +63,7 @@ def control_all():
     # motors = [slide]
     for motor in motors:
         motor.enable()
+        motor.start_counting()
         motor.read_joystick()
     time_stamp = 0.0001
     time_start = time.time()
@@ -101,6 +109,104 @@ def time_test():
 
     print("FINSIHED")
 
+
+def joystick_step_count():
+    motors = [pan, tilt, slide]
+    # motors = [slide]
+    for motor in motors:
+        motor.enable()
+        motor.start_counting()
+        motor.read_joystick()
+    time_stamp = 0.0001
+    time_start = time.time()
+    while stop() == False:
+        active_motors = []
+        for motor in motors:
+            motor.read_joystick()
+            if motor.analog_speed == 1000:
+                pass
+            else:
+                active_motors.append(motor)
+
+        step_stamp = 1
+        
+
+        for x in range(10):
+            for motor in active_motors:
+                motor.count_step_high()
+            time.sleep(0.0001)
+            for motor in active_motors:
+                motor.step_low()
+            time.sleep(0.0001)
+
+
+
+def joystick_set_start():
+    global step_count_list
+    global sorted_motors
+    motors = [pan, tilt, slide]
+    # motors = [slide]
+    for motor in motors:
+        motor.enable()
+        motor.start_counting()
+        motor.read_joystick()
+    time_stamp = 0.0001
+    time_start = time.time()
+    while stop() == False:
+        active_motors = []
+        for motor in motors:
+            motor.read_joystick()
+            if motor.analog_speed == 1000:
+                pass
+            else:
+                active_motors.append(motor)
+        for x in range(10):
+            for motor in active_motors:
+                motor.count_step_high()
+            time.sleep(0.0002)
+            for motor in active_motors:
+                motor.step_low()
+            time.sleep(0.0002)
+
+    for motor in motors:
+        motor.program_steps()
+        step_count_list.append(motor.programmed_steps)
+
+    step_count_list.sort()
+    sorted_motors = []
+    for x in step_count_list:
+        print("SORTED: " + str(x))
+        for motor in motors:
+            if motor.programmed_steps == x:
+                print("ADD: " + motor.name)
+                sorted_motors.append(motor)
+    for x in sorted_motors:
+        print(x.name)
+
+
+def joystick_set_end():
+    motors = [pan, tilt, slide]
+    for motor in motors:
+        motor.enable()
+        motor.read_joystick()
+    while stop() == False:
+        active_motors = []
+        for motor in motors:
+            motor.read_joystick()
+            if motor.analog_speed == 1000:
+                pass
+            else:
+                active_motors.append(motor)
+
+        for x in range(10):
+            for motor in active_motors:
+                motor.count_step_high()
+            time.sleep(0.0002)
+            for motor in active_motors:
+                motor.step_low()
+            time.sleep(0.0002)
+
+    print("DONE")
     
 
 def set_A(set_motor):
@@ -155,13 +261,65 @@ def set_B(move_motor):
     print(motor.name + " steps: " + str(motor.step_count))
 
 
-def run_AB():
-    motors = [slide, pan, tilt]
+def run_timelapse_preview():
+    motors = sorted_motors
+    counts = [0,0,0]
+    for motor in motors:
+        motor.enable()
+    print("STARTING")
+    time.sleep(1)
+    for x in range(motors[2].programmed_steps):
+        if stop():
+            break
+        elif x < motors[0].programmed_steps:
+            counts[0] += 1
+            counts[1] += 1
+            counts[2] += 1
+            motors[0].step_high()
+            motors[1].step_high()
+            motors[2].step_high()
+            time.sleep(0.00015)
+            motors[0].step_low()
+            motors[1].step_low()
+            motors[2].step_low()
+            time.sleep(0.00015)
+
+        elif x < motors[1].programmed_steps:
+            counts[1] += 1
+            counts[2] += 1
+            motors[1].step_high()
+            motors[2].step_high()
+            time.sleep(0.00015)
+            motors[1].step_low()
+            motors[2].step_low()
+            time.sleep(0.00015)
+
+        else:
+            counts[2] += 1
+            motors[2].step_high()
+            time.sleep(0.00015)
+            motors[2].step_low()
+            time.sleep(0.00015)
 
     for motor in motors:
-        motor.switch_direction()
+        motor.disable()
+
+    for count in counts:
+        print("STEPS: " + str(count))
+    time.sleep(1)
+    print("ALL FINISHED")
+
+
+def run_AB():
+    motors = sorted_motors
+    for motor in motors:
         motor.enable()
-        for x in range(motor.step_count):
+    print("STARTING")
+    time.sleep(1)
+    for motor in motors:
+        motor.enable()
+        time.sleep(0.025)
+        for x in range(motor.programmed_steps):
             if stop():
                 print("STOPPING")
                 break
@@ -170,7 +328,6 @@ def run_AB():
         motor.disable()
         print(motor.name + " FINISHED")
     time.sleep(1)
-    take_picture()
     print("ALL FINISHED")
 
 

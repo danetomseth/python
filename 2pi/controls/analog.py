@@ -74,24 +74,3 @@ def joystick(sensor_val):
     scaled_read = (1.0 - float(read_diff / 512)) * new_range
     time_val = int(scaled_read * dir_mod)
     return time_val
-# def joystick(sensor_val):
-#     neutral = 512.0
-#     new_range = 100.0
-#     time_range = 100000.0
-#     dir_mod = 1
-
-#     read_diff = neutral - sensor_val
-    
-#     if abs(read_diff) < 50:
-#         return 1000
-#     if read_diff < 0:
-#         dir_mod = (-1)
-
-#     read_diff = abs(read_diff)
-#     scaled_read = (1.0 - float(read_diff / 512)) * new_range
-#     time_val = scaled_read / time_range
-#     time_val = round(time_val, 4)
-#     if time_val < 0.0001:
-#         time_val = 0.0001
-#     time_val = time_val * dir_mod
-#     return time_val

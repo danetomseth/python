@@ -17,6 +17,8 @@ import sys
 sys.path.append('./controls')
 import stepper
 
+from stepper import camera
+
 class TimelapseMain(Screen):
     def __init__(self, **kwargs):
         super(TimelapseMain, self).__init__(**kwargs)
@@ -30,28 +32,31 @@ class TimelapseMain(Screen):
 class TimelapseSimple_A(Screen):
     def __init__(self, **kwargs):
         super(TimelapseSimple_A, self).__init__(**kwargs)
-        self.timelapse_duration = stepper.timelapse_duration
-        self.total_frames = 300
+        self.timelapse_duration = self.get_duration_text()
+        self.timelapse_interval = self.get_interval_text()
+        self.clip_duration = self.get_clip_duration_text()
 
-    def modify_duration(self, direction):
-        if direction < 0:
-            stepper.timelapse_duration -= 10
-        else:
-            stepper.timelapse_duration += 10
+    def set_duration(self, direction):
+        camera.set_duration(direction)
 
-        self.ids.timelapse_duration_label.text = "Timelapse Duration \n" + str(stepper.timelapse_duration) + "min"
+        self.ids.timelapse_duration_label.text = self.get_duration_text()
+        self.ids.clip_duration_label.text = self.get_clip_duration_text()
 
-    def set_frames(self, direction):
-        if direction < 0:
-            self.total_frames -= 30
-        else:
-            self.total_frames += 30
+    def set_interval(self, direction):
+        camera.set_interval(direction)
 
-        clip_duration = self.total_frames / 30
-        self.ids.total_frames_label.text = "Clip Duration \n" + str(clip_duration) + "s"
+        self.ids.timelapse_interval_label.text = self.get_interval_text()
+        self.ids.clip_duration_label.text = self.get_clip_duration_text()
 
-    def picture(self):
-        stepper.take_picture
+
+    def get_duration_text(self):
+        return "Timelapse Duration: " + str(camera.timelapse_duration) + "min"
+
+    def get_interval_text(self):
+        return "Interval: " + str(camera.timelapse_interval) + "s"
+
+    def get_clip_duration_text(self):
+        return "Clip Duration: " + str(camera.clip_duration) + "s"
 
         
 
@@ -64,67 +69,18 @@ class TimelapseSimple_B(Screen):
         self.end_set = False
         
 
-    def set_move_A(self):
-        print("SLIDE")
-        stepper.set_A('slide')
-        print("PAN")
-        stepper.set_A('pan')
-        print("TILT")
-        stepper.set_A('tilt')
-        print("FINSHED")
 
-    def set_start(self, other):
-        print("move B")
-        print("SLIDE")
-        stepper.set_B('slide')
-        print("PAN")
-        stepper.set_B('pan')
-        print("TILT")
-        stepper.set_B('tilt')
-        print("FINSHED")
-
-    def set_end(self):
+    def set_move_points(self):
         if self.end_set == False:
-            print("END SET")
-            print("SLIDE")
-            stepper.set_A('slide')
-            print("PAN")
-            stepper.set_A('pan')
-            print("TILT")
-            stepper.set_A('tilt')
-            print("FINSHED")
+            stepper.joystick_set_end()
             self.move_button = self.ids.movement_btn
             self.move_button.text = "SET START"
             self.end_set = True
         else:
-            print("move B")
-            print("SLIDE")
-            stepper.set_B('slide')
-            print("PAN")
-            stepper.set_B('pan')
-            print("TILT")
-            stepper.set_B('tilt')
-            print("FINSHED")
+            stepper.joystick_set_start()
             self.move_button.text = "FINISHED"
+            self.end_set = False
 
-
-    def set_move_B(self):
-        print("move B")
-        print("SLIDE")
-        stepper.set_B('slide')
-        print("PAN")
-        stepper.set_B('pan')
-        print("TILT")
-        stepper.set_B('tilt')
-        print("FINSHED")
-
-    def run_preview(self):
-        stepper.run_AB()
-
-    def start(self, root_widget):
-        print("START")
-        print(root_widget)
-        root_widget.manager.curent = 'timelapse_simpleC'
 
 class TimelapseSimple_C(Screen):
     def __init__(self, **kwargs):
@@ -132,7 +88,7 @@ class TimelapseSimple_C(Screen):
         self.check_interval = 0.1
 
     def preview_movement(self):
-        stepper.run_AB()
+        stepper.run_timelapse_preview()
 
     def run_program(self, dt):
         self.ids.timelapse_progress.value += 1

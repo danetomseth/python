@@ -23,6 +23,7 @@ class VideoScreen(Screen):
 
     def function_B(self):
         print("RUNNING B")
-        stepper.control_all()
+        # stepper.control_all()
+        stepper.joystick_step_count()
 
 

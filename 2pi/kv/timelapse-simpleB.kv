@@ -6,15 +6,14 @@
 		Label:
 			text: 'SET MOVEMENT'
 			font_size: '20sp'
-			size_hint: 1, 0.5
 		BoxLayout:
 			orientation: 'horizontal'
-			spacing: 10
-			padding: 10
+			spacing: 20
 			Button:
 				text: "SET END"
+				font_size: '25sp'
 				id: movement_btn
-				on_press: root.set_end()
+				on_press: root.set_move_points()
 		BoxLayout:
 			orientation: 'horizontal'
 			spacing: 5
