@@ -65,7 +65,7 @@ def joystick(sensor_val):
 
     read_diff = neutral - sensor_val
     
-    if abs(read_diff) < 50:
+    if abs(read_diff) < 60:
         return 1000
     if read_diff < 0:
         dir_mod = (-1)

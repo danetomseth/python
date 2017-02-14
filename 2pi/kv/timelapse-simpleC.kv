@@ -1,4 +1,7 @@
 <TimelapseSimple_C>:
+	progress_widget: progress_widget
+	progress_label: progress_label
+	timelapse_progress: timelapse_progress
 	BoxLayout:
 		orientation: 'vertical'
 		spacing: 5
@@ -6,26 +9,26 @@
 		Label:
 			text: 'TIMELAPSE RUNNING'
 			font_size: '20sp'
-			size_hint: 1, 0.5
 		BoxLayout:
+			id: progress_widget
 			orientation: 'horizontal'
-			spacing: 5
-			padding: 5
 			Label:
+				id: progress_label
 				text: 'PROGRESS'
-				font_size: '15sp'
+				font_size: '20sp'
+				size_hint: 0.5, 1
 			ProgressBar:
 				max: 100
 				id: timelapse_progress
 		BoxLayout:
 			orientation: 'horizontal'
-			spacing: 5
-			padding: 5
 			Label:
 				text: 'PICTURES'
-				font_size: '15sp'
+				font_size: '20sp'
+				size_hint: 0.5, 1
 			Label:
 				text: '0'
+				font_size: '30sp'
 				id: total_pictures
 		BoxLayout:
 			orientation: 'horizontal'
@@ -37,6 +40,9 @@
 			Button:
 				text: 'PREVIEW'
 				on_press: root.preview_movement()
+			Button:
+				text: 'PROGRAM'
+				on_press: root.program_timelapse()
 			Button:
 				text: 'START'
 				on_press: root.initiate_program()

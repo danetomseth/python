@@ -1,4 +1,6 @@
 <TimelapseSimple_B>:
+	main_widget: main_widget
+	movement_btn: movement_btn
 	BoxLayout:
 		orientation: 'vertical'
 		spacing: 5
@@ -7,6 +9,7 @@
 			text: 'SET MOVEMENT'
 			font_size: '20sp'
 		BoxLayout:
+			id: main_widget
 			orientation: 'horizontal'
 			spacing: 20
 			Button:
@@ -22,6 +25,9 @@
 			Button:
 				text: 'BACK'
 				on_press: root.manager.current = 'timelapse_simpleA'
+			Button: 
+				text: 'RESET'
+				on_press: root.reset_timelapse()
 			Button:
 				text: 'READY'
 				on_press: root.manager.current = 'timelapse_simpleC'

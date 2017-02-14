@@ -23,6 +23,7 @@ sys.path.append('./controls')
 import timelapse
 import control
 import video
+import camera
 
 # Control Files
 import stepper
@@ -60,6 +61,8 @@ class Manager(ScreenManager):
     timelapse_simpleC = ObjectProperty(None)
 
     timelapse_advancedA = ObjectProperty(None)
+
+    camera_screen = ObjectProperty(None)
 
     # Settings
     control_screen = ObjectProperty(None)

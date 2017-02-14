@@ -2,20 +2,24 @@
 <TimelapseMain>:
 	BoxLayout:
 		spacing: 5
-		padding: 5
+		orientation: 'vertical'
+		Label:
+			text: "TIMELAPSE HOME"
+			font_size: "20sp"
+			size_hint: 1, 0.5
 		BoxLayout:
-			orientation: 'vertical'
-			spacing: 5
-			padding: 5
-			Button:
-				text: 'SIMPLE'
-				on_press: root.manager.current = 'timelapse_simpleA'
-			Button:
-				text: 'ADVANCED'
-				on_press: root.manager.current = 'timelapse_advancedA'
+			BoxLayout:
+				orientation: 'vertical'
+				padding: 20
+				Button:
+					text: 'SIMPLE'
+					on_press: root.manager.current = 'timelapse_simpleA'
+				Button:
+					text: 'ADVANCED'
+					on_press: root.manager.current = 'timelapse_advancedA'
 
-		Button:
-			text: 'BACK'
-			size_hint: 0.25, 1
-			on_press: root.manager.current = 'home'
+			Button:
+				text: 'BACK'
+				size_hint: 0.25, 1
+				on_press: root.manager.current = 'home'
 

@@ -11,6 +11,8 @@
 
 #:include ./kv/timelapse-advancedA.kv
 
+#:include ./kv/camera.kv
+
 
 
 		
@@ -40,6 +42,8 @@
 	# Settings
 	control_screen: control_screen
 
+	camera_screen: camera_screen
+
 	HomeScreen:
 		id: home_screen
 		name: 'home'
@@ -52,6 +56,11 @@
 	VideoScreen:
 		id: video_screen
 		name: 'video'
+		manager: screen_manager
+
+	CameraScreen:
+		id: camera_screen
+		name: 'camera'
 		manager: screen_manager
 
 

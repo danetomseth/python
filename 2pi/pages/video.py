@@ -19,11 +19,10 @@ class VideoScreen(Screen):
     
     def function_A(self):
         print("RUNNING A")
-        stepper.time_test()
+        stepper.slide_pan_joystick()
 
     def function_B(self):
         print("RUNNING B")
-        # stepper.control_all()
         stepper.joystick_step_count()
 
 

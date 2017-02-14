@@ -78,6 +78,7 @@ class MotorObj(object):
 
         self.limits = limits 
         self.limit_status = False
+        self.steps_per_move = 0
         
         
 
@@ -161,6 +162,16 @@ class MotorObj(object):
     def step_high(self):
         GPIO.output(self.step_pin, True)
 
+
+    def timelapse_step_low(self, step_count):
+        GPIO.output(self.step_pin, False)
+        if step_count > self.steps_per_move:
+            print(self.name + " finished moving " + str(step_count))
+            self.disable()
+            return False
+        else:
+            return True
+
     def count_step_high(self):
         GPIO.output(self.step_pin, True)
         self.step_count += self.step_count_direction
@@ -231,7 +242,7 @@ class MotorObj(object):
         self.analog_speed = analog.read_joystick(self.analog_pin)
         if self.analog_speed == 1000:
             self.idle_count += 1
-            if self.idle_count > 10 and self.enabled:
+            if self.idle_count > 100 and self.enabled:
                 self.disable()
             return
         elif self.analog_speed < 0:
@@ -350,6 +361,10 @@ class MotorObj(object):
         print("Count: " + str(self.step_count))
         self.step_count = abs(self.step_count)
         self.disable()
+
+    def set_move_steps(self, total_frames):
+        self.steps_per_move = int(self.programmed_steps / total_frames)
+        print(self.name + ": " + str(self.steps_per_move))
 
     def find_home(self):
         self.set_direction(self.home_direction)

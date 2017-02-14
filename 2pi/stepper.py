@@ -31,6 +31,9 @@ limits = [5, 6, 13, 19]
 
 step_count_list = []
 sorted_motors = []
+interval_steps = 0
+timelapse_active = False
+stable_delay = 1
 
 GPIO.setmode(GPIO.BCM) ## Use board pin numbering
     
@@ -88,26 +91,7 @@ def control_all():
 
     print("FINISHED")
 
-def time_test():
-    print("TIME TEST")
-    time.sleep(0.5)
-    time_total = 0
-    count = 0
 
-    slide.enable()
-    pan.enable()
-    while stop() == False:
-        # motor.read_analog()
-        slide.read_two_motor()
-        if slide.analog_speed == 0:
-            pass
-        else:
-            for x in range(5):
-                slide.two_motor_step()
-    time.sleep(1)
-    take_picture()
-
-    print("FINSIHED")
 
 
 def joystick_step_count():
@@ -160,13 +144,13 @@ def joystick_set_start():
                 pass
             else:
                 active_motors.append(motor)
-        for x in range(10):
+        for x in range(5):
             for motor in active_motors:
                 motor.count_step_high()
-            time.sleep(0.0002)
+            time.sleep(0.0004)
             for motor in active_motors:
                 motor.step_low()
-            time.sleep(0.0002)
+            time.sleep(0.0004)
 
     for motor in motors:
         motor.program_steps()
@@ -198,9 +182,9 @@ def joystick_set_end():
             else:
                 active_motors.append(motor)
 
-        for x in range(10):
+        for x in range(5):
             for motor in active_motors:
-                motor.count_step_high()
+                motor.step_high()
             time.sleep(0.0002)
             for motor in active_motors:
                 motor.step_low()
@@ -208,57 +192,6 @@ def joystick_set_end():
 
     print("DONE")
     
-
-def set_A(set_motor):
-    if set_motor == 'slide':
-        motor = slide
-    elif set_motor == 'pan':
-        motor = pan
-    elif set_motor == 'tilt':
-        motor = tilt
-    else:
-        print("Invalid Motor")
-        return
-    motor.enable()
-    while stop() == False:
-        # motor.read_analog()
-        motor.read_set_channel()
-        if motor.analog_speed == 0:
-            pass
-        else:
-            for x in range(5):
-                motor.variable_single_step()
-    motor.disable()
-    time.sleep(1)
-    take_picture()
-
-    print("FINSIHED")
-
-
-def set_timelapse_B(move_motor):
-    print(move_motor)
-
-def set_B(move_motor):
-    if move_motor == 'slide':
-        motor = slide
-    elif move_motor == 'pan':
-        motor = pan
-    elif move_motor == 'tilt':
-        motor = tilt
-    else:
-        print("Invalid Motor")
-        return
-    motor.enable_counting()
-    while stop() == False:
-        motor.read_set_channel()
-        if motor.analog_speed == 0:
-            pass
-        else:
-            for x in range(50):
-                motor.variable_single_step()
-    motor.disable_counting()
-    time.sleep(1)
-    print(motor.name + " steps: " + str(motor.step_count))
 
 
 def run_timelapse_preview():
@@ -308,6 +241,59 @@ def run_timelapse_preview():
         print("STEPS: " + str(count))
     time.sleep(1)
     print("ALL FINISHED")
+
+
+def program_timelapse():
+    global interval_steps
+    global timelapse_active
+    timelapse_active = True
+    motors = sorted_motors
+    print("TOTAL PICTURES: " + str(camera.total_pictures))
+    print("STEPS PER PIC")
+    for motor in motors:
+        motor.set_move_steps(camera.total_pictures)
+
+    interval_steps = motors[2].steps_per_move
+    print("Max steps: " + str(interval_steps))
+
+def reset_timelapse():
+    global timelapse_active
+    global sorted_motors
+    sorted_motors = []
+    timelapse_active = False
+    motors = [slide, pan, tilt]
+    camera.picture_count = 0
+    for motor in motors:
+        motor.programmed_steps = 0
+
+
+def timelapse_step():
+    global timelapse_active
+    motors = [slide, pan, tilt]
+    for motor in motors:
+        motor.enable()
+
+    for x in range(interval_steps):
+        if stop():
+            camera.picture_count = camera.total_pictures
+            timelapse_active = False
+            break
+        for motor in motors:
+            motor.step_high()
+        time.sleep(0.0003)
+        for motor in motors:
+            if motor.timelapse_step_low(x) == False:
+                motors.remove(motor)
+        time.sleep(0.0003)
+
+    for motor in motors:
+        motor.disable()
+    time.sleep(stable_delay)
+    camera.timelapse_picture()
+    time.sleep(1)
+
+
+
 
 
 def run_AB():
@@ -398,68 +384,6 @@ def find_home_all():
         limits_reached = 3
     else:
         limits_reached = 0
-    print("step count: " + str(step_count))
-    time.sleep(1)
-    step_count = 0
-    
-
-    while limits_reached < 3:
-        limits_reached = 0
-        if stop():
-            break            
-        for motor in motors:
-            if step_count < motor.home_step_offset:
-                motor.step_high()
-            else:
-                limits_reached += 1
-        time.sleep(home_speed)
-        for motor in motors:
-            motor.step_low()
-        time.sleep(home_speed)
-        step_count += 1
-
-    for motor in motors:
-        motor.disable()
-    print("FINISHED")
-
-def home_speed_offset():
-    motors = [slide, pan, tilt]
-    slow_motors = [pan, tilt]
-    home_speed = 0.00025
-    for motor in motors:
-        motor.set_home_direction()
-        motor.enable()
-    step_count = 0
-    limits_reached = 0
-    while limits_reached < 3:
-        limits_reached = 0
-        if stop():
-            break
-        if step_count % 4 == 0:            
-            for motor in slow_motors:
-                if motor.check_home_limit():
-                    motor.step_high()
-                else:
-                    limits_reached += 1
-        if slide.check_home_limit():
-            slide.step_high()
-        else:
-            limits_reached += 1
-        time.sleep(home_speed)
-        if step_count % 4 == 0:
-            for motor in slow_motors:
-                motor.step_low()
-        slide.step_low()
-        time.sleep(home_speed)
-        step_count += 1
-    for motor in motors:
-        motor.switch_direction()
-
-    if stop():
-        limits_reached = 3
-    else:
-        limits_reached = 0
-    print("step count: " + str(step_count))
     time.sleep(1)
     step_count = 0
     
@@ -484,25 +408,38 @@ def home_speed_offset():
     print("FINISHED")
 
 
-def read_channel(motor):
+def slide_pan_joystick():
+    print("TIME TEST")
+    time.sleep(0.5)
+    time_total = 0
+    count = 0
+
+    slide.enable()
+    pan.enable()
     while stop() == False:
-        if motor == 'slide':
-            slide.read_analog()
-        elif motor == 'pan':
-            pan.read_analog()
-        elif motor == 'tilt':
-            tilt.read_analog()
+        # motor.read_analog()
+        slide.read_two_motor()
+        if slide.analog_speed == 0:
+            pass
         else:
-            print("Invalid Motor")
-        time.sleep(0.1)
+            for x in range(5):
+                slide.two_motor_step()
+    time.sleep(1)
 
+
+def run():
+    stop_status = GPIO.input(stop_button)
+    if stop_status == False:
+        print("-----EXIT BUTTON-----")
+        return stop_status
+    else:
+        return stop_status
 
 def stop():
     limitStatus = False
     stop_status = GPIO.input(stop_button)
     
     if stop_status == False:
-        # print("-----EXIT BUTTON-----")
         limitStatus = True
         disable_all()
 
@@ -514,18 +451,8 @@ def disable_all():
 
     print("DISABLED ALL")
 
-def run():
-    stop_status = GPIO.input(stop_button)
-    if stop_status == False:
-        print("-----EXIT BUTTON-----")
-        return stop_status
-    else:
-        return stop_status
 
 
-def take_picture():
-    print("PICTURE!")
-    # call (["gphoto2","--capture-image"])
 
 
 def clean():

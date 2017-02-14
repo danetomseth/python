@@ -1,0 +1,55 @@
+#:kivy 1.0.9
+
+<CameraScreen>:
+	flex_item: flex_item
+	camera_widget: camera_widget
+	parent_box: parent_box
+	id: camera_widget
+	BoxLayout:
+		orientation: 'vertical'
+		spacing: 5
+		padding: 5
+		Label:
+			text: 'Video'
+		BoxLayout:
+			id: parent_box
+			spacing: 10
+			padding: 10
+			Button:
+				text: 'Picture'
+				on_press: root.picture()
+			Button:
+				text: 'QUICK'
+				on_press: root.quick_picture()
+			Button:
+				id: flex_item
+				text: "FLEX"
+				on_press: print("HELLO")
+
+			Button:
+				text: 'REMOVE'
+				on_press: root.remove()
+
+		BoxLayout:
+			spacing: 10
+			padding: 10
+
+			Label:
+				text: root.shutter_text
+				id: shutter
+			
+			Button:
+				text: 'BULB'
+				on_press: root.bulb()
+
+			Button:
+				text: '-'
+				on_press: root.modify_shutter(-1)
+
+			Button:
+				text: '+'
+				on_press: root.modify_shutter(1)
+
+		Button:
+			text: "BACK"
+			on_press: root.manager.current = 'home'
