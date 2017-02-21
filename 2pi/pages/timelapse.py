@@ -5,6 +5,7 @@ from kivy.uix.progressbar import ProgressBar
 from kivy.uix.widget import Widget
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import NumericProperty, ReferenceListProperty, ObjectProperty, StringProperty
+from kivy.uix.dropdown import DropDown
 from kivy.uix.layout import Layout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
@@ -91,22 +92,33 @@ class TimelapseSimple_B(Screen):
 class TimelapseSimple_C(Screen):
     progress_widget = ObjectProperty(None)
     progress_label = ObjectProperty(None)
-    timelapse_progress = ObjectProperty(None)
+    preview_btn = ObjectProperty(None)
+    progress = ObjectProperty(None)
     def __init__(self, **kwargs):
         super(TimelapseSimple_C, self).__init__(**kwargs)
         self.check_interval = 0.5
+        self.progress = 0
+        self.previewed = False
 
 
     def preview_movement(self):
-        stepper.run_timelapse_preview()
+        if self.previewed:
+            stepper.reset_position()
+            self.preview_btn.text = "PREVIEW"
+            self.previewed = False
+        else:
+            stepper.timelapse_preview()
+            self.preview_btn.text = "RESET"
+
+
         
 
     def program_timelapse(self):
         self.total_steps = camera.total_pictures
         self.steps_taken = 1
-        self.ids.timelapse_progress.value = 0
         self.ids.total_pictures.text = str(camera.picture_count)
         stepper.program_timelapse()
+        camera.initialize_camera()
 
     def run_program(self, dt):
         stepper.timelapse_step()
@@ -116,23 +128,24 @@ class TimelapseSimple_C(Screen):
             self.program_interval.cancel()
 
     def finish_program(self):
+        self.progress_widget.remove_widget(self.timelapse_progress)
+        self.progress_widget.remove_widget(self.progress_label)
+        self.progress_widget.add_widget(Label(text="FINISHED", font_size="20sp"))
         self.ids.total_pictures.text = "FINISHED"
 
     def calculate_progress(self):
-        self.ids.timelapse_progress.value = int((float(camera.picture_count) / float(camera.total_pictures)) * 100)
+        # self.ids.timelapse_progress.value = int((float(camera.picture_count) / float(camera.total_pictures)) * 100)
+        self.progress = int((float(camera.picture_count) / float(camera.total_pictures)) * 100)
         self.ids.total_pictures.text = str(camera.picture_count)
-        if self.ids.timelapse_progress.value >= 100:
+        if self.progress >= 100:
             print("CANCEL FROM PROGRESS")
             self.finish_program()
             self.program_interval.cancel()
 
 
     def initiate_program(self):
-        self.progress_widget.remove_widget(self.timelapse_progress)
-        self.progress_widget.remove_widget(self.progress_label)
-        self.progress_widget.add_widget(Label(text="FINISHED", font_size="20sp"))
-        # camera.set_target()
-        # self.program_interval = Clock.schedule_interval(self.run_program, camera.timelapse_interval)
+        self.program_timelapse()
+        self.program_interval = Clock.schedule_interval(self.run_program, camera.timelapse_interval)
 
     def cancel_program(self):
         self.program_interval.cancel()

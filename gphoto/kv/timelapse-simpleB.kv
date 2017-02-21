@@ -1,0 +1,27 @@
+<TimelapseSimple_B>:
+	BoxLayout:
+		orientation: 'vertical'
+		spacing: 5
+		padding: 5
+		BoxLayout:
+			orientation: 'horizontal'
+			spacing: 5
+			padding: 5
+			Button:
+				text: "SET A"
+				on_press: root.set_move_A()
+			Button:
+				text: "SET B"
+				on_press: root.set_move_B()
+
+		BoxLayout:
+			orientation: 'horizontal'
+			spacing: 5
+			padding: 5
+			size_hint: 1, 0.5 
+			Button:
+				text: 'START'
+				on_press: root.start()
+			Button:
+				text: 'BACK'
+				on_press: root.manager.current = 'timelapse_simpleA'

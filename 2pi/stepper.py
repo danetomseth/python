@@ -5,9 +5,10 @@ from decimal import Decimal
 import time
 import analog
 import stepperClass as stepper
-import cameraClass
+from main import window
 from subprocess import call
 from kivy.uix.progressbar import ProgressBar
+from cameraClass import camera
 
 
 
@@ -33,7 +34,6 @@ step_count_list = []
 sorted_motors = []
 interval_steps = 0
 timelapse_active = False
-stable_delay = 1
 
 GPIO.setmode(GPIO.BCM) ## Use board pin numbering
     
@@ -53,7 +53,7 @@ tilt = stepper.MotorObj(tilt_pins, 8, 0.035, 2, 1, [13], False, tilt_home, 3250,
 
 
 #Create Camera
-camera = cameraClass.CameraObj()
+# camera = CameraObj()
 
 
 all_motors = [slide, pan, tilt]
@@ -147,10 +147,10 @@ def joystick_set_start():
         for x in range(5):
             for motor in active_motors:
                 motor.count_step_high()
-            time.sleep(0.0004)
+            time.sleep(0.0001)
             for motor in active_motors:
                 motor.step_low()
-            time.sleep(0.0004)
+            time.sleep(0.0001)
 
     for motor in motors:
         motor.program_steps()
@@ -166,6 +166,7 @@ def joystick_set_start():
                 sorted_motors.append(motor)
     for x in sorted_motors:
         print(x.name)
+    
 
 
 def joystick_set_end():
@@ -185,16 +186,16 @@ def joystick_set_end():
         for x in range(5):
             for motor in active_motors:
                 motor.step_high()
-            time.sleep(0.0002)
+            time.sleep(0.0001)
             for motor in active_motors:
                 motor.step_low()
-            time.sleep(0.0002)
+            time.sleep(0.0001)
+    camera.capture_image()
 
-    print("DONE")
     
 
 
-def run_timelapse_preview():
+def timelapse_preview():
     motors = sorted_motors
     counts = [0,0,0]
     for motor in motors:
@@ -243,6 +244,46 @@ def run_timelapse_preview():
     print("ALL FINISHED")
 
 
+def reset_position():
+    motors = sorted_motors
+    for motor in motors:
+        motor.switch_direction()
+        motor.enable()
+    time.sleep(0.25)
+    for x in range(motors[2].programmed_steps):
+        if stop():
+            break
+        elif x < motors[0].programmed_steps:
+            motors[0].step_high()
+            motors[1].step_high()
+            motors[2].step_high()
+            time.sleep(0.00015)
+            motors[0].step_low()
+            motors[1].step_low()
+            motors[2].step_low()
+            time.sleep(0.00015)
+
+        elif x < motors[1].programmed_steps:
+            motors[1].step_high()
+            motors[2].step_high()
+            time.sleep(0.00015)
+            motors[1].step_low()
+            motors[2].step_low()
+            time.sleep(0.00015)
+
+        else:
+            motors[2].step_high()
+            time.sleep(0.00015)
+            motors[2].step_low()
+            time.sleep(0.00015)
+
+    for motor in motors:
+        motor.disable()
+        motor.switch_direction()
+
+    print("ALL FINISHED")
+
+
 def program_timelapse():
     global interval_steps
     global timelapse_active
@@ -270,6 +311,7 @@ def reset_timelapse():
 def timelapse_step():
     global timelapse_active
     motors = [slide, pan, tilt]
+    step_speed = 0.001
     for motor in motors:
         motor.enable()
 
@@ -278,19 +320,19 @@ def timelapse_step():
             camera.picture_count = camera.total_pictures
             timelapse_active = False
             break
+        if x < 20:
+            step_speed -= 0.000025
         for motor in motors:
             motor.step_high()
-        time.sleep(0.0003)
+        time.sleep(step_speed)
         for motor in motors:
             if motor.timelapse_step_low(x) == False:
                 motors.remove(motor)
-        time.sleep(0.0003)
+        time.sleep(step_speed)
 
     for motor in motors:
         motor.disable()
-    time.sleep(stable_delay)
     camera.timelapse_picture()
-    time.sleep(1)
 
 
 
@@ -409,7 +451,6 @@ def find_home_all():
 
 
 def slide_pan_joystick():
-    print("TIME TEST")
     time.sleep(0.5)
     time_total = 0
     count = 0
@@ -449,7 +490,6 @@ def disable_all():
     for motor in all_motors:
         motor.disable()
 
-    print("DISABLED ALL")
 
 
 

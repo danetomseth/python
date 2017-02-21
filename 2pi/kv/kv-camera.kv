@@ -1,9 +1,7 @@
 #:kivy 1.0.9
 
 <CameraScreen>:
-	flex_item: flex_item
 	camera_widget: camera_widget
-	parent_box: parent_box
 	id: camera_widget
 	BoxLayout:
 		orientation: 'vertical'
@@ -12,23 +10,21 @@
 		Label:
 			text: 'Video'
 		BoxLayout:
-			id: parent_box
 			spacing: 10
 			padding: 10
 			Button:
-				text: 'Picture'
+				text: 'Capture'
 				on_press: root.picture()
 			Button:
 				text: 'QUICK'
 				on_press: root.quick_picture()
 			Button:
-				id: flex_item
-				text: "FLEX"
-				on_press: print("HELLO")
+				text: 'CONNECT'
+				on_press: root.initialize_camera()
 
 			Button:
-				text: 'REMOVE'
-				on_press: root.remove()
+				text: 'BURST'
+				on_press: root.burst()
 
 		BoxLayout:
 			spacing: 10

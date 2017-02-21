@@ -7,49 +7,60 @@ from kivy.properties import NumericProperty, ReferenceListProperty, ObjectProper
 from kivy.uix.layout import Layout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
+from kivy.clock import Clock
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 import time
-import stepper
 
-from stepper import camera
+
+
+# from cameraClass import camera
+from cameraClass import camera
 
 
 class CameraScreen(Screen):
-    flex_item = ObjectProperty(None)
     camera_widget = ObjectProperty(None)
-    parent_box = ObjectProperty(None)
     def __init__(self, **kwargs):
         super(CameraScreen, self).__init__(**kwargs)
         self.shutter_text = self.get_shutter_text()
+        self.pic_count = 0
+        self.startTime = time.time()
     
     def picture(self):
-        start = time.time()
-        camera.test_capture()
-        end = time.time() - start
-        print("TIME: " + str(end))
+        camera.capture_image()
+
+    def burst_trigger(self, dt):
+        self.startTime = time.time()
+        if self.pic_count < 5:
+            camera.trigger()
+            self.pic_count += 1
+            print(str(self.pic_count))
+            endTime = time.time() - self.startTime
+            print(str(endTime))
+        else:
+            print("FINSIHED")
+            self.program_interval.cancel()
 
 
 
     def quick_picture(self):
         start = time.time()
-        camera.quick_picture()
+        camera.trigger()
         end = time.time() - start
         print("TIME: " + str(end))
 
-    def function_C(self):
-        print("RUNNING C")
+    def initialize_camera(self):
+        start = time.time()
+        camera.initialize()
+        end = time.time() - start
+        print("TIME: " + str(end))
 
-    def function_D(self):
-        print("RUNNING D")
 
 
-    def remove(self):
-        print("ITEM")
-        print(self.flex_item)
-        print(self.parent_box)
-        print(self.camera_widget)
-        self.parent_box.remove_widget(self.flex_item)
+
+    def burst(self):
+        self.program_interval = Clock.schedule_interval(self.burst_trigger, 0.25)
+
 
 
     def bulb(self):

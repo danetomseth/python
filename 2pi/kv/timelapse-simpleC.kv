@@ -1,7 +1,8 @@
 <TimelapseSimple_C>:
 	progress_widget: progress_widget
 	progress_label: progress_label
-	timelapse_progress: timelapse_progress
+	preview_btn: preview_btn
+	progress: progress
 	BoxLayout:
 		orientation: 'vertical'
 		spacing: 5
@@ -19,7 +20,8 @@
 				size_hint: 0.5, 1
 			ProgressBar:
 				max: 100
-				id: timelapse_progress
+				id: progress
+				value: 0
 		BoxLayout:
 			orientation: 'horizontal'
 			Label:
@@ -38,11 +40,9 @@
 				text: 'BACK'
 				on_press: root.manager.current = 'timelapse_simpleB'
 			Button:
+				id: preview_btn
 				text: 'PREVIEW'
 				on_press: root.preview_movement()
-			Button:
-				text: 'PROGRAM'
-				on_press: root.program_timelapse()
 			Button:
 				text: 'START'
 				on_press: root.initiate_program()

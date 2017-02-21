@@ -1,0 +1,64 @@
+#:kivy 1.0.9
+<CustomDropDown>:
+    Button:
+        text: 'My first Item'
+        size_hint_y: None
+        height: 44
+        on_release: root.select('item1')
+    Label:
+        text: 'Unselectable item'
+        size_hint_y: None
+        height: 44
+    Button:
+        text: 'My second Item'
+        size_hint_y: None
+        height: 44
+        on_release: root.select('item2')
+
+
+<PhotoScreen>:
+	BoxLayout:
+		orientation: 'vertical'
+		spacing: 5
+		padding: 5
+	
+		BoxLayout:
+			Button:
+				text: "APPERATURE"
+				on_press: root.list_app()
+
+			Button:
+				text: "CONNECT"
+				on_press: root.connect_camera()
+
+
+
+		BoxLayout:
+			padding: 10
+			Button:
+				text: "SET SHUTTER"
+				on_press: root.set_shutter()
+
+
+			Button:
+				text: "SET ISO"
+				on_press: root.set_iso()
+
+			Button:
+				text: 'INCREASE BULB'
+				on_press: root.increase_bulb()
+
+		BoxLayout:
+			padding: 10
+			Button:
+				text: 'TRIGGER BULB'
+				on_press: root.bulb_trigger()
+
+			Button:
+				text: "TRIGGER"
+				on_press: root.trigger()
+
+
+			Button:
+				text: "CAPTURE"
+				on_press: root.capture_image()
