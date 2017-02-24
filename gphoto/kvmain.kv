@@ -3,6 +3,7 @@
 #:include ./kv/kv-motor-accordion.kv
 #:include ./kv/kv-control.kv
 #:include ./kv/kv-video.kv
+#:include ./kv/photo.kv
 
 #:include ./kv/timelapse-main.kv
 #:include ./kv/timelapse-simpleA.kv
@@ -10,10 +11,6 @@
 #:include ./kv/timelapse-simpleC.kv
 
 #:include ./kv/timelapse-advancedA.kv
-
-#:include ./kv/kv-camera.kv
-#:include ./kv/kv-title.kv
-
 
 
 
@@ -44,8 +41,6 @@
 	# Settings
 	control_screen: control_screen
 
-	camera_screen: camera_screen
-
 	HomeScreen:
 		id: home_screen
 		name: 'home'
@@ -60,9 +55,9 @@
 		name: 'video'
 		manager: screen_manager
 
-	CameraScreen:
-		id: camera_screen
-		name: 'camera'
+	PhotoScreen:
+		id: photo_screen
+		name: 'photo'
 		manager: screen_manager
 
 

@@ -3,46 +3,27 @@
 		orientation: 'vertical'
 		spacing: 5
 		padding: 5
-		PageTitle
-    		title: root.page_title
 		BoxLayout:
 			orientation: 'horizontal'
 			spacing: 5
 			padding: 5
 			Button:
 				text: 'TIMELAPSE'
-				font_size: 30
 				on_press: root.manager.current = 'timelapse_main'
 			Button:
-				font_size: 30
 				text: 'LIVE MOTION'
 				on_press: root.manager.current = 'video'
-			Button:
-				font_size: 30
-				text: 'SLIDE'
-				on_press: root.run_slide()
-			Button:
-				font_size: 30
-				text: 'INCREASE'
-				on_press: root.increase_steps()
 		BoxLayout:
 			orientation: 'horizontal'
 			spacing: 5
 			padding: 5
 			Button:
-				font_size: 30
 				text: 'SETTINGS'
 				on_press: root.manager.current = 'control'
 			Button:
-				font_size: 30
-				text: 'CAMERA'
-				on_press: root.manager.current = 'camera'
+				text: 'PHOTO'
+				on_press: root.manager.current = 'photo'
 			Button:
-				font_size: 30
-				text: 'ENABLE'
-				on_press: root.enable_run()
-			Button:
-				font_size: 30
 				text: 'EXIT'
 				on_press: app.exit()
 		

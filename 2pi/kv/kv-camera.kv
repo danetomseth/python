@@ -1,0 +1,51 @@
+#:kivy 1.0.9
+
+<CameraScreen>:
+	camera_widget: camera_widget
+	id: camera_widget
+	BoxLayout:
+		orientation: 'vertical'
+		spacing: 5
+		padding: 5
+		Label:
+			text: 'Video'
+		BoxLayout:
+			spacing: 10
+			padding: 10
+			Button:
+				text: 'Capture'
+				on_press: root.picture()
+			Button:
+				text: 'QUICK'
+				on_press: root.quick_picture()
+			Button:
+				text: 'CONNECT'
+				on_press: root.initialize_camera()
+
+			Button:
+				text: 'BURST'
+				on_press: root.burst()
+
+		BoxLayout:
+			spacing: 10
+			padding: 10
+
+			Label:
+				text: root.shutter_text
+				id: shutter
+			
+			Button:
+				text: 'BULB'
+				on_press: root.bulb()
+
+			Button:
+				text: '-'
+				on_press: root.modify_shutter(-1)
+
+			Button:
+				text: '+'
+				on_press: root.modify_shutter(1)
+
+		Button:
+			text: "BACK"
+			on_press: root.manager.current = 'home'

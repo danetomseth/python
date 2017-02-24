@@ -10,18 +10,12 @@ from kivy.uix.label import Label
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 import time
-import stepper
 
 
 class VideoScreen(Screen):
     def __init__(self, **kwargs):
         super(VideoScreen, self).__init__(**kwargs)
-    
-    def function_A(self):
-        print("RUNNING A")
-        stepper.slide_pan_joystick()
-
-    def function_B(self):
-        print("RUNNING B")
+    def new_func(self):
+        print("Func")
 
 

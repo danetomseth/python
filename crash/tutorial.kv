@@ -1,0 +1,76 @@
+<ParentBox>:
+	orientation: 'vertical'
+	canvas:
+		Color: 
+			rgba: 0, 0, 1, 1
+		Rectangle:
+			pos: self.pos
+			size: self.size
+	BoxLayout:
+		spacing: 10
+		size_hint_y: None
+		height: 200
+		TextInput:
+			id: my_input
+			font_size: 150
+			text: ""
+			on_text: root.change_text()
+		Button:
+			text: "HELLO"
+
+	BoxLayout:
+		padding: 10
+		spacing: 10
+		Label:
+			id: label1
+			text: root.updated_text
+			font_size: 150
+			canvas.before:
+				Color: 
+					rgba: 0, 1, 0, 1
+				Rectangle:
+					pos: self.pos
+					size: self.size
+		Button:
+			text: "CLEAR"
+			on_press: root.clear_text()
+		Button:
+			text: "B"
+			on_press: root.clear_text()
+
+
+<ImageBox>:
+    orientation: 'vertical'
+    canvas:
+		Color: 
+			rgba: 0, 0, 1, 1
+		Rectangle:
+			pos: self.pos
+			size: self.size
+    PageTitle
+    	title: root.page_title
+    Label:
+    	text: 'CONTENT A'
+    BoxLayout:
+    	id: content_A
+    	Label:
+    		text: 'CONTENT B'
+    	Button:
+    		text: 'BUTTON'
+    		on_press: root.action()
+
+
+
+<PageTitle>:
+	size_hint_y: None
+	height: 150
+	padding: 5
+	Image:
+        source: 'logo.png'
+        allow_stretch: True
+        size_hint_x: None
+        size: 150, 150
+
+    Label:
+        text: root.title
+        font_size: 120
