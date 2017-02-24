@@ -12,6 +12,7 @@ from kivy.uix.label import Label
 from kivy.app import App
 from kivy.clock import Clock
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.anchorlayout import AnchorLayout
 import time
 import sys
 
@@ -21,16 +22,25 @@ import stepper
 from stepper import camera
 
 class TimelapseMain(Screen):
+    page_title = StringProperty('TIMELAPSE')
     def __init__(self, **kwargs):
         super(TimelapseMain, self).__init__(**kwargs)
 
     def new_func(self):
         print("Func")
 
+    def print_size(self):
+        print(str(self.ids.parent_box.size))
+
 
 
 
 class TimelapseSimple_A(Screen):
+    page_title = StringProperty('INTERVAL SETTINGS')
+    timelapse_duration = StringProperty("blank")
+    timelapse_interval = StringProperty("blank")
+    clip_duration = StringProperty("blank")
+
     def __init__(self, **kwargs):
         super(TimelapseSimple_A, self).__init__(**kwargs)
         self.timelapse_duration = self.get_duration_text()
@@ -39,15 +49,13 @@ class TimelapseSimple_A(Screen):
 
     def set_duration(self, direction):
         camera.set_duration(direction)
-
-        self.ids.timelapse_duration_label.text = self.get_duration_text()
-        self.ids.clip_duration_label.text = self.get_clip_duration_text()
+        self.timelapse_duration = self.get_duration_text()
+        self.clip_duration = self.get_clip_duration_text()
 
     def set_interval(self, direction):
         camera.set_interval(direction)
-
-        self.ids.timelapse_interval_label.text = self.get_interval_text()
-        self.ids.clip_duration_label.text = self.get_clip_duration_text()
+        self.timelapse_interval = self.get_interval_text()
+        self.clip_duration = self.get_clip_duration_text()
 
 
     def get_duration_text(self):
@@ -65,6 +73,8 @@ class TimelapseSimple_A(Screen):
 
 
 class TimelapseSimple_B(Screen):
+    page_title = StringProperty('MOVEMENT')
+    set_point = StringProperty('SET END')
     main_widget = ObjectProperty(None)
     movement_btn = ObjectProperty(None)
     def __init__(self, **kwargs):
@@ -73,30 +83,31 @@ class TimelapseSimple_B(Screen):
         
     def reset_timelapse(self):
         self.end_set = False
-        self.ids.movement_btn.text = "SET END"
+        self.set_point = "SET END"
         stepper.reset_timelapse()
 
     def set_move_points(self):
         if self.end_set == False:
-            stepper.joystick_set_end()
-            self.move_button = self.ids.movement_btn
-            self.move_button.text = "SET START"
+            stepper.timelapse_set_end()
+            self.set_point = "SET START"
             self.end_set = True
         else:
-            stepper.joystick_set_start()
+            motors = stepper.timelapse_set_start()
             self.end_set = False
             self.main_widget.remove_widget(self.movement_btn)
-            self.main_widget.add_widget(Label(text="MOVEMENT SET", font_size="40sp"))
+            for motor in motors:
+                labelText = motor.name + ": " + str(motor.programmed_steps)
+                self.main_widget.add_widget(Label(text=labelText, font_size=30))
 
 
 class TimelapseSimple_C(Screen):
     progress_widget = ObjectProperty(None)
     progress_label = ObjectProperty(None)
     preview_btn = ObjectProperty(None)
-    progress = ObjectProperty(None)
+    progress = NumericProperty(None)
+    total_pictures = StringProperty("0")
     def __init__(self, **kwargs):
         super(TimelapseSimple_C, self).__init__(**kwargs)
-        self.check_interval = 0.5
         self.progress = 0
         self.previewed = False
 
@@ -109,16 +120,14 @@ class TimelapseSimple_C(Screen):
         else:
             stepper.timelapse_preview()
             self.preview_btn.text = "RESET"
+            self.previewed = True
 
 
         
 
     def program_timelapse(self):
-        self.total_steps = camera.total_pictures
-        self.steps_taken = 1
-        self.ids.total_pictures.text = str(camera.picture_count)
         stepper.program_timelapse()
-        camera.initialize_camera()
+        camera.initialize()
 
     def run_program(self, dt):
         stepper.timelapse_step()
@@ -127,16 +136,10 @@ class TimelapseSimple_C(Screen):
             print("canceled")
             self.program_interval.cancel()
 
-    def finish_program(self):
-        self.progress_widget.remove_widget(self.timelapse_progress)
-        self.progress_widget.remove_widget(self.progress_label)
-        self.progress_widget.add_widget(Label(text="FINISHED", font_size="20sp"))
-        self.ids.total_pictures.text = "FINISHED"
 
     def calculate_progress(self):
-        # self.ids.timelapse_progress.value = int((float(camera.picture_count) / float(camera.total_pictures)) * 100)
         self.progress = int((float(camera.picture_count) / float(camera.total_pictures)) * 100)
-        self.ids.total_pictures.text = str(camera.picture_count)
+        self.total_pictures = str(camera.picture_count)
         if self.progress >= 100:
             print("CANCEL FROM PROGRESS")
             self.finish_program()
@@ -150,6 +153,11 @@ class TimelapseSimple_C(Screen):
     def cancel_program(self):
         self.program_interval.cancel()
 
+    def finish_program(self):
+        self.progress_widget.remove_widget(self.timelapse_progress)
+        self.progress_widget.remove_widget(self.progress_label)
+        self.progress_widget.add_widget(Label(text="FINISHED", font_size="20sp"))
+        self.ids.total_pictures.text = "FINISHED"
 
 
 

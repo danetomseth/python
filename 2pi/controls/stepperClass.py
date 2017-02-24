@@ -157,6 +157,12 @@ class MotorObj(object):
         time.sleep(self.speed)
         GPIO.output(self.step_pin, False)
         time.sleep(self.speed)
+
+    def single_step_speed(self, speed):
+        GPIO.output(self.step_pin, True)
+        time.sleep(speed)
+        GPIO.output(self.step_pin, False)
+        time.sleep(speed)
       
 
     def step_high(self):
@@ -236,6 +242,27 @@ class MotorObj(object):
 
         if self.name == 'tilt':
             self.analog_speed = self.analog_speed * 2
+
+    def read_debounce(self):
+        self.analog_speed = analog.read_debounce(self.analog_pin)
+        if self.analog_speed == 1000:
+            self.idle_count += 1
+            if self.idle_count > 100 and self.enabled:
+                self.disable()
+            return
+        
+        if self.analog_speed < 0:
+            self.set_direction(self.main_direction)
+            self.step_count_direction = 1
+        else:
+            self.set_direction(self.alt_direction)
+            self.step_count_direction = -1
+        self.idle_count = 0
+        if self.enabled == False:
+            self.enable()
+        self.analog_speed = abs(self.analog_speed)
+        return self.analog_speed
+
 
     def read_joystick(self):
         self.analog_speed = analog.read_joystick(self.analog_pin)

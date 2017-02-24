@@ -26,6 +26,10 @@ import camera
 sys.path.append('./pages')
 sys.path.append('./controls')
 
+
+class PageTitle(BoxLayout):
+    title = StringProperty('title')
+
 class E(ExceptionHandler):
     def handle_exception(self, inst):
         print("********EXCEPTION********")
@@ -38,8 +42,20 @@ ExceptionManager.add_handler(E())
 
 
 class HomeScreen(Screen):
+    page_title = StringProperty('PiLapse')
     def __init__(self, **kwargs):
         super(HomeScreen, self).__init__(**kwargs)
+
+
+    def enable_run(self):
+        # stepper.enable_run()
+        stepper.set_timelapse_end()
+
+    def increase_steps(self):
+        stepper.increase_steps()
+
+    def run_slide(self):
+        stepper.move_slide()
 
 
     def test_func(self):

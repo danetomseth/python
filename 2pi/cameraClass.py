@@ -77,6 +77,7 @@ class CameraObj(object):
         self.timelape_start_time = time.time()
         self.shutter_time = 0.5
         self.stable_delay = 0.5
+        self.connected = False
 
         self.set_timelapse(self.timelapse_duration, self.timelapse_interval)
 
@@ -124,11 +125,11 @@ class CameraObj(object):
         else:
             self.shutter_time += 0.025
 
-    def initialize_camera(self):
-        camera_wrapper.set_capture_target()
 
     def initialize(self):
-        camera_wrapper.set_capture_target()
+        self.connected = camera_wrapper.set_capture_target()
+        if self.connected == False:
+          self.timelapse_interval = 0.001
 
     def trigger(self):
         camera_wrapper.trigger()

@@ -84,8 +84,10 @@ class GPhoto(Wrapper):
     def set_capture_target(self):
         code, out, err = self.call(self._CMD + " --set-config /main/settings/capturetarget=1")
         if code != 0:
-            window.no_camera()
+            # window.no_camera()
+            return False
         print("CAMERA INITIALIZED")
+        return True
 
     def get_camera_date_time(self):
         code, out, err = self.call(self._CMD + " --get-config /main/status/datetime")

@@ -31,6 +31,7 @@ import home
 
 
 class Manager(ScreenManager):
+    
     home_screen = ObjectProperty(None)
     
     # Live motion
@@ -45,10 +46,10 @@ class Manager(ScreenManager):
 
     timelapse_advancedA = ObjectProperty(None)
 
-    camera_screen = ObjectProperty(None)
 
     # Settings
     control_screen = ObjectProperty(None)
+    camera_screen = ObjectProperty(None)
 
 
 

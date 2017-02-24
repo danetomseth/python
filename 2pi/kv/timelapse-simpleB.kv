@@ -4,19 +4,16 @@
 	BoxLayout:
 		orientation: 'vertical'
 		spacing: 5
-		padding: 5
-		Label:
-			text: 'SET MOVEMENT'
-			font_size: '20sp'
+		PageTitle
+    		title: root.page_title
 		BoxLayout:
 			id: main_widget
 			orientation: 'horizontal'
-			spacing: 20
-			padding: 20
+			padding: 5
 			size_hint: 1, 0.5
 			Button:
-				text: "SET END"
-				font_size: '25sp'
+				text: root.set_point
+				font_size: 35
 				id: movement_btn
 				on_press: root.set_move_points()
 		BoxLayout:
@@ -26,10 +23,13 @@
 			size_hint: 1, 0.5 
 			Button:
 				text: 'BACK'
+				font_size: 35
 				on_press: root.manager.current = 'timelapse_simpleA'
 			Button: 
 				text: 'RESET'
+				font_size: 35
 				on_press: root.reset_timelapse()
 			Button:
 				text: 'READY'
+				font_size: 35
 				on_press: root.manager.current = 'timelapse_simpleC'
