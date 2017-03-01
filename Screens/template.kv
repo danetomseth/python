@@ -1,0 +1,57 @@
+<HomeScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 5
+        spacing: 5
+        Label:
+            text: 'HOME'
+            font_size: 30
+        Button:
+            text: 'NEXT'
+            on_press: root.manager.current = 'alt'
+        Button:
+            text: 'ALT'
+            on_press: root.next_screen()
+        Button:
+            text: 'EXIT'
+            on_press: app.exit()
+
+
+<AltScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 5
+        spacing: 5
+        Label:
+            text: 'ALT'
+            font_size: 30
+        Button:
+            text: 'NEXT'
+            on_press: root.manager.current = 'home'
+        Button:
+            text: 'ALT'
+            on_press: root.next_screen()
+        Button:
+            text: 'EXIT'
+            on_press: app.exit()
+
+
+
+
+
+
+<Manager>:
+    id: screen_manager
+    home_screen: home_screen
+    alt_screen: alt_screen
+
+
+
+    HomeScreen:
+        id: home_screen
+        name: 'home'
+        manager: screen_manager
+    AltScreen:
+        id: alt_screen
+        name: 'alt'
+        manager: screen_manager

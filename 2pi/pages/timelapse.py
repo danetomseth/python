@@ -88,11 +88,11 @@ class TimelapseSimple_B(Screen):
 
     def set_move_points(self):
         if self.end_set == False:
-            stepper.timelapse_set_end()
+            stepper.set_timelapse_end()
             self.set_point = "SET START"
             self.end_set = True
         else:
-            motors = stepper.timelapse_set_start()
+            motors = stepper.set_timelapse_start()
             self.end_set = False
             self.main_widget.remove_widget(self.movement_btn)
             for motor in motors:
@@ -104,12 +104,13 @@ class TimelapseSimple_C(Screen):
     progress_widget = ObjectProperty(None)
     progress_label = ObjectProperty(None)
     preview_btn = ObjectProperty(None)
-    progress = NumericProperty(None)
+    progress = ObjectProperty(None)
     total_pictures = StringProperty("0")
     def __init__(self, **kwargs):
         super(TimelapseSimple_C, self).__init__(**kwargs)
-        self.progress = 0
         self.previewed = False
+        self.steps_taken = 0
+        self.camera_status = camera.status
 
 
     def preview_movement(self):
@@ -131,6 +132,7 @@ class TimelapseSimple_C(Screen):
 
     def run_program(self, dt):
         stepper.timelapse_step()
+        self.steps_taken += 1
         self.calculate_progress()
         if stepper.timelapse_active == False:
             print("canceled")
@@ -138,9 +140,10 @@ class TimelapseSimple_C(Screen):
 
 
     def calculate_progress(self):
-        self.progress = int((float(camera.picture_count) / float(camera.total_pictures)) * 100)
-        self.total_pictures = str(camera.picture_count)
-        if self.progress >= 100:
+        self.progress.value = int((float(self.steps_taken) / float(camera.total_pictures)) * 100)
+        # self.total_pictures = str(camera.picture_count)
+        self.total_pictures = str(self.steps_taken)
+        if self.progress.value >= 100:
             print("CANCEL FROM PROGRESS")
             self.finish_program()
             self.program_interval.cancel()
@@ -148,16 +151,16 @@ class TimelapseSimple_C(Screen):
 
     def initiate_program(self):
         self.program_timelapse()
-        self.program_interval = Clock.schedule_interval(self.run_program, camera.timelapse_interval)
+        self.camera_status = camera.status
+        self.program_interval = Clock.schedule_interval(self.run_program, 0.5)
 
     def cancel_program(self):
         self.program_interval.cancel()
 
     def finish_program(self):
-        self.progress_widget.remove_widget(self.timelapse_progress)
+        self.progress_widget.remove_widget(self.progress)
         self.progress_widget.remove_widget(self.progress_label)
         self.progress_widget.add_widget(Label(text="FINISHED", font_size="20sp"))
-        self.ids.total_pictures.text = "FINISHED"
 
 
 
