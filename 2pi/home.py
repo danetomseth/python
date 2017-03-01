@@ -48,18 +48,9 @@ class HomeScreen(Screen):
 
 
     def enable_run(self):
-        # stepper.enable_run()
         stepper.set_timelapse_end()
 
-    def increase_steps(self):
-        stepper.increase_steps()
-
-    def run_slide(self):
-        stepper.move_slide()
-
-
-    def test_func(self):
-        temp.temp_func()
+   
 
 
 

@@ -72,12 +72,13 @@ class CameraObj(object):
     def __init__(self):
         self.picture_count = 0
         self.total_pictures = 0
-        self.timelapse_duration = 60
-        self.timelapse_interval = 3
+        self.timelapse_duration = 15
+        self.timelapse_interval = 2
         self.timelape_start_time = time.time()
         self.shutter_time = 0.5
         self.stable_delay = 0.5
         self.connected = False
+        self.status = 'NOT CONNECTED'
 
         self.set_timelapse(self.timelapse_duration, self.timelapse_interval)
 
@@ -130,6 +131,9 @@ class CameraObj(object):
         self.connected = camera_wrapper.set_capture_target()
         if self.connected == False:
           self.timelapse_interval = 0.001
+          self.status = 'NOT CONNECTED'
+        else:
+          self.status = "CONNECTED"
 
     def trigger(self):
         camera_wrapper.trigger()

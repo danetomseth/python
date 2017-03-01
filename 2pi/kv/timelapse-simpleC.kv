@@ -2,6 +2,7 @@
 	progress_widget: progress_widget
 	progress_label: progress_label
 	preview_btn: preview_btn
+	progress: progress
 	BoxLayout:
 		orientation: 'vertical'
 		spacing: 5
@@ -15,20 +16,21 @@
 			Label:
 				id: progress_label
 				text: 'PROGRESS'
-				font_size: '20sp'
+				font_size: 20
 				size_hint: 0.5, 1
 			ProgressBar:
+				id: progress
 				max: 100
-				value: root.progress
+				value: 0
 		BoxLayout:
 			orientation: 'horizontal'
 			Label:
-				text: 'PICTURES'
-				font_size: '20sp'
-				size_hint: 0.5, 1
+				text: 'PICTURES: ' + root.total_pictures
+				font_size: 20
 			Label:
-				text: root.total_pictures
-				font_size: '30sp'
+				text: 'CAMERA STATUS: ' + root.camera_status
+				font_size: 20
+
 		BoxLayout:
 			orientation: 'horizontal'
 			spacing: 5
