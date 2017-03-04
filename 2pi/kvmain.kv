@@ -12,6 +12,8 @@
 #:include ./kv/timelapse-advancedA.kv
 
 #:include ./kv/kv-camera.kv
+#:include ./kv/camera-focus.kv
+#:include ./kv/camera-pano.kv
 #:include ./kv/kv-title.kv
 
 
@@ -45,6 +47,8 @@
 	control_screen: control_screen
 
 	camera_screen: camera_screen
+	pano_screen: pano_screen
+	focus_screen: focus_screen
 
 	HomeScreen:
 		id: home_screen
@@ -63,6 +67,16 @@
 	CameraScreen:
 		id: camera_screen
 		name: 'camera'
+		manager: screen_manager
+
+	PanoScreen:
+		id: pano_screen
+		name: 'pano'
+		manager: screen_manager
+
+	FocusScreen:
+		id: focus_screen
+		name: 'focus'
 		manager: screen_manager
 
 

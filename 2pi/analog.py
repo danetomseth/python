@@ -1,31 +1,34 @@
 import time
 
-import Adafruit_GPIO.SPI as SPI
-import Adafruit_MCP3008
+# import Adafruit_GPIO.SPI as SPI
+# import Adafruit_MCP3008
 
 
 
 SPI_PORT   = 0
 SPI_DEVICE = 0
-mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
+# mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 
 
 
 
 
 def read_channel(pin):
-    value = map_values(mcp.read_adc(pin))
+    # value = map_values(mcp.read_adc(pin)) 
+    value = map_values(512)
     return value
 
 def read_debounce(pin):
-    raw_val = mcp.read_adc(pin)
+    # raw_val = mcp.read_adc(pin)
+    value = map_values(512)
     if raw_val < 602 and raw_val > 422:
         return 1000
     else:
         return joystick_debounce(raw_val)
 
 def read_joystick(pin):
-    value = joystick(mcp.read_adc(pin))
+    # value = joystick(mcp.read_adc(pin))
+    value = map_values(512)
     return value
 
 def read_quick(pin):

@@ -1,3 +1,4 @@
+#!/bin/env python
 from kivy.uix.accordion import Accordion, AccordionItem
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
@@ -51,6 +52,8 @@ class Manager(ScreenManager):
     # Settings
     control_screen = ObjectProperty(None)
     camera_screen = ObjectProperty(None)
+    focus_screen = ObjectProperty(None)
+    pano_screen = ObjectProperty(None)
 
 
 

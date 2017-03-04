@@ -1,0 +1,51 @@
+<PanoScreen>:
+	BoxLayout:
+		orientation: 'vertical'
+		spacing: 5
+		padding: 5
+		PageTitle
+    		title: root.page_title
+    	BoxLayout:
+			spacing: 5
+			padding: 5
+			Button:
+				text: 'SET START'
+				on_press: root.set_start()
+    	BoxLayout:
+			spacing: 5
+			padding: 5
+			size_hint_y: 0.75
+			Label:
+				text: 'DEGREES: ' + str(root.pan_degrees)
+			BoxLayout:
+				Button:
+					text: '-'
+					on_press: root.set_degrees(-1)
+				Button:
+					text: '+'
+					on_press: root.set_degrees(1)
+		BoxLayout:
+			spacing: 5
+			padding: 5
+			size_hint_y: 0.75
+			Label:
+				text: 'DIRECTION: '
+			BoxLayout:
+				ToggleButton:
+					text: 'LEFT'
+					group: 'pano_direction'
+					on_press: root.set_direction(False)
+				ToggleButton:
+					text: 'RIGHT'
+					group: 'pano_direction'
+					state: 'down'
+					on_press: root.set_direction(True)
+		BoxLayout:
+			spacing: 5
+			padding: 5
+			Button:
+				text: 'BACK'
+				on_press: root.manager.current = 'camera'
+			Button:
+				text: 'FOCUS'
+				on_press: root.manager.current = 'focus'

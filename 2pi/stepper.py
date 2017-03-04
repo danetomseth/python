@@ -1,6 +1,7 @@
 
 
-import RPi.GPIO as GPIO ## Import GPIO library
+# import RPi.GPIO as GPIO ## Import GPIO library
+from kivy.core.window import Window
 from decimal import Decimal
 import time
 import analog
@@ -10,7 +11,16 @@ from subprocess import call
 from kivy.uix.progressbar import ProgressBar
 from cameraClass import camera
 
+new_obj = None
 
+def keyboard_down(keyboard, keycode, text, modifiers):
+    print("KEY")
+
+def keyboard_closed():
+    print("CLOSED")
+
+keyboard = Window.request_keyboard(keyboard_closed, new_obj)
+keyboard.bind(on_key_down=keyboard_down)
 
 
 
@@ -35,12 +45,12 @@ sorted_motors = []
 interval_steps = 0
 timelapse_active = False
 
-GPIO.setmode(GPIO.BCM) ## Use board pin numbering
+# GPIO.setmode(GPIO.BCM) ## Use board pin numbering
     
 
-GPIO.setup(stop_button, GPIO.IN, pull_up_down=GPIO.PUD_UP) 
-for y in limits:
-    GPIO.setup(y, GPIO.IN, pull_up_down=GPIO.PUD_UP) 
+# GPIO.setup(stop_button, GPIO.IN, pull_up_down=GPIO.PUD_UP) 
+# for y in limits:
+#     GPIO.setup(y, GPIO.IN, pull_up_down=GPIO.PUD_UP) 
 
 
 
@@ -72,7 +82,7 @@ def set_timelapse_start():
     
     for motor in all_motors:
         motor.read_debounce()
-        motor.start_counting()
+        motor.reset_count()
     
     while stop() == False:
         active_motors = []
@@ -429,7 +439,14 @@ def stop():
         limitStatus = True
         disable_all()
 
-    return limitStatus
+    # return limitStatus
+    return True
+
+def check_for_key():
+    print(keyboard)
+    for x in range(10):
+        time.sleep(1)
+        print(str(x))
 
 def disable_all():
     for motor in all_motors:
@@ -445,7 +462,7 @@ def enable_all():
 
 
 def clean():
-    GPIO.cleanup()
+    # GPIO.cleanup()
     pass
 
 

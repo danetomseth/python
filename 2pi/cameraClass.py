@@ -151,6 +151,9 @@ class CameraObj(object):
     def bulb_trigger(self):
         camera_wrapper.bulb_trigger(self.shutter_time)
 
+    def bulb(self, shutter_speed):
+        camera_wrapper.bulb_trigger(shutter_speed)
+
 
 camera = CameraObj()
 

@@ -26,7 +26,7 @@
 #   current = 0.8A  
 
 import time
-import RPi.GPIO as GPIO
+# import RPi.GPIO as GPIO
 import analog
 import stepper
 
@@ -40,9 +40,9 @@ class MotorObj(object):
         self.alt_direction = not main_direction
         self.step_count_direction = 1
 
-        for p in pins:
-            GPIO.setup(p, GPIO.OUT)
-            GPIO.output(p, 0)
+        # for p in pins:
+        #     GPIO.setup(p, GPIO.OUT)
+        #     GPIO.output(p, 0)
         
 
 
@@ -82,23 +82,13 @@ class MotorObj(object):
         
         
 
-        for l in limits:
-           GPIO.setup(l, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        # for l in limits:
+        #    GPIO.setup(l, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
         self.set_direction(self.home_direction) 
 
-    def _set_rpm(self, rpm):
-        """Set the turn speed in RPM."""
-        self._rpm = rpm
-        # T is the amount of time to stop between signals
-        self._T = (60.0 / rpm) / self.steps_per_rev
 
-    # This means you can set "rpm" as if it is an attribute and
-    # behind the scenes it sets the _T attribute
-    rpm = property(lambda self: self._rpm, _set_rpm)
-
-
-    def start_counting(self):
+    def reset_count(self):
         self.step_count = 0
 
     def program_steps(self):
@@ -112,9 +102,9 @@ class MotorObj(object):
         self.enable()
         time.sleep(0.01)
         for x in range(steps):
-            GPIO.output(self.step_pin, True)
+            # GPIO.output(self.step_pin, True)
             time.sleep(self.speed)
-            GPIO.output(self.step_pin, False)
+            # GPIO.output(self.step_pin, False)
             time.sleep(self.speed)
         self.disable()
 
@@ -153,24 +143,25 @@ class MotorObj(object):
         self.disable()
 
     def single_step(self):
-        GPIO.output(self.step_pin, True)
+        # GPIO.output(self.step_pin, True)
         time.sleep(self.speed)
-        GPIO.output(self.step_pin, False)
+        # GPIO.output(self.step_pin, False)
         time.sleep(self.speed)
 
     def single_step_speed(self, speed):
-        GPIO.output(self.step_pin, True)
+        # GPIO.output(self.step_pin, True)
         time.sleep(speed)
-        GPIO.output(self.step_pin, False)
+        # GPIO.output(self.step_pin, False)
         time.sleep(speed)
       
 
     def step_high(self):
-        GPIO.output(self.step_pin, True)
+        # GPIO.output(self.step_pin, True)
+        pass
 
 
     def timelapse_step_low(self, step_count):
-        GPIO.output(self.step_pin, False)
+        # GPIO.output(self.step_pin, False)
         if step_count >= self.steps_per_move:
             self.disable()
             return False
@@ -178,15 +169,16 @@ class MotorObj(object):
             return True
 
     def count_step_high(self):
-        GPIO.output(self.step_pin, True)
+        # GPIO.output(self.step_pin, True)
         self.step_count += self.step_count_direction
 
     def step_low(self):
-        GPIO.output(self.step_pin, False)
+        # GPIO.output(self.step_pin, False)
+        pass
 
     def alt_step(self):
         self.step_state = not self.step_state
-        GPIO.output(self.step_pin, self.step_state)
+        # GPIO.output(self.step_pin, self.step_state)
         self.step_count += self.step_count_direction
 
 
@@ -201,7 +193,7 @@ class MotorObj(object):
                     self.disable()
             else:
                 self.step_state = not self.step_state
-                GPIO.output(self.step_pin, self.step_state)
+                # GPIO.output(self.step_pin, self.step_state)
                 self.programmed_steps_taken += 1
         else:
             self.program_finished = True
@@ -218,18 +210,18 @@ class MotorObj(object):
 
     def set_direction(self, direction):
         self.current_direction = direction
-        GPIO.output(self.direction_pin, direction)
+        # GPIO.output(self.direction_pin, direction)
 
    
 
     def set_direction_two(self, direction):
         self.current_direction = direction
-        GPIO.output(self.direction_pin, direction)
-        GPIO.output(24, direction)
+        # GPIO.output(self.direction_pin, direction)
+        # GPIO.output(24, direction)
 
     def switch_direction(self):
         self.current_direction = not self.current_direction
-        GPIO.output(self.direction_pin, self.current_direction)
+        # GPIO.output(self.direction_pin, self.current_direction)
 
     def read_analog(self):
         self.analog_speed = analog.read_channel(self.analog_pin)
@@ -306,9 +298,9 @@ class MotorObj(object):
     
     def variable_single_step(self):
         if self.analog_speed > 0:
-            GPIO.output(self.step_pin, True)
+            # GPIO.output(self.step_pin, True)
             time.sleep(self.analog_speed)
-            GPIO.output(self.step_pin, False)
+            # GPIO.output(self.step_pin, False)
             time.sleep(self.analog_speed)
         else:
             return
@@ -319,11 +311,11 @@ class MotorObj(object):
 
     def two_motor_step(self):
         if self.analog_speed > 0:
-            GPIO.output(self.step_pin, True)
-            GPIO.output(23, True)
+            # GPIO.output(self.step_pin, True)
+            # GPIO.output(23, True)
             time.sleep(self.analog_speed)
-            GPIO.output(self.step_pin, False)
-            GPIO.output(23, False)
+            # GPIO.output(self.step_pin, False)
+            # GPIO.output(23, False)
             time.sleep(self.analog_speed)
         else:
             return
@@ -362,11 +354,11 @@ class MotorObj(object):
 
     def enable(self):
         self.enabled = True
-        GPIO.output(self.enable_pin, True)
+        # GPIO.output(self.enable_pin, True)
 
     def disable(self):
         self.enabled = False
-        GPIO.output(self.enable_pin, False)        
+        # GPIO.output(self.enable_pin, False)        
 
     def toggle_enable(self):
         self.enabled = not self.enabled
@@ -444,29 +436,30 @@ class MotorObj(object):
     def check_home_limit(self):
         limit_status = True
         for l in self.limits:
-            if GPIO.input(l) == False:
+            # if GPIO.input(l) == False:
                 limit_status = False
                 break
         return limit_status
 
     def limit(self):
         limit_status = True
-        for l in self.limits:
-            if GPIO.input(l) == False:
-                limit_status = False
-                break
-            elif stepper.stop():
-                limit_status = False
-                break
-            else:
-                pass
+        # for l in self.limits:
+        #     # if GPIO.input(l) == False:
+        #         limit_status = False
+        #         break
+        #     elif stepper.stop():
+        #         limit_status = False
+        #         break
+        #     else:
+        #         pass
         return limit_status
 
     def __clear(self):
-        GPIO.output(self.P1, 0)
-        GPIO.output(self.P2, 0)
-        GPIO.output(self.P3, 0)
-        GPIO.output(self.P4, 0)
+        pass
+        # GPIO.output(self.P1, 0)
+        # GPIO.output(self.P2, 0)
+        # GPIO.output(self.P3, 0)
+        # GPIO.output(self.P4, 0)
 
     
 

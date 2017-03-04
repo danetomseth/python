@@ -6,7 +6,6 @@
 		PageTitle
     		title: root.page_title
 		BoxLayout:
-			orientation: 'horizontal'
 			spacing: 5
 			padding: 5
 			Button:
@@ -18,7 +17,6 @@
 				text: 'LIVE MOTION'
 				on_press: root.manager.current = 'video'
 		BoxLayout:
-			orientation: 'horizontal'
 			spacing: 5
 			padding: 5
 			Button:
@@ -29,10 +27,6 @@
 				font_size: 30
 				text: 'CAMERA'
 				on_press: root.manager.current = 'camera'
-			Button:
-				font_size: 30
-				text: 'ENABLE'
-				on_press: root.enable_run()
 			Button:
 				font_size: 30
 				text: 'EXIT'

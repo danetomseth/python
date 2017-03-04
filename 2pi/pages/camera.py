@@ -20,6 +20,7 @@ from cameraClass import camera
 
 class CameraScreen(Screen):
     camera_widget = ObjectProperty(None)
+    page_title = StringProperty('CAMERA')
     def __init__(self, **kwargs):
         super(CameraScreen, self).__init__(**kwargs)
         self.shutter_text = self.get_shutter_text()
@@ -78,5 +79,50 @@ class CameraScreen(Screen):
 
     def get_shutter_text(self):
         return "Shutter Speed: " + str(camera.shutter_time) + 's'
+
+class PanoScreen(Screen):
+    page_title = StringProperty('PANORAMA')
+    pan_degrees = NumericProperty(45)
+    def __init__(self, **kwargs):
+        super(PanoScreen, self).__init__(**kwargs)
+        self.direction = "RIGHT"
+
+    def set_degrees(self, direction):
+        if direction < 0:
+            if self.pan_degrees > 5:
+                self.pan_degrees -= 5
+        else:
+            if self.pan_degrees < 270:
+                self.pan_degrees += 5
+
+    def set_direction(self, direction):
+        if direction:
+            self.direction = "RIGHT"
+        else:
+            self.direction = "LEFT"
+
+
+
+class FocusScreen(Screen):
+    page_title = StringProperty('FOCUS STACK')
+    bulb_time = NumericProperty(0.5)
+    def __init__(self, **kwargs):
+        super(FocusScreen, self).__init__(**kwargs)
+
+    def set_shutter(self, direction):
+        if direction < 0:
+            if self.bulb_time > 0:
+                self.bulb_time = self.bulb_time * 0.9
+        else:
+            self.bulb_time = self.bulb_time * 1.1
+
+    def run_bulb(self):
+        for x in range(5):
+            camera.bulb(self.bulb_time)
+
+    def test_bulb(self):
+        camera.bulb(self.bulb_time)
+
+
 
 
