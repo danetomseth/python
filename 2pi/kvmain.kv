@@ -14,6 +14,7 @@
 #:include ./kv/kv-camera.kv
 #:include ./kv/camera-focus.kv
 #:include ./kv/camera-pano.kv
+#:include ./kv/camera-control.kv
 #:include ./kv/kv-title.kv
 
 
@@ -49,7 +50,13 @@
 	camera_screen: camera_screen
 	pano_screen: pano_screen
 	focus_screen: focus_screen
+	camera_control: camera_control
 
+	CameraControl:
+		id: camera_control
+		name: 'camera_control'
+		manager: screen_manager
+	
 	HomeScreen:
 		id: home_screen
 		name: 'home'
@@ -68,6 +75,7 @@
 		id: camera_screen
 		name: 'camera'
 		manager: screen_manager
+
 
 	PanoScreen:
 		id: pano_screen

@@ -52,6 +52,7 @@ class Manager(ScreenManager):
     # Settings
     control_screen = ObjectProperty(None)
     camera_screen = ObjectProperty(None)
+    camera_control = ObjectProperty(None)
     focus_screen = ObjectProperty(None)
     pano_screen = ObjectProperty(None)
 
