@@ -27,11 +27,15 @@
 				on_press: root.manager.current = 'control'
 			Button:
 				font_size: 30
-				text: 'CAMERA'
-				on_press: root.manager.current = 'camera'
+				text: 'SLIDE STEP'
+				on_press: root.slide_step()
 			Button:
 				font_size: 30
-				text: 'ENABLE'
+				text: 'PAN STEP'
+				on_press: root.pan_step()
+			Button:
+				font_size: 30
+				text: 'RUN'
 				on_press: root.enable_run()
 			Button:
 				font_size: 30

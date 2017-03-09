@@ -45,10 +45,38 @@ class HomeScreen(Screen):
     page_title = StringProperty('PiLapse')
     def __init__(self, **kwargs):
         super(HomeScreen, self).__init__(**kwargs)
+        self.current_step = 0
+        self.pan_step_mode = 16
+        self.slide_step_mode = 4
 
 
     def enable_run(self):
         stepper.set_timelapse_end()
+
+
+    def slide_step(self):
+        if self.slide_step_mode == 1:
+            stepper.change_slide_step(2)
+            self.slide_step_mode = 2
+        if self.slide_step_mode == 2:
+            stepper.change_slide_step(4)
+            self.slide_step_mode = 4
+        if self.slide_step_mode == 4:
+            stepper.change_slide_step(8)
+            self.slide_step_mode = 1
+        else:
+            print("INVALID")
+
+    def pan_step(self):
+        if self.pan_step_mode == 16:
+            stepper.change_pan_step(32)
+            self.pan_step_mode = 32
+        elif:
+            stepper.change_pan_step(16)
+            self.pan_step_mode = 16
+        else:
+            print("INVALID")
+
 
    
 

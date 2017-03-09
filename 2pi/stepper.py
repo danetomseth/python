@@ -30,6 +30,13 @@ tilt_away = False
 stop_button = 22
 limits = [5, 6, 13, 19]
 
+#Microstep pins
+slide_M0 = 16
+slide_M1 = 18
+pan_M1 = 26
+
+micropins = [slide_M0, slide_M1, pan_M1]
+
 step_count_list = []
 sorted_motors = []
 interval_steps = 0
@@ -38,7 +45,12 @@ timelapse_active = False
 GPIO.setmode(GPIO.BCM) ## Use board pin numbering
     
 
-GPIO.setup(stop_button, GPIO.IN, pull_up_down=GPIO.PUD_UP) 
+GPIO.setup(stop_button, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+for p in micropins:
+    GPIO.setup(p, GPIO.OUT)
+    GPIO.output(p, 0)
+
 for y in limits:
     GPIO.setup(y, GPIO.IN, pull_up_down=GPIO.PUD_UP) 
 
@@ -59,6 +71,66 @@ tilt = stepper.MotorObj(tilt_pins, 8, 0.035, 2, 1, [13], False, tilt_home, 3250,
 steps_read_cycle = 60
 all_motors = [slide, pan, tilt]
 
+
+def change_step(step):
+    if step == 0:
+        print("FULL")
+        for pin in micropins:
+            GPIO.output(pin, False)
+    elif step == 1:
+        GPIO.output(slide_M0, True)
+        GPIO.output(slide_M1, False)
+        print("HALF")
+    elif step == 2:
+        GPIO.output(slide_M0, False)
+        GPIO.output(slide_M1, True)
+        print("QUARTER")
+    elif step == 3:
+        GPIO.output(slide_M0, True)
+        GPIO.output(slide_M1, True)
+        print("EIGHTH")
+    else:
+        GPIO.output(pan_M1, True)
+        print("PAN 32")
+
+
+def change_pan_step(mode):
+    if mode == 16:
+        GPIO.output(pan_M1, False)
+    elif mode == 32:
+        GPIO.output(pan_M1, True)
+
+def change_slide_step(step):
+    if step == 1:
+        print("FULL")
+        GPIO.output(slide_M0, False)
+        GPIO.output(slide_M1, False)
+    elif step == 2:
+        GPIO.output(slide_M0, True)
+        GPIO.output(slide_M1, False)
+        print("HALF")
+    elif step == 4:
+        GPIO.output(slide_M0, False)
+        GPIO.output(slide_M1, True)
+        print("QUARTER")
+    elif step == 8:
+        GPIO.output(slide_M0, True)
+        GPIO.output(slide_M1, True)
+        print("EIGHTH")
+
+def change_dir():
+    while stop() == False:
+        for motor in all_motors:
+            motor.switch_direction()
+        time.sleep(1)
+
+def test_pan():
+    print("STARTING")
+    pan.enable()
+    while stop() == False:
+        pan.single_step_speed(0.0002)
+    pan.disable()
+    print("FINISHED")
 
 
 
