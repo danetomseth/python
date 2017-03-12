@@ -54,28 +54,20 @@ class HomeScreen(Screen):
         stepper.set_timelapse_end()
 
 
-    def slide_step(self):
-        if self.slide_step_mode == 1:
-            stepper.change_slide_step(2)
-            self.slide_step_mode = 2
-        if self.slide_step_mode == 2:
-            stepper.change_slide_step(4)
-            self.slide_step_mode = 4
-        if self.slide_step_mode == 4:
-            stepper.change_slide_step(8)
-            self.slide_step_mode = 1
-        else:
-            print("INVALID")
+    def slide_step(self, mode):
+        stepper.slide_microstep(mode)
 
-    def pan_step(self):
-        if self.pan_step_mode == 16:
-            stepper.change_pan_step(32)
-            self.pan_step_mode = 32
-        elif:
-            stepper.change_pan_step(16)
-            self.pan_step_mode = 16
-        else:
-            print("INVALID")
+    def pan_step(self, mode):
+        stepper.pan_microstep(mode)
+
+    def test_slide(self):
+        stepper.test_slide()
+
+    def test_pan(self):
+        stepper.test_pan()
+
+    def shutter(self):
+        stepper.trigger_shutter()
 
 
    

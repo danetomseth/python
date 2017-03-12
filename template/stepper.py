@@ -4,34 +4,23 @@ import time
 
 
 
-driverA_step = 17
-driverA_dir = 4
-driverA_enable = 27
-
-
-driverB_step = 20
-driverB_dir = 21
-driverB_enable = 12
-
-
-driverC_step = 23
-driverC_dir = 24
-driverC_enable = 25
 
 
 stop_button = 22
 
-last_A = True
-last_B = True
-last_C = True
 
 
 
 
 
-output_List = [driverA_step, driverA_dir, driverA_enable, driverB_step, driverB_dir, driverB_enable, driverC_step, driverC_dir, driverC_enable]
+
+output_List = [14]
+
+txd_pin = 14
+rxd_pin = 15
 
 
+last_state = False
 
 
 def gpio_setup():
@@ -39,84 +28,59 @@ def gpio_setup():
     GPIO.setmode(GPIO.BCM) ## Use board pin numbering
     print("Setting Up")
     GPIO.setup(stop_button, GPIO.IN, pull_up_down=GPIO.PUD_UP) ##setup gpio as out
+    
+    GPIO.setup(rxd_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP) ##setup gpio as out
+    GPIO.setup(txd_pin, GPIO.OUT)
+    GPIO.output(txd_pin, 0)
 
-    for x in output_List:
-        GPIO.setup(x, GPIO.OUT) ##setup gpio as out
-        GPIO.output(x, False) ##set initial state to low
 
     print("Setup Finished")
 
 
+def shutter():
+    total_time = 0
+    for x in range(10):
+        start = time.time()
+        GPIO.output(txd_pin, True)
+        time.sleep(0.166667)
+        GPIO.output(txd_pin, False)
+        end = time.time() - start
+        total_time += end
+        print(str(end))
+        time.sleep(2)        
+    print("FINISHED")
+    total_time = total_time / 10.0
+    print(str(total_time))
 
+def test():
+    global last_state
+    last_state = not last_state
+    start = time.time()
+    GPIO.output(txd_pin, last_state)
+    end = time.time() - start
+    print(str(end))
+    print(last_state)
 
-def run_A(speed):
-    global last_A
-    GPIO.output(driverA_enable, True)
-    GPIO.output(driverA_dir, last_A)
-    print("Moving B")
-    time.sleep(0.05)
-    for x in range(3000):
-        if stop():
-            break
+def read_txd():
+    for x in range(100):
+        pin_stat = GPIO.input(txd_pin)
+        print(pin_stat)
+        time.sleep(0.1)
+    print("FINISHED")
 
-        GPIO.output(driverA_step, True)
-        time.sleep(speed)
-        GPIO.output(driverA_step, False)
-        time.sleep(speed)
-    last_A = not last_A
-    GPIO.output(driverA_enable, False)
+def read_rxd():
+    for x in range(100):
+        pin_stat = GPIO.input(rxd_pin)
+        print(pin_stat)
+        time.sleep(0.1)
+    print("FINISHED")
 
-
-def run_B(speed):
-    global last_B
-    GPIO.output(driverB_enable, True)
-    GPIO.output(driverB_dir, last_B)
-    print("Moving B")
-
-    time.sleep(0.05)
-    for x in range(3000):
-        if stop():
-            break
-
-        GPIO.output(driverB_step, True)
-        time.sleep(speed)
-        GPIO.output(driverB_step, False)
-        time.sleep(speed)
-    last_B = not last_B
-    GPIO.output(driverB_enable, False)
-
-
-
-def run_C(speed):
-    global last_C
-    GPIO.output(driverC_enable, True)
-    GPIO.output(driverC_dir, last_C)
-    print("Moving C")
-    time.sleep(0.05)
-    for x in range(3000):
-        if stop():
-            break
-        GPIO.output(driverC_step, True)
-        time.sleep(speed)
-        GPIO.output(driverC_step, False)
-        time.sleep(speed)
-    last_C = not last_C
-    GPIO.output(driverC_enable, False)
-
-
-
-
-def enable_all():
-    GPIO.output(driverA_enable, True)
-    GPIO.output(driverB_enable, True)
-    GPIO.output(driverC_enable, True)
-
-
-
-def disable_all():
-    GPIO.output(driverA_enable, False)
-    GPIO.output(driverB_enable, False)
-    GPIO.output(driverC_enable, False)
+def read_stop():
+    for x in range(50):
+        pin_stat = GPIO.input(stop_button)
+        print(pin_stat)
+        time.sleep(0.1)
+    print("FINISHED")
 
 
 def stop():

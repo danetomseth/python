@@ -17,30 +17,23 @@ class ScreenOne(Screen):
         self.init_speed = str(self.current_speed)
 
 
-    def move_A(self):
-        stepper.run_A(self.current_speed)
 
-    def move_B(self):
-        stepper.run_B(self.current_speed)
+    def read_txd(self):
+        stepper.shutter()
 
-    def move_C(self):
-        stepper.run_C(self.current_speed)
+    def test(self):
+        stepper.test()
 
-    def enable_all(self):
-        stepper.enable_all()
+    def read_rxd(self):
+        stepper.read_rxd()
 
-    def disable_all(self):
-        stepper.disable_all()
+    def read_stop(self):
+        stepper.read_stop()
+
+    
     
 
-    def decrease_speed(self):
-        self.current_speed += 0.00005
-        self.ids.speed_label.text = str(self.current_speed)
-
-
-    def increase_speed(self):
-        self.current_speed -= 0.00005
-        self.ids.speed_label.text = str(self.current_speed)
+    
 
     def exit(self):
         stepper.clean()
