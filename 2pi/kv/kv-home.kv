@@ -5,18 +5,52 @@
 		padding: 5
 		PageTitle
     		title: root.page_title
+		# BoxLayout:
+		# 	orientation: 'horizontal'
+		# 	spacing: 5
+		# 	padding: 5
+		# 	Button:
+		# 		text: 'TIMELAPSE'
+		# 		font_size: 30
+		# 		on_press: root.manager.current = 'timelapse_main'
+		# 	Button:
+		# 		font_size: 30
+		# 		text: 'LIVE MOTION'
+		# 		on_press: root.manager.current = 'video'
 		BoxLayout:
-			orientation: 'horizontal'
-			spacing: 5
-			padding: 5
+			Label:
+				text: "SLIDE"
 			Button:
-				text: 'TIMELAPSE'
-				font_size: 30
-				on_press: root.manager.current = 'timelapse_main'
+				text: '1'
+				on_press: root.slide_step(1)
 			Button:
-				font_size: 30
-				text: 'LIVE MOTION'
-				on_press: root.manager.current = 'video'
+				text: '2'
+				on_press: root.slide_step(2)
+			Button:
+				text: '4'
+				on_press: root.slide_step(4)
+			Button:
+				text: '8'
+				on_press: root.slide_step(8)
+			Button:
+				text: '16'
+				on_press: root.slide_step(16)
+			Button:
+				text: '32'
+				on_press: root.slide_step(32)
+		BoxLayout:
+			Label:
+				text: "PAN"
+			Button:
+				text: '16'
+				on_press: root.pan_step(16)
+			Button:
+				text: '32'
+				on_press: root.pan_step(32)
+			Button:
+				text: "PIC"
+				on_press: root.shutter()
+
 		BoxLayout:
 			orientation: 'horizontal'
 			spacing: 5
@@ -26,12 +60,14 @@
 				text: 'SETTINGS'
 				on_press: root.manager.current = 'control'
 			Button:
-				font_size: 30
-				text: 'CAMERA'
-				on_press: root.manager.current = 'camera'
+				text: "PAN"
+				on_press: root.test_pan()
+			Button:
+				text: "SLIDE"
+				on_press: root.test_slide()
 			Button:
 				font_size: 30
-				text: 'ENABLE'
+				text: 'RUN'
 				on_press: root.enable_run()
 			Button:
 				font_size: 30

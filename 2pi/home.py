@@ -45,10 +45,30 @@ class HomeScreen(Screen):
     page_title = StringProperty('PiLapse')
     def __init__(self, **kwargs):
         super(HomeScreen, self).__init__(**kwargs)
+        self.current_step = 0
+        self.pan_step_mode = 16
+        self.slide_step_mode = 4
 
 
     def enable_run(self):
         stepper.set_timelapse_end()
+
+
+    def slide_step(self, mode):
+        stepper.slide_microstep(mode)
+
+    def pan_step(self, mode):
+        stepper.pan_microstep(mode)
+
+    def test_slide(self):
+        stepper.test_slide()
+
+    def test_pan(self):
+        stepper.test_pan()
+
+    def shutter(self):
+        stepper.trigger_shutter()
+
 
    
 

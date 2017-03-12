@@ -30,6 +30,19 @@ tilt_away = False
 stop_button = 22
 limits = [5, 6, 13, 19]
 
+#Microstep pins
+slide_M0 = 16
+slide_M1 = 18
+slide_M2 = 15
+
+pan_M1 = 26
+
+
+#shutter
+shutter = 14
+
+micropins = [slide_M0, slide_M1, slide_M2, pan_M1]
+
 step_count_list = []
 sorted_motors = []
 interval_steps = 0
@@ -38,7 +51,15 @@ timelapse_active = False
 GPIO.setmode(GPIO.BCM) ## Use board pin numbering
     
 
-GPIO.setup(stop_button, GPIO.IN, pull_up_down=GPIO.PUD_UP) 
+GPIO.setup(stop_button, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+for p in micropins:
+    GPIO.setup(p, GPIO.OUT)
+    GPIO.output(p, 0)
+
+GPIO.setup(shutter, GPIO.OUT)
+GPIO.output(shutter, 0)
+
 for y in limits:
     GPIO.setup(y, GPIO.IN, pull_up_down=GPIO.PUD_UP) 
 
@@ -58,6 +79,82 @@ tilt = stepper.MotorObj(tilt_pins, 8, 0.035, 2, 1, [13], False, tilt_home, 3250,
 # ------CONSTANTS-------
 steps_read_cycle = 60
 all_motors = [slide, pan, tilt]
+
+
+def slide_microstep(step):
+    if step == 1:
+        GPIO.output(slide_M0, False)
+        GPIO.output(slide_M1, False)
+        GPIO.output(slide_M2, False)
+        print("FULL")
+    elif step == 2:
+        GPIO.output(slide_M0, True)
+        GPIO.output(slide_M1, False)
+        GPIO.output(slide_M2, False)
+        print("HALF")
+    elif step == 4:
+        GPIO.output(slide_M0, False)
+        GPIO.output(slide_M1, True)
+        GPIO.output(slide_M2, False)
+        print("QUARTER")
+    elif step == 8:
+        GPIO.output(slide_M0, True)
+        GPIO.output(slide_M1, True)
+        GPIO.output(slide_M2, False)
+        print("EIGHTH")
+    elif step == 16:
+        GPIO.output(slide_M0, False)
+        GPIO.output(slide_M1, False)
+        GPIO.output(slide_M2, True)
+        print("16")
+    elif step == 32:
+        GPIO.output(slide_M0, True)
+        GPIO.output(slide_M1, True)
+        GPIO.output(slide_M2, True)
+        print("32")
+    else:
+        print("INVALID")
+
+
+def pan_microstep(mode):
+    if mode == 16:
+        GPIO.output(pan_M1, False)
+        print("16")
+    elif mode == 32:
+        GPIO.output(pan_M1, True)
+        print("32")
+
+def trigger_shutter():
+    GPIO.output(shutter, True)
+    time.sleep(0.166667)
+    GPIO.output(shutter, False)
+    print("Picture")
+
+def change_dir():
+    while stop() == False:
+        for motor in all_motors:
+            motor.switch_direction()
+        time.sleep(1)
+
+def test_pan():
+    print("STARTING")
+    pan.enable()
+    while stop() == False:
+        pan.single_step_speed(0.0002)
+    slide.switch_direction()
+    pan.disable()
+    print("FINISHED")
+
+
+def test_slide():
+    print("STARTING")
+    slide.enable()
+    while stop() == False:
+        slide.single_step_speed(0.001)
+    slide.disable()
+    slide.switch_direction()
+    print("FINISHED")
+
 
 
 

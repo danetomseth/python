@@ -3,31 +3,18 @@
     	orientation: 'vertical'
     	BoxLayout:
     		Button:
-    			text: "Motor A"
-    			on_press: root.move_A()
+    			text: "Shutter"
+    			on_press: root.read_txd()
     		Button:
-    			text: "Motor B"
-    			on_press: root.move_B()
+    			text: "READ RXD"
+    			on_press: root.read_rxd()
     		Button:
-    			text: "Motor C"
-    			on_press: root.move_C()
-    	BoxLayout:
-			Label:
-				id: speed_label
-				text: root.init_speed
-			Button:
-				text: "-"
-				on_press: root.decrease_speed()
-			Button: 
-				text: "+"
-				on_press: root.increase_speed()
+    			text: "READ STOP"
+    			on_press: root.read_stop()
 		BoxLayout:
 			Button:
-				text: "Enable"
-				on_press: root.enable_all()
-			Button:
-				text: "Disable"
-				on_press: root.disable_all()
+    			text: "TEST"
+    			on_press: root.test()
 			Button:
 				text: "EXIT"
 				on_press: root.exit()
