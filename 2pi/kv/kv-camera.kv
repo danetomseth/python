@@ -7,45 +7,35 @@
 		orientation: 'vertical'
 		spacing: 5
 		padding: 5
-		Label:
-			text: 'Video'
+		PageTitle
+    		title: root.page_title
 		BoxLayout:
-			spacing: 10
-			padding: 10
+			spacing: 5
+			padding: 5
 			Button:
-				text: 'Capture'
-				on_press: root.picture()
+				text: 'FOCUS STACK'
+				on_press: root.manager.current = 'focus'
+				font_size: 30
 			Button:
-				text: 'QUICK'
-				on_press: root.quick_picture()
+				text: 'PANORAMA'
+				on_press: root.manager.current = 'pano'
+				font_size: 30
+		BoxLayout:
+			spacing: 5
+			padding: 5
 			Button:
-				text: 'CONNECT'
-				on_press: root.initialize_camera()
+				text: 'CONTROL'
+				on_press: root.manager.current = 'camera_control'
+				font_size: 30
 
-			Button:
-				text: 'BURST'
-				on_press: root.burst()
 
 		BoxLayout:
-			spacing: 10
-			padding: 10
-
-			Label:
-				text: root.shutter_text
-				id: shutter
-			
+			spacing: 5
+			padding: 5
+			size_hint_y: 0.5
 			Button:
-				text: 'BULB'
-				on_press: root.bulb()
-
+				text: "BACK"
+				on_press: root.manager.current = 'home'
 			Button:
-				text: '-'
-				on_press: root.modify_shutter(-1)
-
-			Button:
-				text: '+'
-				on_press: root.modify_shutter(1)
-
-		Button:
-			text: "BACK"
-			on_press: root.manager.current = 'home'
+				text: 'EXIT'
+				on_press: app.exit()

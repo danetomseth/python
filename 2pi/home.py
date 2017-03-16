@@ -1,3 +1,6 @@
+#!/usr/local/bin/python
+#!/usr/bin/env python
+
 from kivy.uix.accordion import Accordion, AccordionItem
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
@@ -22,6 +25,7 @@ import video
 # Control Files
 import stepper
 import camera
+import settings
 
 sys.path.append('./pages')
 sys.path.append('./controls')
@@ -35,6 +39,7 @@ class E(ExceptionHandler):
         print("********EXCEPTION********")
         Logger.exception('CAUGHT EXCEPTION')
         stepper.clean()
+        stepper.disconnect_ps()
         App.get_running_app().stop()
         return ExceptionManager.PASS
 

@@ -31,7 +31,7 @@ import analog
 import stepper
 
 class MotorObj(object):
-    def __init__(self, pins, step_mode, step_angle, ratio, analog_pin, limits, main_direction, home_dir, steps_from_home, motor_name): #pins [step, dir, enable]
+    def __init__(self, pins, step_mode, step_angle, ratio, analog_pin, limits, main_direction, home_dir, steps_from_home, motor_name, axis): #pins [step, dir, enable]
         self.name = motor_name
         self.step_pin = pins[0]
         self.direction_pin = pins[1]
@@ -39,13 +39,14 @@ class MotorObj(object):
         self.main_direction = main_direction
         self.alt_direction = not main_direction
         self.step_count_direction = 1
+        self.axis = axis
 
         for p in pins:
             GPIO.setup(p, GPIO.OUT)
             GPIO.output(p, 0)
         
-
-
+        self.gear_ratio = ratio
+        self.step_angle = step_angle
         self.step_mode = step_mode
         self.deg_per_step = step_angle / (step_mode)
 
@@ -74,11 +75,17 @@ class MotorObj(object):
         self.program_finished = False
         self.display_message = True
         self.idle_count = 0
-
+        self.programmed_degrees = 0
 
         self.limits = limits 
         self.limit_status = False
         self.steps_per_move = 0
+
+
+        # PANO SETTINGS
+        self.pano_programmed_steps = 0
+
+        self.read = self.read_debounce
         
         
 
@@ -101,12 +108,36 @@ class MotorObj(object):
     def start_counting(self):
         self.step_count = 0
 
+    def set_step_degrees(self, mode):
+        self.step_mode = mode
+        self.deg_per_step = self.step_angle / (self.step_mode * self.gear_ratio)
+
+    def calculate_degrees(self, steps):
+        self.programmed_degrees = steps * self.deg_per_step
+        return self.programmed_degrees
+
+    def calculate_pano_steps(self, degrees):
+        self.programmed_degrees = degrees
+        self.pano_programmed_steps = int(degrees / self.deg_per_step)
+        print("STEPS: " + str(self.pano_programmed_steps))
+
+    def degrees_to_steps(self, degrees):
+        steps = int(degrees / self.deg_per_step)
+        return steps
+
     def program_steps(self):
         if self.step_count < 0:
             self.set_direction(self.main_direction)
         else:
             self.set_direction(self.alt_direction)
         self.programmed_steps = abs(self.step_count)
+
+    def program_pano_steps(self):
+        if self.step_count < 0:
+            self.set_direction(self.main_direction)
+        else:
+            self.set_direction(self.alt_direction)
+        self.pano_programmed_steps = abs(self.step_count)
 
     def move(self, steps):
         self.enable()
@@ -181,6 +212,8 @@ class MotorObj(object):
         GPIO.output(self.step_pin, True)
         self.step_count += self.step_count_direction
 
+
+
     def step_low(self):
         GPIO.output(self.step_pin, False)
 
@@ -245,6 +278,26 @@ class MotorObj(object):
 
     def read_debounce(self):
         self.analog_speed = analog.read_debounce(self.analog_pin)
+        if self.analog_speed == 1000:
+            self.idle_count += 1
+            if self.idle_count > 100 and self.enabled:
+                self.disable()
+            return
+        
+        if self.analog_speed < 0:
+            self.set_direction(self.main_direction)
+            self.step_count_direction = 1
+        else:
+            self.set_direction(self.alt_direction)
+            self.step_count_direction = -1
+        self.idle_count = 0
+        if self.enabled == False:
+            self.enable()
+        self.analog_speed = abs(self.analog_speed)
+        return self.analog_speed
+
+    def read_controller(self):
+        self.analog_speed = analog.read_controller(self.axis)
         if self.analog_speed == 1000:
             self.idle_count += 1
             if self.idle_count > 100 and self.enabled:

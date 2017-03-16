@@ -1,0 +1,126 @@
+<StepMode>:
+	orientation: 'vertical'
+	padding: 5
+	spacing: 5
+	PageTitle
+    	title: root.page_title
+	BoxLayout:
+		padding: 5
+		Label:
+			text: "SLIDE MODE"
+			font_size: 20
+		BoxLayout:
+			ToggleButton:
+				text: '1'
+				group: 'slide_mode'
+				on_press: root.set_slide(1)
+			ToggleButton:
+				text: '1/2'
+				group: 'slide_mode'
+				on_press: root.set_slide(2)
+			ToggleButton:
+				text: '1/4'
+				group: 'slide_mode'
+				on_press: root.set_slide(4)
+			ToggleButton:
+				text: '1/8'
+				group: 'slide_mode'
+				state: 'down'
+				on_press: root.set_slide(8)
+			ToggleButton:
+				text: '1/16'
+				group: 'slide_mode'
+				on_press: root.set_slide(16)
+			ToggleButton:
+				text: '1/32'
+				group: 'slide_mode'
+				on_press: root.set_slide(32)
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Label:
+			text: "PAN MODE"
+			font_size: 20
+		ToggleButton:
+			text: '1/16'
+			group: 'pan_mode'
+			state: 'down'
+			on_press: root.set_pan(16)
+		ToggleButton:
+			text: '1/32'
+			group: 'pan_mode'
+			on_press: root.set_pan(32)
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Button:
+			text: "BACK"
+			on_press: root.manager.current = 'home'
+		Button:
+			text: 'EXIT'
+			on_press: app.exit()
+	
+<ControlTab>:
+	orientation: 'vertical'
+	padding: 5
+	spacing: 5
+	PageTitle
+    	title: root.page_title
+    BoxLayout:
+    	padding: 5
+    	Label:
+    		text: "MOTOR CONTROL"
+    		font_size: 20
+    	ToggleButton:
+    		text: "BLUETOOTH"
+    		group: 'controller'
+    		on_press: root.set_control_ps3()
+
+		ToggleButton:
+			text: "JOYSTICK"
+			group: 'controller'
+			state: "down"
+			on_press: root.set_control_joystick()
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Button:
+			text: 'TEST'
+			on_press: root.test()
+		Button:
+			text: 'BASELINE'
+			on_press: root.baseline()
+		Button:
+			text: "BACK"
+			on_press: root.manager.current = 'home'
+		Button:
+			text: 'EXIT'
+			on_press: app.exit()
+
+	
+
+<CameraTab>:
+	orientation: 'vertical'
+	padding: 5
+	spacing: 5
+	Label:
+		text: "Camera"
+		font_size: '20sp'
+	BoxLayout:
+    	padding: 5
+    	spacing: 5
+    	Label:
+    		text: "CAMERA CONTROL"
+    		font_size: 20
+    	ToggleButton:
+    		text: "USB"
+    		group: 'camera'
+    		on_press: root.set_shutter_usb()
+
+		ToggleButton:
+			text: "REMOTE"
+			group: 'camera'
+			state: "down"
+			on_press: root.set_shutter_remote()
+	
+

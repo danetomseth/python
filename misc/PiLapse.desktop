@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=PiLapse
+Exec=/home/pi/Desktop/2pi/main.py
+Icon=/home/pi/Documents/pi-icon.png
+Type=Applications

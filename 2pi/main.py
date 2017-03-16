@@ -1,3 +1,7 @@
+from kivy.config import Config
+Config.set('kivy', 'log_level', 'warning')
+Config.write()
+
 from kivy.uix.accordion import Accordion, AccordionItem
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
@@ -19,7 +23,7 @@ sys.path.append('./pages')
 sys.path.append('./controls')
 
 import home
-
+import stepper
 
 
 
@@ -50,6 +54,7 @@ class Manager(ScreenManager):
     # Settings
     control_screen = ObjectProperty(None)
     camera_screen = ObjectProperty(None)
+    settings_screen = ObjectProperty(None)
 
 
 
@@ -72,6 +77,7 @@ class KvmainApp(App):
 
     def exit(self):
         stepper.clean()
+        stepper.disconnect_ps()
         App.get_running_app().stop()
 
     def find_home(self, motor):

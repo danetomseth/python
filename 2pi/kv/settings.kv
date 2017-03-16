@@ -1,0 +1,26 @@
+#:kivy 1.0.9
+
+
+<SettingsScreen>:
+	id: settings_manager
+	Accordion:
+		id: settingd_tabs_manager
+		step_mode_tab: step_mode_tab
+		control_tab: control_tab
+		camera_tab: camera_tab
+		manager: root.manager
+		AccordionItem:
+			title: 'STEP MODE'
+			StepMode:
+				id: step_mode_tab
+				manager: settings_manager.manager
+		AccordionItem:
+			title: 'CONTROL SETTINGS'
+			ControlTab:
+				id: control_tab
+				manager: settings_manager.manager
+		AccordionItem:
+			title: 'CAMERA SETTINGS'
+			CameraTab:
+				id: camera_tab
+				manager: settings_manager.manager

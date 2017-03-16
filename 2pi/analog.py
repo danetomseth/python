@@ -2,7 +2,10 @@ import time
 
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
+from triangula.input import SixAxis, SixAxisResource
 
+
+joystick = 0
 
 
 SPI_PORT   = 0
@@ -12,6 +15,39 @@ mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 
 
 
+def connect_ps():
+    global joystick
+    try:
+        joystick = SixAxis()
+        print(joystick.connect())
+    except:
+        print("EXEC")
+        joystick.disconnect()
+    print("DONE")
+
+def disconnect():
+    joystick.disconnect()
+
+def check_bluetooth():
+    return joystick.is_connected()
+
+def read_controller(axis):
+    time_range = 1000.0
+    dir_mod = 1
+    x = joystick.axes[axis].corrected_value()
+    if abs(x) < 0.1:
+        return 1000
+    else:
+        if x < 0:
+            dir_mod = (-1)
+
+        x = abs(x)
+        time_val = (1 - x) / 1000
+        time_val = round(time_val, 5)
+        if time_val < 0.000075:
+            time_val = 0.000075
+        time_val = time_val * dir_mod
+        return time_val
 
 def read_channel(pin):
     value = map_values(mcp.read_adc(pin))
