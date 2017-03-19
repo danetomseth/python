@@ -13,9 +13,9 @@ from triangula.input import SixAxis, SixAxisResource
 
 joystick = 0
 
-slide_pins = [17, 4, 27]
-pan_pins = [23, 24, 25]
-tilt_pins = [20, 21, 12]
+slide_pins = [17, 4, 27] #[step, dir, enable]
+pan_pins = [23, 24, 25] #[step, dir, enable]
+tilt_pins = [20, 21, 12] #[step, dir, enable]
 
 slide_home = False
 pan_home = True
@@ -82,6 +82,77 @@ all_motors = [slide, pan, tilt]
 def connect_ps():
     analog.connect_ps()
 
+def picture():
+    camera.trigger()
+
+
+
+def test_signal(delay):
+    print("RUNNING")
+    slide.enable()
+    while stop() == False:
+        slide.step_high()
+        time.sleep(delay)
+        slide.step_low()
+        time.sleep(delay)
+    slide.disable()
+    print("FINISHED")
+
+
+def test_signal_ramp():
+    print("RUNNING")
+    delay = 0.1
+    while stop() == False:
+        slide.step_high()
+        time.sleep(delay)
+        slide.step_low()
+        time.sleep(delay)
+    delay = delay / 10
+    print("DELAY: "+ str(delay))
+    time.sleep(1)
+    while stop() == False:
+        slide.step_high()
+        time.sleep(delay)
+        slide.step_low()
+        time.sleep(delay)
+    delay = delay / 10
+    print("DELAY: "+ str(delay))
+    time.sleep(1)
+    while stop() == False:
+        slide.step_high()
+        time.sleep(delay)
+        slide.step_low()
+        time.sleep(delay)
+    time.sleep(1)
+    delay = delay / 10
+    print("DELAY: "+ str(delay))
+    while stop() == False:
+        slide.step_high()
+        time.sleep(delay)
+        slide.step_low()
+        time.sleep(delay)
+    delay = delay / 10
+    print("DELAY: "+ str(delay))
+    time.sleep(1)
+    while stop() == False:
+        slide.step_high()
+        time.sleep(delay)
+        slide.step_low()
+        time.sleep(delay)
+    
+    print("FINISHED")
+
+
+def test_signal_all(delay):
+    print("RUNNING")
+    while stop() == False:
+        for motor in all_motors:
+            motor.step_high()
+        time.sleep(delay)
+        for motor in all_motors:
+            motor.step_low()
+        time.sleep(delay)
+    print("FINISHED")
 
 def read_ps():
     slide.enable()
@@ -375,7 +446,7 @@ def timelapse_preview():
     enable_all()
     for x in range(motors[2].programmed_steps):
         if preview_speed > 0.00015:
-            preview_speed -= 0.000005
+            preview_speed -= 0.000001
         if stop():
             break
         elif x < motors[0].programmed_steps:
@@ -494,8 +565,7 @@ def timelapse_step():
 
     for motor in motors:
         motor.disable()
-    # if camera.connected:
-    #     camera.timelapse_picture()
+    camera.timelapse_picture()
 
 
 

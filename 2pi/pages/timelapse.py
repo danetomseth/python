@@ -77,6 +77,8 @@ class TimelapseSimple_B(Screen):
     set_point = StringProperty('SET END')
     main_widget = ObjectProperty(None)
     movement_btn = ObjectProperty(None)
+    start_btn = ObjectProperty(None)
+    end_btn = ObjectProperty(None)
     def __init__(self, **kwargs):
         super(TimelapseSimple_B, self).__init__(**kwargs)
         self.end_set = False
@@ -88,16 +90,29 @@ class TimelapseSimple_B(Screen):
 
     def set_move_points(self):
         if self.end_set == False:
-            stepper.timelapse_set_end()
+            stepper.set_timelapse_end()
             self.set_point = "SET START"
             self.end_set = True
         else:
-            motors = stepper.timelapse_set_start()
+            motors = stepper.set_timelapse_start()
             self.end_set = False
             self.main_widget.remove_widget(self.movement_btn)
             for motor in motors:
                 labelText = motor.name + ": " + str(motor.programmed_steps)
                 self.main_widget.add_widget(Label(text=labelText, font_size=30))
+
+    def set_end(self):
+        stepper.set_timelapse_end()
+        self.end_btn.disabled = True
+        self.start_btn.disabled = False
+
+    def set_start(self):
+        motors = stepper.set_timelapse_start()
+        self.main_widget.remove_widget(self.start_btn)
+        self.main_widget.remove_widget(self.end_btn)
+        for motor in motors:
+            labelText = motor.name + ": " + str(motor.programmed_steps)
+            self.main_widget.add_widget(Label(text=labelText, font_size=30))
 
 
 class TimelapseSimple_C(Screen):
@@ -127,7 +142,7 @@ class TimelapseSimple_C(Screen):
 
     def program_timelapse(self):
         stepper.program_timelapse()
-        camera.initialize()
+        # camera.initialize()
 
     def run_program(self, dt):
         stepper.timelapse_step()
@@ -154,10 +169,10 @@ class TimelapseSimple_C(Screen):
         self.program_interval.cancel()
 
     def finish_program(self):
-        self.progress_widget.remove_widget(self.timelapse_progress)
+        self.progress_widget.remove_widget(self.progress_widget)
         self.progress_widget.remove_widget(self.progress_label)
         self.progress_widget.add_widget(Label(text="FINISHED", font_size="20sp"))
-        self.ids.total_pictures.text = "FINISHED"
+        self.total_pictures = "FINISHED"
 
 
 

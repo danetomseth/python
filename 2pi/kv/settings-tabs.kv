@@ -68,9 +68,7 @@
     	title: root.page_title
     BoxLayout:
     	padding: 5
-    	Label:
-    		text: "MOTOR CONTROL"
-    		font_size: 20
+    	spacing: 5
     	ToggleButton:
     		text: "BLUETOOTH"
     		group: 'controller'
@@ -81,6 +79,19 @@
 			group: 'controller'
 			state: "down"
 			on_press: root.set_control_joystick()
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Button:
+			text: "SLIDE RAMP"
+			on_press: root.test_signal()
+		
+		Button:
+			text: " all - RAMP"
+			on_press: root.test_signal_all(0.01)
+		Button:
+			text: "0.0001 all"
+			on_press: root.test_signal_all(0.0001)
 	BoxLayout:
 		padding: 5
 		spacing: 5
@@ -103,24 +114,82 @@
 	orientation: 'vertical'
 	padding: 5
 	spacing: 5
-	Label:
-		text: "Camera"
-		font_size: '20sp'
+	PageTitle
+    	title: root.page_title
+    BoxLayout:
+    	padding: 5
+    	spacing: 5
+    	size_hint_y: 0.5
+    	Label:
+    		text: "ISO: " + root.iso
+    	Label:
+    		text: "SHUTTER: " + root.shutter
+    	Label:
+    		text: "APERTURE: " + root.aperture
 	BoxLayout:
     	padding: 5
     	spacing: 5
+    	size_hint_y: 0.5
     	Label:
     		text: "CAMERA CONTROL"
     		font_size: 20
     	ToggleButton:
     		text: "USB"
     		group: 'camera'
-    		on_press: root.set_shutter_usb()
+    		on_press: root.set_control('usb')
 
 		ToggleButton:
 			text: "REMOTE"
 			group: 'camera'
 			state: "down"
-			on_press: root.set_shutter_remote()
+			on_press: root.set_control("remote")
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Button:
+			text: "GET OPTIONS"
+			on_press: root.get_config()
+		Button:
+			text: "GET CURRENT"
+			on_press: root.get_current()
+		Button:
+			text: "SHUTTER"
+			on_press: root.get_setting('shutterspeed')
+		Button:
+			text: "APERTURE"
+			on_press: root.get_setting("aperture")
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Button:
+			text: "ISO -"
+			on_press: root.change_setting('iso', -1)
+		Button:
+			text: "ISO +"
+			on_press: root.change_setting('iso', 1)
+		Button:
+			text: "SHUTTER -"
+			on_press: root.change_setting('shutterspeed', -1)
+		Button:
+			text: "SHUTTER +"
+			on_press: root.change_setting('shutterspeed', 1)
+		Button:
+			text: "APERTURE -"
+			on_press: root.change_setting('aperture', -1)
+		Button:
+			text: "APERTURE +"
+			on_press: root.change_setting('aperture', 1)
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Button:
+			text: 'TEST'
+			on_press: root.test()
+		Button:
+			text: "BACK"
+			on_press: root.manager.current = 'home'
+		Button:
+			text: 'EXIT'
+			on_press: app.exit()
 	
 

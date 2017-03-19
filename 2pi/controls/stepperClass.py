@@ -202,7 +202,7 @@ class MotorObj(object):
 
     def timelapse_step_low(self, step_count):
         GPIO.output(self.step_pin, False)
-        if step_count > self.steps_per_move:
+        if step_count >= self.steps_per_move:
             self.disable()
             return False
         else:
