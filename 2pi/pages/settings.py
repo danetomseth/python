@@ -12,12 +12,14 @@ from kivy.uix.boxlayout import BoxLayout
 import time
 import stepper
 from stepper import camera
+import arduino
 
 
 class SettingsScreen(Screen):
     step_mode_tab = ObjectProperty(None)
     control_tab = ObjectProperty(None)
     camera_tab = ObjectProperty(None)
+    motors_tab = ObjectProperty(None)
 
     def __init__(self, **kwargs):
         super(SettingsScreen, self).__init__(**kwargs)
@@ -106,5 +108,29 @@ class CameraTab(BoxLayout):
 
     def test(self):
         camera.trigger()
+
+class MotorsTab(BoxLayout):
+    page_title = StringProperty('MOTORS')
+    def __init__(self, **kwargs):
+        super(MotorsTab, self).__init__(**kwargs)
+        self.speed = 1000
+
+    def first_item(self):
+        arduino.first_item()
+
+    def second_item(self):
+        speed_str = str(self.speed) + "x"
+        arduino.second_item(speed_str)
+
+    def increase(self):
+        self.speed = self.speed / 5
+
+    def fast(self):
+        arduino.fast()
+
+
+    def stop(self):
+        arduino.stop()
+
 
 

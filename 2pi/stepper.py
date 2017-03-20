@@ -40,6 +40,8 @@ pan_M1 = 26
 #shutter
 shutter = 14
 
+pwm_signal = None
+
 micropins = [slide_M0, slide_M1, slide_M2, pan_M1]
 
 step_count_list = []
@@ -48,7 +50,9 @@ interval_steps = 0
 timelapse_active = False
 
 GPIO.setmode(GPIO.BCM) ## Use board pin numbering
-    
+
+GPIO.setup(shutter, GPIO.OUT)
+GPIO.output(shutter, 0)    
 
 GPIO.setup(stop_button, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
@@ -56,8 +60,7 @@ for p in micropins:
     GPIO.setup(p, GPIO.OUT)
     GPIO.output(p, 0)
 
-GPIO.setup(shutter, GPIO.OUT)
-GPIO.output(shutter, 0)
+
 
 for y in limits:
     GPIO.setup(y, GPIO.IN, pull_up_down=GPIO.PUD_UP) 
@@ -85,6 +88,39 @@ def connect_ps():
 def picture():
     camera.trigger()
 
+last_signal = 50
+last_speed = 0.01
+
+def set_pwm():
+    global pwm_signal
+    global last_signal
+    pwm_signal = GPIO.PWM(17, 20000)
+
+def start_pwm():
+    slide.enable()
+    pwm_signal.start(50)
+
+def stop_pwm():
+    pwm_signal.stop()
+    slide.disable()
+
+def increase_speed():
+    global last_signal
+    global last_speed
+    last_signal = last_signal * 10
+    last_speed = last_speed / 10.0
+    print(str(last_speed))
+
+def compare():
+    start_time = time.time()
+    start_pwm()
+    count = 0
+    while (time.time() - start_time) < 4.48:
+        count += 1
+    stop_pwm()
+    end_time = time.time() - start_time
+    print(str(count))
+    print(str(end_time))
 
 
 def test_signal(delay):

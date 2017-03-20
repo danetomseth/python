@@ -8,6 +8,7 @@
 		step_mode_tab: step_mode_tab
 		control_tab: control_tab
 		camera_tab: camera_tab
+		motors_tab: motors_tab
 		manager: root.manager
 		AccordionItem:
 			title: 'STEP MODE'
@@ -23,4 +24,9 @@
 			title: 'CAMERA SETTINGS'
 			CameraTab:
 				id: camera_tab
+				manager: settings_manager.manager
+		AccordionItem:
+			title: 'MOTORS'
+			MotorsTab:
+				id: motors_tab
 				manager: settings_manager.manager
