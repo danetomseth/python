@@ -20,8 +20,8 @@ import time
 
 # kivy files
 import timelapse
-import control
 import video
+
 # Control Files
 import stepper
 import camera
@@ -67,11 +67,3 @@ class HomeScreen(Screen):
         temp.temp_func()
 
 
-
-class ControlScreen(Screen):
-    slide_tab = ObjectProperty(None)
-    pan_tab = ObjectProperty(None)
-    tilt_tab = ObjectProperty(None)
-
-    def __init__(self, **kwargs):
-        super(ControlScreen, self).__init__(**kwargs)

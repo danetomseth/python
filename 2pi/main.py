@@ -52,7 +52,6 @@ class Manager(ScreenManager):
 
 
     # Settings
-    control_screen = ObjectProperty(None)
     camera_screen = ObjectProperty(None)
     settings_screen = ObjectProperty(None)
 

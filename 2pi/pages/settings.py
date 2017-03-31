@@ -115,8 +115,14 @@ class MotorsTab(BoxLayout):
         super(MotorsTab, self).__init__(**kwargs)
         self.speed = 1000
 
-    def first_item(self):
-        arduino.first_item()
+    def slide(self):
+        arduino.slide()
+
+    def pan(self):
+        arduino.pan()
+
+    def tilt(self):
+        arduino.tilt()
 
     def second_item(self):
         speed_str = str(self.speed) + "x"

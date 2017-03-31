@@ -1,9 +1,7 @@
 #:kivy 1.0.9
 #:include ./kv/kv-home.kv
-#:include ./kv/kv-motor-accordion.kv
 #:include ./kv/settings-tabs.kv
 #:include ./kv/settings.kv
-#:include ./kv/kv-control.kv
 #:include ./kv/kv-video.kv
 
 #:include ./kv/timelapse-main.kv
@@ -47,7 +45,7 @@
 
 
 	# Settings
-	control_screen: control_screen
+	# control_screen: control_screen
 
 	camera_screen: camera_screen
 	pano_screen: pano_screen
@@ -69,11 +67,6 @@
 		name: 'settings'
 		manager: screen_manager
 
-	ControlScreen:
-		id: control_screen
-		name: 'control'
-		manager: screen_manager
-	
 	VideoScreen:
 		id: video_screen
 		name: 'video'

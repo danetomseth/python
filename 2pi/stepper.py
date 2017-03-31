@@ -344,31 +344,28 @@ def program_tilt_steps(degrees):
     tilt.calculate_pano_steps(degrees)
 
 def pano_preview():
-    while stop() == False:
-        analog.read_controller()
-        time.sleep(0.1)
-    # pan.enable()
-    # tilt.set_direction(tilt_away)
-    # for x in range(pan.pano_programmed_steps):
-    #     if stop():
-    #         break
-    #     pan.single_step_speed(0.0002)
-    # pan.disable()
-    # print("pan done")
-    # tilt.enable()
-    # tilt.set_direction(tilt_away)
-    # for x in range(tilt.pano_programmed_steps):
-    #     if stop():
-    #         break
-    #     tilt.single_step_speed(0.0002)
-    # tilt.disable()
-    # print("FINISHED")
+    pan.enable()
+    tilt.set_direction(tilt_away)
+    for x in range(pan.pano_programmed_steps):
+        if stop():
+            break
+        pan.single_step_speed(0.0002)
+    pan.disable()
+    print("pan done")
+    tilt.enable()
+    tilt.set_direction(tilt_away)
+    for x in range(tilt.pano_programmed_steps):
+        if stop():
+            break
+        tilt.single_step_speed(0.0002)
+    tilt.disable()
+    print("FINISHED")
 
 # def calculate_segments(distance, view_angle, total_degrees):
 #     radians = math.radians(view_angle / 2)
 
 def run_pano():
-    view_angle = 39.6
+    view_angle = 17
     total_degrees = pan.calculate_degrees(pan.pano_programmed_steps)
     segments = int(total_degrees / (view_angle / 2))
     tilt_segments = int(tilt.programmed_degrees / (view_angle / 3))
