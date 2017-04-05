@@ -99,8 +99,8 @@
 			text: 'TEST'
 			on_press: root.test()
 		Button:
-			text: 'BASELINE'
-			on_press: root.baseline()
+			text: 'CALIBRATE'
+			on_press: root.calibrate()
 		Button:
 			text: "BACK"
 			on_press: root.manager.current = 'home'
@@ -201,22 +201,28 @@
     BoxLayout:
     	padding: 5
     	spacing: 5
+    	Label:
+    		text: "MOTORS"
+    		font_size: 20
     	Button:
-    		text: 'SLIDE'
-    		on_press: root.slide()
+    		text: 'ENABLE'
+    		on_press: root.enable()
     	Button:
-    		text: 'PAN'
-    		on_press: root.pan()
-    	Button:
-    		text: 'TILT'
-    		on_press: root.tilt()
+    		text: 'DISABLE'
+    		on_press: root.disable()
+    	# Button:
+    	# 	text: 'SLIDE'
+    	# 	on_press: root.slide()
+    	# Button:
+    	# 	text: 'PAN'
+    	# 	on_press: root.pan()
+    	# Button:
+    	# 	text: 'TILT'
+    	# 	on_press: root.tilt()
     	
     BoxLayout:
 		padding: 5
 		spacing: 5
-		Button:
-			text: 'FAST'
-			on_press: root.fast()
 		Button:
 			text: "BACK"
 			on_press: root.manager.current = 'home'

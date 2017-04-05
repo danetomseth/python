@@ -40,6 +40,7 @@ class MotorObj(object):
         self.alt_direction = not main_direction
         self.step_count_direction = 1
         self.axis = axis
+        self.zero = 512
 
         for p in pins:
             GPIO.setup(p, GPIO.OUT)
@@ -104,6 +105,8 @@ class MotorObj(object):
     # behind the scenes it sets the _T attribute
     rpm = property(lambda self: self._rpm, _set_rpm)
 
+    def set_zero(self):
+        self.zero = analog.read_raw(self.analog_pin)
 
     def start_counting(self):
         self.step_count = 0
@@ -277,7 +280,7 @@ class MotorObj(object):
             self.analog_speed = self.analog_speed * 2
 
     def read_debounce(self):
-        self.analog_speed = analog.read_debounce(self.analog_pin)
+        self.analog_speed = analog.read_debounce(self.analog_pin, self.zero)
         if self.analog_speed == 1000:
             self.idle_count += 1
             if self.idle_count > 100 and self.enabled:

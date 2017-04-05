@@ -908,54 +908,25 @@ def test_control_mode():
                     time.sleep(speed)
         disable_all()
 
-
-def baseline():
-    slide.enable()
-    for x in range(10000):
-        slide.step_high()
-        time.sleep(0.0001)
-        slide.step_low()
-        time.sleep(0.0001)
-    slide.switch_direction()
-    for x in range(10000):
-        slide.step_high()
-        time.sleep(0.0001)
-        slide.step_low()
-        time.sleep(0.0001)
-
-    slide.disable()
-    pan.enable()
-    for x in range(4000):
-        pan.step_high()
-        time.sleep(0.0001)
-        pan.step_low()
-        time.sleep(0.0001)
+def analog_read():
+    read_values = []
+    string = 'Slide: %s PAN: %s TILT %s'
+    print("STARTING")
+    while stop() == False:
+        read_values = analog.read_all()
+        print string % tuple(read_values)
+        time.sleep(0.5)
+    print("FINISHED")
 
 
-    pan.switch_direction()
-    for x in range(4000):
-        pan.step_high()
-        time.sleep(0.0001)
-        pan.step_low()
-        time.sleep(0.0001)
+def calibrate():
+    string = 'CAL: %s CAL: %s CAL: %s'
+    zero_vals = []
+    for motor in all_motors:
+        motor.set_zero()
+        zero_vals.append(motor.name + " - " + str(motor.zero))
+    print string % tuple(zero_vals)
 
-    pan.disable()
-    tilt.enable()
-
-    for x in range(3000):
-        tilt.step_high()
-        time.sleep(0.0001)
-        tilt.step_low()
-        time.sleep(0.0001)
-
-    tilt.switch_direction()
-
-    for x in range(3000):
-        tilt.step_high()
-        time.sleep(0.0001)
-        tilt.step_low()
-        time.sleep(0.0001)
-    tilt.disable()
 
 slide_microstep(8)
 pan_microstep(16)

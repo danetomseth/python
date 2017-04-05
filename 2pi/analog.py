@@ -53,12 +53,17 @@ def read_channel(pin):
     value = map_values(mcp.read_adc(pin))
     return value
 
-def read_debounce(pin):
-    raw_val = mcp.read_adc(pin)
-    if raw_val < 602 and raw_val > 422:
-        return 1000
-    else:
-        return joystick_debounce(raw_val)
+def read_raw(pin):
+    value = mcp.read_adc(pin)
+    return value
+
+def read_all():
+    read_array = []
+    for x in range(3):
+        read_array.append(str(mcp.read_adc(x)))
+    return read_array
+
+
 
 def read_joystick(pin):
     value = joystick(mcp.read_adc(pin))
@@ -123,8 +128,21 @@ def joystick(sensor_val):
 neutral = 512.0
 new_range = 5.0
 
-def joystick_debounce(sensor_val):
-    
+
+def read_debounce(pin, zero):
+    raw_val = mcp.read_adc(pin)
+    if raw_val < (zero + 50) and raw_val > (zero - 50):
+        return 1000
+    else:
+        # if raw_val < zero:
+        #     raw_val + 25
+        # else:
+        #     raw_val - 25
+        return joystick_debounce(raw_val, zero)
+
+
+def joystick_debounce(sensor_val, zero):
+    speed_range = 10.0
     dir_mod = 1.0
     
 
@@ -133,8 +151,8 @@ def joystick_debounce(sensor_val):
         dir_mod = (-1.0)
 
     read_diff = abs(read_diff)
-    time_val = (((1.0 - float(read_diff / 512)) * new_range) + 1.0) / 10000.0
-    if time_val < 0.00022:
+    time_val = (((1.0 - float(read_diff / neutral)) * speed_range) + 1.0) / 10000.0
+    if time_val < 0.00015:
         time_val = 0.0001
     time_val = time_val * dir_mod
     time_val = round(time_val, 5)

@@ -12,7 +12,7 @@ from kivy.uix.boxlayout import BoxLayout
 import time
 import stepper
 from stepper import camera
-import arduino
+# import arduino
 
 
 class SettingsScreen(Screen):
@@ -56,8 +56,8 @@ class ControlTab(BoxLayout):
         print("TESTING")
         stepper.test_control_mode()
 
-    def baseline(self):
-        stepper.baseline()
+    def calibrate(self):
+        stepper.calibrate()
 
     def test_signal(self):
         print("DELAY: " + str(self.delay))
@@ -115,28 +115,34 @@ class MotorsTab(BoxLayout):
         super(MotorsTab, self).__init__(**kwargs)
         self.speed = 1000
 
-    def slide(self):
-        arduino.slide()
+    def enable(self):
+        stepper.enable_all()
 
-    def pan(self):
-        arduino.pan()
+    def disable(self):
+        stepper.disable_all()
 
-    def tilt(self):
-        arduino.tilt()
+    # def slide(self):
+    #     arduino.slide()
 
-    def second_item(self):
-        speed_str = str(self.speed) + "x"
-        arduino.second_item(speed_str)
+    # def pan(self):
+    #     arduino.pan()
 
-    def increase(self):
-        self.speed = self.speed / 5
+    # def tilt(self):
+    #     arduino.tilt()
 
-    def fast(self):
-        arduino.fast()
+    # def second_item(self):
+    #     speed_str = str(self.speed) + "x"
+    #     arduino.second_item(speed_str)
+
+    # def increase(self):
+    #     self.speed = self.speed / 5
+
+    # def fast(self):
+    #     arduino.fast()
 
 
-    def stop(self):
-        arduino.stop()
+    # def stop(self):
+    #     arduino.stop()
 
 
 
