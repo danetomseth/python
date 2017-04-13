@@ -12,7 +12,7 @@ from kivy.uix.boxlayout import BoxLayout
 import time
 import stepper
 from stepper import camera
-# import arduino
+import arduino
 
 
 class SettingsScreen(Screen):
@@ -46,8 +46,14 @@ class ControlTab(BoxLayout):
     def set_control_joystick(self):
         stepper.set_control_joystick()
 
-    def set_control_ps3(self):
-        stepper.set_control_ps3()
+    def connect_arduino(self):
+        arduino.connect()
+
+    def recieve_data(self):
+        arduino.recieve_data()
+
+    def send_number(self, data):
+        arduino.send_number(data)
 
 
     
@@ -60,9 +66,7 @@ class ControlTab(BoxLayout):
         stepper.calibrate()
 
     def test_signal(self):
-        print("DELAY: " + str(self.delay))
-        stepper.test_signal(self.delay)
-        self.delay = self.delay / 5
+        stepper.accel_step(100, 0.0001)
 
 
     def test_signal_all(self, time):

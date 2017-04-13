@@ -918,6 +918,40 @@ def analog_read():
         time.sleep(0.5)
     print("FINISHED")
 
+def accel_step(target_steps, target_speed):
+    steps_taken = 0
+    current_speed = 0.025
+    tilt.enable()
+    while current_speed > 0.005:
+        tilt.step_high()
+        time.sleep(current_speed)
+        tilt.step_low()
+        time.sleep(current_speed)
+        current_speed = current_speed * 0.9
+        steps_taken += 1
+    while current_speed > 0.0005:
+        tilt.step_high()
+        time.sleep(current_speed)
+        tilt.step_low()
+        time.sleep(current_speed)
+        current_speed = current_speed * 0.99
+        steps_taken += 1
+    while current_speed > target_speed:
+        tilt.step_high()
+        time.sleep(current_speed)
+        tilt.step_low()
+        time.sleep(current_speed)
+        current_speed = current_speed * 0.999
+        steps_taken += 1
+    print("ACCEL DONE")
+    for x in range(3000):
+        tilt.step_high()
+        time.sleep(target_speed)
+        tilt.step_low()
+        time.sleep(target_speed)
+    tilt.disable()
+    print(str(steps_taken))
+
 
 def calibrate():
     string = 'CAL: %s CAL: %s CAL: %s'

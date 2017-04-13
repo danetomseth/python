@@ -1,0 +1,13 @@
+{
+    "bare_gcc": false, 
+    "big_project": false, 
+    "board_id": "ide.arduino.avr.mega", 
+    "ide_path": "/Applications/arduino.app/Contents/Java", 
+    "lib_paths": [
+        "/Users/iMac/Documents/Arduino/libraries/AccelStepper"
+    ], 
+    "sketchbook_path": "/Users/iMac/Documents/Arduino", 
+    "sub_board_ids": [
+        "ide.arduino.avr.mega.cpu.atmega2560"
+    ]
+}

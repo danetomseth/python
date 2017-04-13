@@ -70,9 +70,9 @@
     	padding: 5
     	spacing: 5
     	ToggleButton:
-    		text: "BLUETOOTH"
+    		text: "Connect ARD"
     		group: 'controller'
-    		on_press: root.set_control_ps3()
+    		on_press: root.connect_arduino()
 
 		ToggleButton:
 			text: "JOYSTICK"
@@ -82,16 +82,21 @@
 	BoxLayout:
 		padding: 5
 		spacing: 5
-		Button:
-			text: "SLIDE RAMP"
-			on_press: root.test_signal()
+		
 		
 		Button:
-			text: " all - RAMP"
-			on_press: root.test_signal_all(0.01)
+			text: "Recieve Data"
+			on_press: root.recieve_data()
 		Button:
-			text: "0.0001 all"
-			on_press: root.test_signal_all(0.0001)
+			text: "Send 1"
+			on_press: root.send_number("1/")
+		Button:
+			text: "Send 2"
+			on_press: root.send_number("2/")
+		Button:
+			text: "Send 3"
+			on_press: root.send_number("3/")
+		
 	BoxLayout:
 		padding: 5
 		spacing: 5
